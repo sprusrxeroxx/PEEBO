@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head'); %>
+    </head>
+    <body class="container">
+        <header>
+        <%- include('../partials/header'); %>
+        </header>
+        <main>
+            <div class="jumbotron">
+              <h1>Class of 42</h1>
+              <p>Welcome to Hogwarts</p>
+              <h4>Characters</h4>
+              <!-- <%= tagline %> -->
+            <ul>
+                <% characters.forEach(function(character) { %>
+                <li>
+                    <strong>Name</strong>: <%= character.fullName %>
+                    <p>
+                        <strong>House</strong>: <%= character.hogwartsHouse %>
+                        <strong>Birthdate</strong>: <%= character.birthdate %>
+                    </p>
+                </li>
+                <% }); %>
+            </ul>
+            <ul>
+                <% houseMates.forEach(function(houseMate) { %>
+                    <li>
+                        <span> <%= houseMate.fullName %> </span>
+                        <strong><span> <%= houseMate.hogwartsHouse %> </span></strong>
+                    </li>
+                <% }); %> 
+            </ul>
+            </div>
+        </main>
+        <footer>
+            <%- include('../partials/footer'); %>
+        </footer>
+    </body> 
+</html>

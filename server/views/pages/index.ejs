@@ -16,7 +16,8 @@
                 <% fruits.forEach(function(fruit) { %>
                 <li>
                     Name: <%= fruit.name %>
-                    <p>calories: <%= fruit.nutritions.calories %> carbs: <%= fruit.nutritions.carbohydrates %> protein: <%= fruit.nutritions.protein %> </p>
+                    Qty: 100g
+                    <p>calories: <%= fruit.nutritions.calories %> carbs: <%= fruit.nutritions.carbohydrates %> protein: <%= fruit.nutritions.protein %> genus: <%= fruit.nutritions.family %> </p>
                 </li>
                 <% }); %>
             </ul>

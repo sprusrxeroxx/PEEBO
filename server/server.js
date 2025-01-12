@@ -9,20 +9,20 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.get('/', async function(req, res) {
-    const response = await fetch('https://potterapi-fedeperin.vercel.app/en/characters');
-    const characters = await response.json();
-    const gryffindor = await characters.filter(getHouse);
+    const response = await fetch('https://fruityvice.com/api/fruit/all');
+    const fruits = await response.json();
+    // const gryffindor = await fruits.filter(getHouse);
 
-    function getHouse(character) {
-        return character.hogwartsHouse != "Gryffindor"
-    }
+    // function getHouse(character) {
+    //     return character.hogwartsHouse != "Gryffindor"
+    // }
 
     var tagline = "No programming concept is complete without a cute animal mascot.";
     res.render('pages/index', {
         tagline: tagline,
         imageUrl: '/images/hogwarts.png',
-        characters: characters,
-        houseMates: gryffindor
+        fruits: fruits,
+        // houseMates: gryffindor
     });
 });
 

@@ -13,21 +13,12 @@
               <P></P>
               <!-- <%= tagline %> -->
             <ul>
-                <% characters.forEach(function(character) { %>
+                <% fruits.forEach(function(fruit) { %>
                 <li>
-                    <strong>Name</strong>: <%= character.fullName %> |
-                    <span><strong>House</strong>: <%= character.hogwartsHouse %></span>
-                    <p><strong>Birthdate</strong>: <%= character.birthdate %></p>
+                    Name: <%= fruit.name %>
+                    <p>calories: <%= fruit.nutritions.calories %> carbs: <%= fruit.nutritions.carbohydrates %> protein: <%= fruit.nutritions.protein %> </p>
                 </li>
                 <% }); %>
-            </ul>
-            <ul>
-                <% houseMates.forEach(function(houseMate) { %>
-                    <li>
-                        <span> <%= houseMate.fullName %> </span>
-                        <strong><span> <%= houseMate.hogwartsHouse %> </span></strong>
-                    </li>
-                <% }); %> 
             </ul>
             </div>
         </main>

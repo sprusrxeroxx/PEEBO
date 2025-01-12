@@ -23,7 +23,7 @@
         <mxCell id="1KmO4FJFmhnTEATImMJX-2" value="REQUEST" style="rounded=0;whiteSpace=wrap;html=1;shape=rhombus;perimeter=rhombusPerimeter;" vertex="1" parent="1">
           <mxGeometry x="380" y="70" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="1KmO4FJFmhnTEATImMJX-5" value="GET PRODUCT" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="1KmO4FJFmhnTEATImMJX-5" value="GET PRODUCTS" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="380" y="-90" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="1KmO4FJFmhnTEATImMJX-7" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">

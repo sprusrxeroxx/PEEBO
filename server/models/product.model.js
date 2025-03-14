@@ -41,19 +41,13 @@ const productSchema = new Schema ({
           type:Boolean,
           default: false,
       },
-      createdAt: {
-        type: Date,
-        default: Date.now,
-      },
-      updatedAt: {
-        type: Date,
-        default: Date.now,
-      },
       origin: {
         type: String,
         trim: true,
       },
-})
+}, {
+  timestamps: true
+});
 
 const Product = model('Product', productSchema);
 

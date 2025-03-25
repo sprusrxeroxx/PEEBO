@@ -6,7 +6,11 @@ const CreatePage = () => {
     const [ newProduct, setNewProduct ] = useState({
         name: "",
         price: "",
-        image: "",
+        imageUrl: "",
+        stockQuantity: "",
+        unit: "kg",
+        seasonal: "true",
+        origin: "Tzaneen, Limpopo"
     });
     const { createProduct } = useProductStore()
 
@@ -41,13 +45,20 @@ const CreatePage = () => {
                             type='number'
                             value={newProduct.price}
                             onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+                            isRequired
                         />
-
                         <Input 
                             placeholder='Image URL'
-                            name='image'
-                            value={newProduct.image}
-                            onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
+                            name='imageUrl'
+                            value={newProduct.imageUrl}
+                            onChange={(e) => setNewProduct({ ...newProduct, imageUrl: e.target.value })}
+                        />
+                        <Input 
+                            placeholder='Quantity'
+                            name='stockQuantity'
+                            type='number'
+                            value={newProduct.stockQuantity}
+                            onChange={(e) => setNewProduct({ ...newProduct, stockQuantity: e.target.value })}
                         />
                         <Select
                             placeholder="Select Category"
@@ -55,10 +66,10 @@ const CreatePage = () => {
                             value={newProduct.category}
                             onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
                         >
-                            <option value="fruits">Fruits</option>
-                            <option value="vegetables">Vegetables</option>
-                            <option value="menu">Menu</option>
-                            <option value="other">Other</option>
+                            <option value="Fruits">Fruits</option>
+                            <option value="Vegetables">Vegetables</option>
+                            <option value="Menu">Menu</option>
+                            <option value="Other">Other</option>
                         </Select>
                         <Button
                             position="relative"
@@ -67,10 +78,9 @@ const CreatePage = () => {
                             fontSize="lg"
                             fontWeight="bold"
                             color="white"
-                            bg="gray.900"
+                            bg={useColorModeValue("gray.900", "gray.700")}
                             borderRadius="xl"
                             _focus={{ outline: 'none', ring: '2px', ringOffset: '2px', ringColor: 'gray.900' }}
-                            colorScheme='purple' 
                             onClick={handleAddProduct}
                             w='full'
                         >

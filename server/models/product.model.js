@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const productSchema = new Schema ({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-      },
+      name: {
+          type: String,
+          required: true,
+          trim: true,
+        },
       category: {
         type: String,
         enum: ['Fruits', 'Vegetables', 'Other'],

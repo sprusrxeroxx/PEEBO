@@ -10,14 +10,19 @@ import {
   HStack,
   IconButton,
   useBreakpointValue,
-  useColorModeValue
+  useColorModeValue,
+  VStack
 } from '@chakra-ui/react';
-import { HamburgerIcon } from '@chakra-ui/icons';
+
+import { BsEmojiTear } from "react-icons/bs";
+
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
     const isLargeScreen = useBreakpointValue({ base: false, lg: true });
     return (
-        <Box overflowX="hidden" bg={useColorModeValue("white", "gray.800")}>
+      <Container maxW="container.xl" py={12}>
+        <Box overflowX="hidden" bg={useColorModeValue("white", "gray.800") }>
         <Box as="section" py={{ base: 12, sm: 16, lg: 20, xl: 0 }}>
           <Container maxW="7xl" px={4}>
             <Box textAlign="center" maxW="3xl" mx="auto">
@@ -79,7 +84,28 @@ const HomePage = () => {
           </Box>
         </Box>
       </Box>
-    )
+      <VStack spacing={8}>
+        <Text
+          fontSize={"30"}
+          fontWeight={"bold"}
+          bgGradient={"linear(to-r, #44BCFF, #FF44EC, #FF675E)"}
+          bgClip={"text"}
+          textAlign={"center"}
+          >
+            Current Products
+          </Text>
+          
+          <Text fontSize="xl" textAlign={"center"} fontWeight={"bold"} color='gray.500'>
+            No Products Found {" "}
+            <Link to={'/create'}>
+              <Text as='span' color='blue.500' _hover={{ textDecoration: "underline" }}>
+                Create a product
+              </Text>
+            </Link>
+          </Text>
+      </VStack>
+    </Container>
+  )
 }
 
 export default HomePage

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Container,
   Heading,
-  form,
   FormControl,
   FormLabel,
   Input,
@@ -21,10 +20,15 @@ function SignUp() {
   const [error, setError] = useState(null);
   const { signup } = useAuth();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    
-    signup(email, password)
+    setError(null); // Clear previous errors
+
+    try {
+      await signup(email, password);
+    } catch (err) {
+      setError(err.message); // Display error message
+    }
   }
 
   const cardBg = useColorModeValue('white', 'gray.800');
@@ -32,41 +36,43 @@ function SignUp() {
 
   return (
     <Container maxW={"container.sm"}>
-        <Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8}>
-            Sign Up
-        </Heading>
-        <Card p={6} rounded="md" boxShadow="md" bg={cardBg} color={textColor}>
+      <Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8}>
+        Sign Up
+      </Heading>
+      <Card p={6} rounded="md" boxShadow="md" bg={cardBg} color={textColor}>
+        {/* Replace Form with form */}
         <form onSubmit={handleSubmit}>
-            <Stack spacing={4}>
+          <Stack spacing={4}>
             <FormControl id="email">
-                <FormLabel>Email address</FormLabel>
-                <Input
+              <FormLabel>Email address</FormLabel>
+              <Input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                />
+              />
             </FormControl>
-            <FormControl id="password" >
-                <FormLabel>Password</FormLabel>
-                <Input
+            <FormControl id="password">
+              <FormLabel>Password</FormLabel>
+              <Input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                />
+              />
             </FormControl>
             <Button type="submit" colorScheme="blue">
-                Sign Up
+              Sign Up
             </Button>
             {error && (
-                <Alert status="error">
+              <Alert status="error">
                 <AlertIcon />
                 {error}
-                </Alert>
+              </Alert>
             )}
-            </Stack>
+          </Stack>
         </form>
-        </Card>
+      </Card>
     </Container>
   );
 }
+
 export default SignUp;

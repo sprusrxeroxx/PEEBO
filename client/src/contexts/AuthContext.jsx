@@ -7,7 +7,7 @@ export function useAuth() {
     return useContext(AuthContext)
 }
 
-export function AuthProvider() {
+export function AuthProvider({ children }) { // Fix: Add `children` as a prop
     const [currentUser, setCurrentUser] = useState()
 
     function signup(email, password) {
@@ -22,14 +22,14 @@ export function AuthProvider() {
         return unsubscribe
     }, [])
 
-    const value = {
+    const value = { // Fix: Define the `value` object
         currentUser,
         signup,
     }
 
-  return (
-    <AuthContext.Provider value={{ children }}>
-      { children }
-    </AuthContext.Provider>
-  )
+    return (
+        <AuthContext.Provider value={value}> {/* Fix: Pass `value` */}
+            {children}
+        </AuthContext.Provider>
+    )
 }

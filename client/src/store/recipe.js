@@ -11,6 +11,11 @@ export const useRecipeStore = create((set) => ({
 
       if (data.success) {
         set({ recipes: data.data }); // Update the global state with fetched recipes
+        // console.log("Fetched recipes:", data.data.forEach(element => {
+        //   for (const ingredient of element.missedIngredients) {
+        //     console.log(ingredient);
+        //   }
+        // }));
         return { success: true };
       } else {
         return { success: false, message: data.message };

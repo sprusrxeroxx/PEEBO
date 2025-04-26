@@ -41,7 +41,7 @@ const RecipeSearch = () => {
         <form onSubmit={handleSubmit}>
           <Box display="flex" flexDirection="row" alignItems="center" width="100%">
             <Input
-              placeholder="Enter Ingredients (comma-separated)"
+              placeholder="ex: chicken, rice, broccoli"
               value={ingredients}
               onChange={(e) => setIngredients(e.target.value)}
             />

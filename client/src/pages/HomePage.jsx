@@ -14,6 +14,7 @@ import { useProductStore } from '../store/product';
 import { Link } from 'react-router-dom';
 import Card from '../components/Card.jsx';
 import RecipeSearch from "../components/RecipeSearch";
+import RecipeList from "../components/RecipeList";
 
 const HomePage = () => {
     const { fetchProducts, products } = useProductStore();
@@ -54,8 +55,11 @@ const HomePage = () => {
               <RecipeSearch onSearch={handleSearch} />
           </Box>
 
+          {/* Recipe List Section */}
+          <RecipeList />
+
           {/* Products Section */}
-          <VStack spacing={8}>
+          {/* <VStack spacing={8}>
             <Text
               fontSize={"30"}
               fontWeight={"bold"}
@@ -83,7 +87,7 @@ const HomePage = () => {
                 fontWeight={"bold"}
                 color="gray.500"
               >
-                No Products Found 😞{" "} {/* Added a sad emoji */}
+                No Products Found 😞{" "}
                 <Link to={"/create"}>
                   <Text
                     as="span"
@@ -96,7 +100,7 @@ const HomePage = () => {
               </Text>
             )}
 
-          </VStack>
+          </VStack> */}
       </Container>
     </>
   )

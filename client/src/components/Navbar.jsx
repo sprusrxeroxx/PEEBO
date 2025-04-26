@@ -26,7 +26,7 @@ const Navbar = () => {
                         bgGradient='linear(to-l, #7928CA, #FF0080)'
                         bgClip='text'
                     >
-                        Product Store
+                        Peebo Store
                     </Text>
                 </Link>
                 <HStack spacing={2} alignItems={"center"}>

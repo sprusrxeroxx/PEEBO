@@ -13,6 +13,7 @@ import { useProductStore } from '../store/product';
 
 import { Link } from 'react-router-dom';
 import Card from '../components/Card.jsx';
+import RecipeSearch from "../components/RecipeSearch";
 
 const HomePage = () => {
     const { fetchProducts, products } = useProductStore();
@@ -22,12 +23,17 @@ const HomePage = () => {
     }, [fetchProducts])
 
     console.log(products);
+
+    const handleSearch = (ingredients) => {
+      console.log("Searching for recipes with ingredients:", ingredients);
+      // This will be implemented in Step 2
+    };
     
     return (
       <>
         <Container maxW="container.xl" py={12}>
           {/* Welcome Section */}
-          <Box overflowX="hidden" bg={useColorModeValue("white", "gray.800")}>
+          {/* <Box overflowX="hidden" bg={useColorModeValue("white", "gray.800")}>
             <Box as="section" py={{ base: 12, sm: 16, lg: 20, xl: 0 }}>
               <Container maxW="7xl" px={4}>
                 <Box textAlign="center" maxW="3xl" mx="auto">
@@ -42,6 +48,10 @@ const HomePage = () => {
                 </Box>
               </Container>
             </Box>
+          </Box> */}
+
+          <Box mb={8}> {/* Added some margin below the search */}
+              <RecipeSearch onSearch={handleSearch} />
           </Box>
 
           {/* Products Section */}

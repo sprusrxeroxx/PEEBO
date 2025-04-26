@@ -1,6 +1,9 @@
 import axios from "axios";
 
 export const searchRecipes = async (req, res) => {
+  const ranking = 2;
+  const ignorePantry = true;
+  const number = 5;
   const { ingredients } = req.query;
 
   if (!ingredients) {
@@ -11,6 +14,9 @@ export const searchRecipes = async (req, res) => {
     const response = await axios.get("https://api.spoonacular.com/recipes/findByIngredients", {
       params: {
         ingredients,
+        ranking,
+        ignorePantry,
+        number,
         apiKey: process.env.SPOONACULAR_API_KEY,
       },
     });

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Heading, Text, VStack, useColorModeValue } from "@chakra-ui/react";
+import { Box, Heading, Text, VStack, Image, useColorModeValue } from "@chakra-ui/react";
 
 const RecipeCard = ({ recipe }) => {
   const cardBg = useColorModeValue("white", "gray.800");
@@ -8,21 +8,40 @@ const RecipeCard = ({ recipe }) => {
   return (
     <Box
       bg={cardBg}
-      shadow="md"
+      shadow="lg"
       rounded="lg"
-      p={6}
-      transition="all 0.2s"
-      _hover={{ shadow: "lg", transform: "translateY(-4px)" }}
+      overflow="hidden"
+      transition="all 0.3s"
+      _hover={{ transform: "translateY(-6px)", shadow: "xl" }}
     >
-      <Heading as="h3" size="md" mb={4} color={textColor}>
-        {recipe.title}
-      </Heading>
-      <VStack align="start" spacing={2}>
-        <Text fontWeight="bold" color={textColor}>
-          Ingredients:
-        </Text>
-        {recipe.missedIngredients.map((ingredient) => (<Text key={ingredient.id} fontSize="sm" color={textColor}>-{ingredient.name}</Text>))}
-      </VStack>
+      {/* Recipe Image */}
+      <Image
+        src={recipe.image}
+        alt={recipe.title}
+        objectFit="cover"
+        w="full"
+        h="200px"
+      />
+
+      {/* Recipe Details */}
+      <Box p={6}>
+        {/* Recipe Title */}
+        <Heading as="h3" size="md" mb={4} color={textColor} textAlign="center">
+          {recipe.title}
+        </Heading>
+
+        {/* Ingredients */}
+        <VStack align="start" spacing={2}>
+          <Text fontWeight="bold" color={textColor}>
+            Ingredients:
+          </Text>
+          {recipe.missedIngredients.map((ingredient) => (
+            <Text key={ingredient.id} fontSize="sm" color={textColor}>
+              - {ingredient.amount} {ingredient.unit} {ingredient.name}
+            </Text>
+          ))}
+        </VStack>
+      </Box>
     </Box>
   );
 };

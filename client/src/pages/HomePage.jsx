@@ -23,11 +23,8 @@ const HomePage = () => {
       fetchProducts()
     }, [fetchProducts])
 
-    console.log(products);
-
     const handleSearch = (ingredients) => {
       console.log("Searching for recipes with ingredients:", ingredients);
-      // This will be implemented in Step 2
     };
     
     return (
@@ -51,7 +48,7 @@ const HomePage = () => {
             </Box>
           </Box> */}
 
-          <Box mb={8}> {/* Added some margin below the search */}
+          <Box mb={8}>
               <RecipeSearch onSearch={handleSearch} />
           </Box>
 

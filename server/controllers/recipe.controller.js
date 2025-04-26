@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export const searchRecipes = async (req, res) => {
-  const ranking = 2;
+  const ranking = 1;
   const ignorePantry = true;
-  const number = 5;
+  const number = 10;
   const { ingredients } = req.query;
 
   if (!ingredients) {

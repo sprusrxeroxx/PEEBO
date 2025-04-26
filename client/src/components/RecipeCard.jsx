@@ -33,7 +33,7 @@ const RecipeCard = ({ recipe }) => {
         {/* Ingredients */}
         <VStack align="start" spacing={2}>
           <Text fontWeight="bold" color={textColor}>
-            Ingredients:
+            missingIngredients:
           </Text>
           {recipe.missedIngredients.map((ingredient) => (
             <Text key={ingredient.id} fontSize="sm" color={textColor}>

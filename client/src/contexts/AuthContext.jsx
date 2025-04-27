@@ -7,11 +7,15 @@ export function useAuth() {
     return useContext(AuthContext)
 }
 
-export function AuthProvider({ children }) { // Fix: Add `children` as a prop
+export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState()
 
     function signup(email, password) {
         return auth.createUserWithEmailAndPassword(email, password)
+    }
+
+    function login(email, password) {
+        return auth.signInWithEmailAndPassword(email, password)
     }
 
     useEffect(() => {
@@ -22,13 +26,14 @@ export function AuthProvider({ children }) { // Fix: Add `children` as a prop
         return unsubscribe
     }, [])
 
-    const value = { // Fix: Define the `value` object
+    const value = {
         currentUser,
         signup,
+        login,
     }
 
     return (
-        <AuthContext.Provider value={value}> {/* Fix: Pass `value` */}
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     )

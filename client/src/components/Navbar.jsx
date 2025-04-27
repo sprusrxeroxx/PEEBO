@@ -4,6 +4,7 @@ import { PlusSquareIcon } from "@chakra-ui/icons";
 import { IoMoon } from "react-icons/io5";
 import { LuSun } from "react-icons/lu";
 import { useAuth } from "../contexts/AuthContext";
+import { IoLogOutOutline } from "react-icons/io5";
 
 const Navbar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -40,11 +41,6 @@ const Navbar = () => {
                     </Text>
                 </Link>
                 <HStack spacing={2} alignItems={"center"}>
-                    {currentUser && (
-                        <Button onClick={handleLogout} colorScheme="red">
-                            Logout
-                        </Button>
-                    )}
                     <Link to="/create">
                         <Button>
                             <PlusSquareIcon fontSize={20} />
@@ -53,6 +49,11 @@ const Navbar = () => {
                     <Button onClick={toggleColorMode}>
                         {colorMode === "light" ? <IoMoon /> : <LuSun size="20" />}
                     </Button>
+                    {currentUser && (
+                        <Button onClick={handleLogout} colorScheme="red" variant="outline" >
+                            <IoLogOutOutline />
+                        </Button>
+                    )}
                 </HStack>
             </Flex>
         </Container>

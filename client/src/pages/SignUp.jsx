@@ -18,14 +18,17 @@ function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
   const { signup } = useAuth();
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null); // Clear previous errors
+    setSuccess(false);
 
     try {
       await signup(email, password);
+      setSuccess(true); // Show success message
     } catch (err) {
       setError(err.message); // Display error message
     }
@@ -35,12 +38,11 @@ function SignUp() {
   const textColor = useColorModeValue('gray.700', 'gray.300');
 
   return (
-    <Container maxW={"container.sm"}>
-      <Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8}>
+    <Container maxW="container.sm">
+      <Heading as="h1" size="2xl" textAlign="center" mb={8}>
         Sign Up
       </Heading>
       <Card p={6} rounded="md" boxShadow="md" bg={cardBg} color={textColor}>
-        {/* Replace Form with form */}
         <form onSubmit={handleSubmit}>
           <Stack spacing={4}>
             <FormControl id="email">
@@ -66,6 +68,12 @@ function SignUp() {
               <Alert status="error">
                 <AlertIcon />
                 {error}
+              </Alert>
+            )}
+            {success && (
+              <Alert status="success">
+                <AlertIcon />
+                Account created successfully!
               </Alert>
             )}
           </Stack>

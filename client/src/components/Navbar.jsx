@@ -3,9 +3,19 @@ import { Link } from "react-router-dom";
 import { PlusSquareIcon } from "@chakra-ui/icons";
 import { IoMoon } from "react-icons/io5";
 import { LuSun } from "react-icons/lu";
+import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
+    const { logout, currentUser } = useAuth();
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+        } catch (error) {
+            console.error("Failed to log out:", error.message);
+        }
+    };
 
     return (
         <Container maxW="1140px" px={4} >
@@ -30,6 +40,11 @@ const Navbar = () => {
                     </Text>
                 </Link>
                 <HStack spacing={2} alignItems={"center"}>
+                    {currentUser && (
+                        <Button onClick={handleLogout} colorScheme="red">
+                            Logout
+                        </Button>
+                    )}
                     <Link to="/create">
                         <Button>
                             <PlusSquareIcon fontSize={20} />

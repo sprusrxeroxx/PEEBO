@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp'
 import Navbar from "./components/Navbar"
 import Login from './pages/Login'
 import ProtectedRoute from "./components/ProtectedRoute"
+import SavedRecipesPage from "./pages/SavedRecipesPage"
 
 function App() {
 
@@ -20,6 +21,14 @@ function App() {
           element={
             <ProtectedRoute>
               <CreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/saved-recipes"
+          element={
+            <ProtectedRoute>
+              <SavedRecipesPage />
             </ProtectedRoute>
           }
         />

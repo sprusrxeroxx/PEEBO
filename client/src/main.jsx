@@ -5,11 +5,11 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import theme from './theme/theme.js';
-// import '@fontsource/montserrat/400.css';
-// import '@fontsource/montserrat/600.css';
-// import '@fontsource/montserrat/700.css';
-// import '@fontsource/open-sans/400.css';
-// import '@fontsource/open-sans/600.css';
+import '@fontsource/montserrat/400.css';
+import '@fontsource/montserrat/600.css';
+import '@fontsource/montserrat/700.css';
+import '@fontsource/open-sans/400.css';
+import '@fontsource/open-sans/600.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

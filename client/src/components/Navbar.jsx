@@ -1,10 +1,19 @@
-import { Button, Container, Flex, HStack, Text, useColorMode } from "@chakra-ui/react";
+import { 
+  Button, 
+  Container, 
+  Flex, 
+  HStack, 
+  Text, 
+  useColorMode, 
+  Link as ChakraLink
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { PlusSquareIcon } from "@chakra-ui/icons";
 import { IoMoon } from "react-icons/io5";
 import { LuSun } from "react-icons/lu";
 import { useAuth } from "../contexts/AuthContext";
 import { IoLogOutOutline } from "react-icons/io5";
+import { FaBookmark } from "react-icons/fa";
 
 const Navbar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -46,9 +55,19 @@ const Navbar = () => {
                             <PlusSquareIcon fontSize={20} />
                         </Button>
                     </Link>
+                    
+                    {currentUser && (
+                        <Link to="/saved-recipes">
+                            <Button colorScheme="blue">
+                                <FaBookmark />
+                            </Button>
+                        </Link>
+                    )}
+                    
                     <Button onClick={toggleColorMode}>
                         {colorMode === "light" ? <IoMoon /> : <LuSun size="20" />}
                     </Button>
+                    
                     {currentUser && (
                         <Button onClick={handleLogout} colorScheme="red" variant="outline" >
                             <IoLogOutOutline />

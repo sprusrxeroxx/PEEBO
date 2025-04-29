@@ -92,6 +92,7 @@ const RecipeCard = ({ recipe }) => {
             borderRadius="full"
             fontWeight="bold"
             fontSize="xs"
+            letterSpacing="wide"
           >
             {recipe.usedIngredientCount} / {recipe.usedIngredientCount + recipe.missedIngredientCount} ingredients
           </Badge>
@@ -104,11 +105,13 @@ const RecipeCard = ({ recipe }) => {
             as="h3" 
             size="md" 
             mb={3} 
-            color="brand.dark"
             noOfLines={2}
             height="50px"
             display="flex"
             alignItems="center"
+            fontFamily="heading"
+            fontWeight="bold"
+            letterSpacing="tight"
           >
             {recipe.title}
           </Heading>
@@ -116,16 +119,23 @@ const RecipeCard = ({ recipe }) => {
           <HStack mb={4} color="gray.600">
             <Flex align="center">
               <Icon as={FaClock} mr={1} />
-              <Text fontSize="sm">30 min</Text>
+              <Text fontSize="sm" fontFamily="body">30 min</Text>
             </Flex>
             <Flex align="center" ml={4}>
               <Icon as={FaUtensils} mr={1} />
-              <Text fontSize="sm">Easy</Text>
+              <Text fontSize="sm" fontFamily="body">Easy</Text>
             </Flex>
           </HStack>
 
           {/* Missing Ingredients */}
-          <Text fontWeight="medium" color="brand.primary" mb={2} fontSize="sm">
+          <Text 
+            fontWeight="medium" 
+            color="brand.primary" 
+            mb={2} 
+            fontSize="sm"
+            fontFamily="heading"
+            letterSpacing="wide"
+          >
             Missing ingredients: {recipe.missedIngredientCount}
           </Text>
 
@@ -138,6 +148,9 @@ const RecipeCard = ({ recipe }) => {
               size="sm"
               flex="1"
               mr={2}
+              fontFamily="heading"
+              fontWeight="medium"
+              letterSpacing="wide"
             >
               View Details
             </Button>
@@ -149,6 +162,9 @@ const RecipeCard = ({ recipe }) => {
               isLoading={isSaving}
               loadingText="Saving"
               flex="1"
+              fontFamily="heading"
+              fontWeight="medium"
+              letterSpacing="wide"
             >
               Save
             </Button>
@@ -160,7 +176,14 @@ const RecipeCard = ({ recipe }) => {
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader color="brand.primary">{recipe.title}</ModalHeader>
+          <ModalHeader 
+            fontFamily="heading" 
+            fontWeight="bold" 
+            color="brand.primary"
+            letterSpacing="tight"
+          >
+            {recipe.title}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Image
@@ -174,13 +197,26 @@ const RecipeCard = ({ recipe }) => {
             />
             
             <Box mb={4}>
-              <Heading as="h4" size="md" color="brand.accent" mb={2}>
+              <Heading 
+                as="h4" 
+                size="sm" 
+                color="brand.accent" 
+                mb={2}
+                fontFamily="heading"
+                fontWeight="semibold"
+                letterSpacing="tight"
+              >
                 Missing Ingredients:
               </Heading>
               <VStack align="start" spacing={1}>
                 {recipe.missedIngredients.map((ingredient) => (
                   <Flex key={ingredient.id} align="start">
-                    <Text fontSize="sm" color="brand.dark">
+                    <Text 
+                      fontSize="sm" 
+                      variant="ingredient"
+                      fontFamily="body"
+                      lineHeight="tall"
+                    >
                       • {ingredient.amount} {ingredient.unit} {ingredient.name}
                     </Text>
                   </Flex>
@@ -189,13 +225,25 @@ const RecipeCard = ({ recipe }) => {
             </Box>
             
             <Box mb={4}>
-              <Heading as="h4" size="md" color="brand.accent" mb={2}>
+              <Heading 
+                as="h4" 
+                size="sm" 
+                color="brand.accent" 
+                mb={2}
+                fontFamily="heading"
+                fontWeight="semibold"
+                letterSpacing="tight"
+              >
                 Ingredients You Already Have:
               </Heading>
               <VStack align="start" spacing={1}>
                 {recipe.usedIngredients.map((ingredient) => (
                   <Flex key={ingredient.id} align="start">
-                    <Text fontSize="sm" color="brand.dark">
+                    <Text 
+                      fontSize="sm" 
+                      fontFamily="body"
+                      lineHeight="tall"
+                    >
                       • {ingredient.amount} {ingredient.unit} {ingredient.name}
                     </Text>
                   </Flex>
@@ -205,7 +253,14 @@ const RecipeCard = ({ recipe }) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button variant="secondary" mr={3} onClick={onClose}>
+            <Button 
+              variant="secondary" 
+              mr={3} 
+              onClick={onClose}
+              fontFamily="heading"
+              fontWeight="medium"
+              letterSpacing="wide"
+            >
               Close
             </Button>
             <Button 
@@ -216,6 +271,9 @@ const RecipeCard = ({ recipe }) => {
                 onClose();
               }}
               isLoading={isSaving}
+              fontFamily="heading"
+              fontWeight="medium"
+              letterSpacing="wide"
             >
               Save Recipe
             </Button>

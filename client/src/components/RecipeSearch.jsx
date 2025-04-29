@@ -53,12 +53,26 @@ const RecipeSearch = () => {
     <VStack spacing={6}>
       <Flex align="center">
         <Icon as={FaLeaf} color="brand.secondary" mr={3} boxSize={6} />
-        <Heading as="h2" size="xl" fontWeight="bold" color="brand.dark">
+        <Heading 
+          as="h2" 
+          fontSize={{ base: "2xl", md: "3xl" }}
+          fontWeight="bold" 
+          color="brand.dark"
+          fontFamily="heading"
+          letterSpacing="tight"
+        >
           What's in Your Kitchen?
         </Heading>
       </Flex>
       
-      <Text fontSize="lg" color="gray.600" textAlign="center" maxW="600px">
+      <Text 
+        fontSize={{ base: "md", md: "lg" }} 
+        color="gray.600" 
+        textAlign="center" 
+        maxW="600px"
+        fontFamily="body"
+        lineHeight="tall"
+      >
         Enter the ingredients you have, separated by commas, and we'll find delicious recipes you can make.
       </Text>
       
@@ -76,18 +90,21 @@ const RecipeSearch = () => {
             pr="4.5rem"
             fontSize="md"
             height="60px"
+            fontFamily="body"
           />
           <InputRightElement width="4.5rem" h="100%">
             <Button 
               h="90%" 
               size="sm" 
-              variant="primary"
+              variant="transparent"
               isLoading={isSearching}
               type="submit"
               mr={1}
               rightIcon={<SearchIcon />}
+              fontFamily="heading"
+              fontWeight="medium"
+              letterSpacing="wide"
             >
-              Find
             </Button>
           </InputRightElement>
         </InputGroup>

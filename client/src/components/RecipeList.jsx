@@ -25,11 +25,13 @@ const RecipeList = () => {
       <Flex align="center" direction="column">
         <Heading 
           as="h2" 
-          size="xl" 
+          fontSize={{ base: "2xl", md: "3xl" }}
           fontWeight="bold" 
           color="brand.dark"
           textAlign="center"
           mb={3}
+          fontFamily="heading"
+          letterSpacing="tight"
         >
           Recipe Ideas For You
         </Heading>

@@ -24,7 +24,7 @@ const HomePage = () => {
     
     return (
       <>
-        <Box 
+        {/* <Box 
           bg="brand.primary" 
           color="white"
           py={12}
@@ -39,29 +39,58 @@ const HomePage = () => {
               <Box maxW={{ base: '100%', md: '50%' }} mb={{ base: 8, md: 0 }}>
                 <Heading 
                   as="h1" 
-                  size="2xl" 
+                  fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
                   fontWeight="bold"
                   mb={4}
                   color="white"
+                  letterSpacing="tight"
+                  lineHeight="shorter"
                 >
                   Find Delicious Recipes With What You Have
                 </Heading>
-                <Text fontSize="lg" mb={6}>
+                <Text 
+                  fontSize={{ base: "md", md: "lg" }} 
+                  mb={6}
+                  fontFamily="body"
+                  lineHeight="tall"
+                  letterSpacing="normal"
+                >
                   Turn your ingredients into amazing meals. Search, save, and cook with confidence.
                 </Text>
                 
                 <Flex mt={8}>
                   <VStack align="center" mr={8}>
                     <Icon as={FaUtensils} boxSize={6} mb={2} />
-                    <Text fontWeight="semibold">Easy Recipes</Text>
+                    <Text 
+                      fontWeight="semibold"
+                      fontFamily="heading"
+                      fontSize="sm"
+                      letterSpacing="wide"
+                    >
+                      Easy Recipes
+                    </Text>
                   </VStack>
                   <VStack align="center" mr={8}>
                     <Icon as={FaSeedling} boxSize={6} mb={2} />
-                    <Text fontWeight="semibold">Fresh Ideas</Text>
+                    <Text 
+                      fontWeight="semibold"
+                      fontFamily="heading"
+                      fontSize="sm"
+                      letterSpacing="wide"
+                    >
+                      Fresh Ideas
+                    </Text>
                   </VStack>
                   <VStack align="center">
                     <Icon as={FaBookmark} boxSize={6} mb={2} />
-                    <Text fontWeight="semibold">Save Favorites</Text>
+                    <Text 
+                      fontWeight="semibold"
+                      fontFamily="heading"
+                      fontSize="sm"
+                      letterSpacing="wide"
+                    >
+                      Save Favorites
+                    </Text>
                   </VStack>
                 </Flex>
               </Box>
@@ -81,7 +110,7 @@ const HomePage = () => {
               </Box>
             </Flex>
           </Container>
-        </Box>
+        </Box> */}
 
         <Container maxW="container.xl" py={4}>
           <Box 

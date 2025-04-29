@@ -9,13 +9,45 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState()
+    const [loading, setLoading] = useState(true)
+
+    // Create or update user in our database
+    async function createOrUpdateUser(user) {
+        if (!user) return null
+        
+        try {
+            // Create/update user in our MongoDB database
+            const response = await fetch('/api/v1/users/sync', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    firebaseId: user.uid,
+                    email: user.email,
+                    displayName: user.displayName || '',
+                    profilePhoto: user.photoURL || ''
+                })
+            })
+            
+            if (!response.ok) {
+                console.error('Failed to sync user with database')
+            }
+        } catch (error) {
+            console.error('Error syncing user with database:', error)
+        }
+        
+        return user
+    }
 
     function signup(email, password) {
         return auth.createUserWithEmailAndPassword(email, password)
+            .then(result => createOrUpdateUser(result.user))
     }
 
     function login(email, password) {
         return auth.signInWithEmailAndPassword(email, password)
+            .then(result => createOrUpdateUser(result.user))
     }
 
     function logout() {
@@ -23,8 +55,12 @@ export function AuthProvider({ children }) {
     }
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
+        const unsubscribe = auth.onAuthStateChanged(async user => {
+            if (user) {
+                await createOrUpdateUser(user)
+            }
             setCurrentUser(user)
+            setLoading(false)
         })
         
         return unsubscribe
@@ -39,7 +75,7 @@ export function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider value={value}>
-            {children}
+            {!loading && children}
         </AuthContext.Provider>
     )
 }

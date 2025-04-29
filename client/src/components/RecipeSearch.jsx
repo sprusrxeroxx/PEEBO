@@ -1,9 +1,24 @@
 import React, { useState } from "react";
-import { Box, Input, Button, VStack, Heading, useToast } from "@chakra-ui/react";
+import { 
+  Box, 
+  Input, 
+  Button, 
+  VStack, 
+  Heading, 
+  useToast, 
+  Text,
+  InputGroup,
+  InputRightElement,
+  Flex,
+  Icon
+} from "@chakra-ui/react";
 import { useRecipeStore } from "../store/recipe";
+import { SearchIcon } from "@chakra-ui/icons";
+import { FaLeaf } from "react-icons/fa";
 
 const RecipeSearch = () => {
   const [ingredients, setIngredients] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const fetchRecipes = useRecipeStore((state) => state.fetchRecipes);
   const toast = useToast();
 
@@ -20,7 +35,9 @@ const RecipeSearch = () => {
       return;
     }
 
+    setIsSearching(true);
     const { success, message } = await fetchRecipes(ingredients);
+    setIsSearching(false);
 
     if (!success) {
       toast({
@@ -33,25 +50,49 @@ const RecipeSearch = () => {
   };
 
   return (
-    <Box maxW="container.sm" mx="auto" mt={8}>
-      <VStack spacing={4}>
-        <Heading as="h2" size="lg" textAlign="center">
-          Search Recipes by Ingredients
+    <VStack spacing={6}>
+      <Flex align="center">
+        <Icon as={FaLeaf} color="brand.secondary" mr={3} boxSize={6} />
+        <Heading as="h2" size="xl" fontWeight="bold" color="brand.dark">
+          What's in Your Kitchen?
         </Heading>
-        <form onSubmit={handleSubmit}>
-          <Box display="flex" flexDirection="row" alignItems="center" width="100%">
-            <Input
-              placeholder="ex: chicken, rice, broccoli"
-              value={ingredients}
-              onChange={(e) => setIngredients(e.target.value)}
-            />
-            <Button type="submit" colorScheme="blue" ml={4}>
-              Search
+      </Flex>
+      
+      <Text fontSize="lg" color="gray.600" textAlign="center" maxW="600px">
+        Enter the ingredients you have, separated by commas, and we'll find delicious recipes you can make.
+      </Text>
+      
+      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '600px' }}>
+        <InputGroup size="lg">
+          <Input
+            placeholder="chicken, rice, broccoli..."
+            value={ingredients}
+            onChange={(e) => setIngredients(e.target.value)}
+            bg="brand.light"
+            border="1px"
+            borderColor="gray.300"
+            focusBorderColor="brand.secondary"
+            _hover={{ borderColor: "brand.secondary" }}
+            pr="4.5rem"
+            fontSize="md"
+            height="60px"
+          />
+          <InputRightElement width="4.5rem" h="100%">
+            <Button 
+              h="90%" 
+              size="sm" 
+              variant="primary"
+              isLoading={isSearching}
+              type="submit"
+              mr={1}
+              rightIcon={<SearchIcon />}
+            >
+              Find
             </Button>
-          </Box>
-        </form>
-      </VStack>
-    </Box>
+          </InputRightElement>
+        </InputGroup>
+      </form>
+    </VStack>
   );
 };
 

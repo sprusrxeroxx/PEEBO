@@ -1,22 +1,42 @@
 import React from "react";
-import { SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { 
+  SimpleGrid, 
+  Text, 
+  VStack, 
+  Heading, 
+  Box,
+  Flex,
+  Icon,
+  Divider
+} from "@chakra-ui/react";
 import { useRecipeStore } from "../store/recipe";
 import RecipeCard from "./RecipeCard";
+import { FaUtensils } from "react-icons/fa";
 
 const RecipeList = () => {
   const recipes = useRecipeStore((state) => state.recipes);
 
   if (recipes.length === 0) {
-    return (
-      <Text fontSize="lg" textAlign="center" color="gray.500">
-        No recipes found. Try searching with different ingredients.
-      </Text>
-    );
+    return null;
   }
 
   return (
-    <VStack spacing={8} mt={8}>
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6} w="full">
+    <VStack spacing={8} mt={8} mb={16}>
+      <Flex align="center" direction="column">
+        <Heading 
+          as="h2" 
+          size="xl" 
+          fontWeight="bold" 
+          color="brand.dark"
+          textAlign="center"
+          mb={3}
+        >
+          Recipe Ideas For You
+        </Heading>
+        <Divider width="100px" borderColor="brand.secondary" borderWidth="2px" />
+      </Flex>
+      
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8} w="full">
         {recipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
         ))}

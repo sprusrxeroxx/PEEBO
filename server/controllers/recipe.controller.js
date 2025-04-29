@@ -1,6 +1,7 @@
 import axios from "axios";
 import Recipe from "../models/recipe.model.js";
 import SavedRecipe from "../models/savedRecipe.model.js";
+import User from "../models/user.model.js";
 import mongoose from "mongoose";
 
 export const searchRecipes = async (req, res) => {
@@ -31,19 +32,29 @@ export const searchRecipes = async (req, res) => {
   }
 };
 
-// New function to save a recipe
+// Updated function to save a recipe
 export const saveRecipe = async (req, res) => {
   try {
-    const { userId, recipeData } = req.body;
+    const { userId: firebaseId, recipeData } = req.body;
     
-    if (!userId || !recipeData) {
+    if (!firebaseId || !recipeData) {
       return res.status(400).json({ 
         success: false, 
         message: "User ID and recipe data are required" 
       });
     }
 
-    // First, save or update the recipe in the Recipe collection
+    // First, find the MongoDB user document using the Firebase ID
+    const user = await User.findOne({ firebaseId });
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found. Please ensure your account is properly set up."
+      });
+    }
+
+    // Save or update the recipe in the Recipe collection
     const recipeToSave = {
       title: recipeData.title,
       description: recipeData.description || "",
@@ -60,9 +71,9 @@ export const saveRecipe = async (req, res) => {
       { new: true, upsert: true }
     );
 
-    // Now create an entry in SavedRecipe to link the user with the recipe
+    // Now create an entry in SavedRecipe using the MongoDB user's _id
     const savedRecipe = new SavedRecipe({
-      userId,
+      userId: user._id, // Use the MongoDB user _id instead of Firebase ID
       recipeId: recipe._id,
       notes: req.body.notes || ""
     });
@@ -83,28 +94,38 @@ export const saveRecipe = async (req, res) => {
       });
     }
     
-    console.error("Error saving recipe:", error.message);
+    console.error("Error saving recipe:", error);
     res.status(500).json({ 
       success: false, 
-      message: "Failed to save recipe" 
+      message: "Failed to save recipe: " + error.message 
     });
   }
 };
 
-// Function to get user's saved recipes
+// Update the function to get user's saved recipes
 export const getSavedRecipes = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { userId: firebaseId } = req.params;
     
-    if (!userId) {
+    if (!firebaseId) {
       return res.status(400).json({ 
         success: false, 
         message: "User ID is required" 
       });
     }
 
+    // Find the MongoDB user document first
+    const user = await User.findOne({ firebaseId });
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
     // Find all saved recipes for this user and populate the recipe details
-    const savedRecipes = await SavedRecipe.find({ userId })
+    const savedRecipes = await SavedRecipe.find({ userId: user._id })
       .populate('recipeId')
       .sort({ createdAt: -1 }); // Most recently saved first
 

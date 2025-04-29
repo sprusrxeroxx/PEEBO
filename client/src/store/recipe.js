@@ -24,7 +24,7 @@ export const useRecipeStore = create((set) => ({
     }
   },
 
-  // New function to save a recipe
+  // function to save a recipe
   saveRecipe: async (userId, recipeData, notes = "") => {
     try {
       const res = await fetch("/api/v1/recipes/save", {
@@ -52,7 +52,7 @@ export const useRecipeStore = create((set) => ({
     }
   },
 
-  // New function to fetch user's saved recipes
+  // function to fetch user's saved recipes
   fetchSavedRecipes: async (userId) => {
     try {
       const res = await fetch(`/api/v1/recipes/saved/${userId}`);

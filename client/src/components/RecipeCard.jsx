@@ -1,15 +1,61 @@
-import React from "react";
-import { Box, Heading, Text, VStack, Image, useColorModeValue } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { 
+  Box, 
+  Heading, 
+  Text, 
+  VStack, 
+  Image, 
+  useColorModeValue,
+  Button,
+  useToast,
+  Flex
+} from "@chakra-ui/react";
+import { useAuth } from "../contexts/AuthContext";
+import { useRecipeStore } from "../store/recipe";
+import { FaBookmark } from "react-icons/fa";
 
 const RecipeCard = ({ recipe }) => {
+  const [isSaving, setIsSaving] = useState(false);
+  const { currentUser } = useAuth();
+  const saveRecipe = useRecipeStore((state) => state.saveRecipe);
+  const toast = useToast();
+  
   const cardBg = useColorModeValue("white", "gray.800");
   const textColor = useColorModeValue("gray.700", "gray.300");
+
+  const handleSaveRecipe = async () => {
+    if (!currentUser) {
+      toast({
+        title: "Authentication required",
+        description: "Please login to save recipes",
+        status: "warning",
+        isClosable: true,
+      });
+      return;
+    }
+
+    setIsSaving(true);
+    
+    // Use the user's Firebase ID from Auth context
+    const userId = currentUser.uid;
+    
+    const { success, message } = await saveRecipe(userId, recipe);
+    
+    toast({
+      title: success ? "Success" : "Error",
+      description: message,
+      status: success ? "success" : "error",
+      isClosable: true,
+    });
+    
+    setIsSaving(false);
+  };
 
   return (
     <Box
       bg={cardBg}
       shadow="lg"
-      rounded="lg"
+      rounded="lg"    
       overflow="hidden"
       transition="all 0.3s"
       _hover={{ transform: "translateY(-6px)", shadow: "xl" }}
@@ -31,9 +77,9 @@ const RecipeCard = ({ recipe }) => {
         </Heading>
 
         {/* Ingredients */}
-        <VStack align="start" spacing={2}>
+        <VStack align="start" spacing={2} mb={4}>
           <Text fontWeight="bold" color={textColor}>
-            missingIngredients:
+            Missing Ingredients:
           </Text>
           {recipe.missedIngredients.map((ingredient) => (
             <Text key={ingredient.id} fontSize="sm" color={textColor}>
@@ -41,6 +87,21 @@ const RecipeCard = ({ recipe }) => {
             </Text>
           ))}
         </VStack>
+
+        {/* Save Recipe Button */}
+        <Flex justifyContent="center" mt={3}>
+          <Button
+            leftIcon={<FaBookmark />}
+            colorScheme="blue"
+            size="sm"
+            onClick={handleSaveRecipe}
+            isLoading={isSaving}
+            loadingText="Saving"
+            w="full"
+          >
+            Save Recipe
+          </Button>
+        </Flex>
       </Box>
     </Box>
   );

@@ -1,4 +1,4 @@
-import { Box, useColorModeValue } from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react"
 import { Route, Routes } from 'react-router-dom'
 import CreatePage from './pages/CreatePage'
 import HomePage from './pages/HomePage'
@@ -9,9 +9,8 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import SavedRecipesPage from "./pages/SavedRecipesPage"
 
 function App() {
-
   return (
-    <Box minH={"100vh"} bg={useColorModeValue("gray.100", "gray.900")}>
+    <Box minH={"100vh"} bg={"brand.light"}>
       {<Navbar />}
       <Routes>
         <Route path="/login" element={<Login />} />

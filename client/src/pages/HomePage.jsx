@@ -4,103 +4,101 @@ import {
   Text,
   Container,
   Heading,
-  useColorModeValue,
   VStack,
-  SimpleGrid
+  Image,
+  Flex,
+  Icon
 } from '@chakra-ui/react';
 
 import { useProductStore } from '../store/product';
-
-import { Link } from 'react-router-dom';
-import Card from '../components/Card.jsx';
+import { FaUtensils, FaSeedling, FaBookmark } from 'react-icons/fa';
 import RecipeSearch from "../components/RecipeSearch";
 import RecipeList from "../components/RecipeList";
 
 const HomePage = () => {
-    const { fetchProducts, products } = useProductStore();
+    const { fetchProducts } = useProductStore();
 
     useEffect(() => {
       fetchProducts()
     }, [fetchProducts])
-
-    const handleSearch = (ingredients) => {
-      console.log("Searching for recipes with ingredients:", ingredients);
-    };
     
     return (
       <>
-        <Container maxW="container.xl" py={12}>
-          {/* Welcome Section */}
-          {/* <Box overflowX="hidden" bg={useColorModeValue("white", "gray.800")}>
-            <Box as="section" py={{ base: 12, sm: 16, lg: 20, xl: 0 }}>
-              <Container maxW="7xl" px={4}>
-                <Box textAlign="center" maxW="3xl" mx="auto">
-                  <Heading
-                    mt={5}
-                    fontSize={{ base: '4xl', sm: '5xl', lg: '6xl' }}
-                    fontWeight="bold"
-                    lineHeight="tight"
-                  >
-                    Welcome To The Peebo Fruits & Basket. 
-                  </Heading>
-                </Box>
-              </Container>
-            </Box>
-          </Box> */}
+        <Box 
+          bg="brand.primary" 
+          color="white"
+          py={12}
+          mb={8}
+        >
+          <Container maxW="container.lg">
+            <Flex 
+              direction={{ base: 'column', md: 'row' }}
+              align="center"
+              justify="space-between"
+            >
+              <Box maxW={{ base: '100%', md: '50%' }} mb={{ base: 8, md: 0 }}>
+                <Heading 
+                  as="h1" 
+                  size="2xl" 
+                  fontWeight="bold"
+                  mb={4}
+                  color="white"
+                >
+                  Find Delicious Recipes With What You Have
+                </Heading>
+                <Text fontSize="lg" mb={6}>
+                  Turn your ingredients into amazing meals. Search, save, and cook with confidence.
+                </Text>
+                
+                <Flex mt={8}>
+                  <VStack align="center" mr={8}>
+                    <Icon as={FaUtensils} boxSize={6} mb={2} />
+                    <Text fontWeight="semibold">Easy Recipes</Text>
+                  </VStack>
+                  <VStack align="center" mr={8}>
+                    <Icon as={FaSeedling} boxSize={6} mb={2} />
+                    <Text fontWeight="semibold">Fresh Ideas</Text>
+                  </VStack>
+                  <VStack align="center">
+                    <Icon as={FaBookmark} boxSize={6} mb={2} />
+                    <Text fontWeight="semibold">Save Favorites</Text>
+                  </VStack>
+                </Flex>
+              </Box>
+              
+              <Box 
+                maxW={{ base: '80%', md: '45%' }}
+                borderRadius="lg"
+                overflow="hidden"
+                boxShadow="2xl"
+              >
+                <Image 
+                  src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80" 
+                  alt="Delicious food" 
+                  objectFit="cover"
+                  borderRadius="lg"
+                />
+              </Box>
+            </Flex>
+          </Container>
+        </Box>
 
-          <Box mb={8}>
-              <RecipeSearch onSearch={handleSearch} />
+        <Container maxW="container.xl" py={4}>
+          <Box 
+            bg="white" 
+            p={8} 
+            borderRadius="lg" 
+            boxShadow="md"
+            mb={12}
+          >
+            <RecipeSearch />
           </Box>
 
           {/* Recipe List Section */}
           <RecipeList />
-
-          {/* Products Section */}
-          {/* <VStack spacing={8}>
-            <Text
-              fontSize={"30"}
-              fontWeight={"bold"}
-              bgGradient={"linear(to-r, #44BCFF, #FF44EC, #FF675E)"}
-              bgClip={"text"}
-              textAlign={"center"}
-              >
-                Current Products
-              </Text>
-              
-            <SimpleGrid 
-              columns={{ base: 1, md: 2, lg: 3 }}
-              spacing={10}
-              w={"full"}
-              >
-                {products.map((product) => (
-                  <Card key={product._id} product={product} />
-                ))}
-              </SimpleGrid>
-
-            {products.length === 0 && (
-              <Text
-                fontSize="xl"
-                textAlign={"center"}
-                fontWeight={"bold"}
-                color="gray.500"
-              >
-                No Products Found 😞{" "}
-                <Link to={"/create"}>
-                  <Text
-                    as="span"
-                    color="blue.500"
-                    _hover={{ textDecoration: "underline" }}
-                  >
-                    Create a product
-                  </Text>
-                </Link>
-              </Text>
-            )}
-
-          </VStack> */}
-      </Container>
-    </>
-  )
-}
+        </Container>
+      </>
+    );
+};
 
 export default HomePage;

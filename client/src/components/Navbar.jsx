@@ -5,15 +5,16 @@ import {
   HStack, 
   Text, 
   useColorMode, 
-  Link as ChakraLink
+  Box,
+  Icon
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { PlusSquareIcon } from "@chakra-ui/icons";
+import { AddIcon } from "@chakra-ui/icons";
 import { IoMoon } from "react-icons/io5";
 import { LuSun } from "react-icons/lu";
 import { useAuth } from "../contexts/AuthContext";
 import { IoLogOutOutline } from "react-icons/io5";
-import { FaBookmark } from "react-icons/fa";
+import { FaBookmark, FaUtensils } from "react-icons/fa";
 
 const Navbar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -28,54 +29,71 @@ const Navbar = () => {
     };
 
     return (
-        <Container maxW="1140px" px={4} >
-            <Flex
-                h={16}
-                alignItems={'center'}
-                justifyContent={'space-between'}
-                flexDir={{
-                    base: "column",
-                    sm: "row"
-                }}>
-                <Link to="/">
-                    <Text
-                        fontSize={{ base: "22px", sm: "28px" }}
-                        fontWeight={"bold"}
-                        textTransform={"uppercase"}
-                        textAlign={"center"}
-                        bgGradient='linear(to-l, #7928CA, #FF0080)'
-                        bgClip='text'
-                    >
-                        Peebo Store
-                    </Text>
-                </Link>
-                <HStack spacing={2} alignItems={"center"}>
-                    <Link to="/create">
-                        <Button>
-                            <PlusSquareIcon fontSize={20} />
-                        </Button>
+        <Box boxShadow="sm" bg="white" position="sticky" top={0} zIndex={10}>
+            <Container maxW="1140px" px={4}>
+                <Flex
+                    h={16}
+                    alignItems={'center'}
+                    justifyContent={'space-between'}
+                    flexDir={{
+                        base: "column",
+                        sm: "row"
+                    }}>
+                    <Link to="/">
+                        <Flex alignItems="center">
+                            <Icon as={FaUtensils} color="brand.primary" mr={2} boxSize={5} />
+                            <Text
+                                fontSize={{ base: "22px", sm: "28px" }}
+                                fontWeight={"bold"}
+                                fontFamily="heading"
+                                color="brand.primary"
+                            >
+                                PEEBO
+                            </Text>
+                        </Flex>
                     </Link>
-                    
-                    {currentUser && (
-                        <Link to="/saved-recipes">
-                            <Button colorScheme="blue">
-                                <FaBookmark />
-                            </Button>
-                        </Link>
-                    )}
-                    
-                    <Button onClick={toggleColorMode}>
-                        {colorMode === "light" ? <IoMoon /> : <LuSun size="20" />}
-                    </Button>
-                    
-                    {currentUser && (
-                        <Button onClick={handleLogout} colorScheme="red" variant="outline" >
-                            <IoLogOutOutline />
+                    <HStack spacing={3} alignItems={"center"}>
+                        {currentUser && (
+                            <>
+                                <Link to="/create">
+                                    <Button variant="accent" size="sm" leftIcon={<AddIcon />}>
+                                        Add Recipe
+                                    </Button>
+                                </Link>
+                                
+                                <Link to="/saved-recipes">
+                                    <Button variant="secondary" size="sm" leftIcon={<FaBookmark />}>
+                                        Saved
+                                    </Button>
+                                </Link>
+                            </>
+                        )}
+                        
+                        <Button 
+                            onClick={toggleColorMode} 
+                            size="sm"
+                            variant="ghost"
+                            color="brand.accent"
+                        >
+                            {colorMode === "light" ? <IoMoon /> : <LuSun size="20" />}
                         </Button>
-                    )}
-                </HStack>
-            </Flex>
-        </Container>
+                        
+                        {currentUser && (
+                            <Button 
+                                onClick={handleLogout} 
+                                variant="outline" 
+                                size="sm"
+                                borderColor="brand.primary"
+                                color="brand.primary"
+                                leftIcon={<IoLogOutOutline />}
+                            >
+                                Logout
+                            </Button>
+                        )}
+                    </HStack>
+                </Flex>
+            </Container>
+        </Box>
     );
 };
 

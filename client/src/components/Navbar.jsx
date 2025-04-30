@@ -98,12 +98,12 @@ const Navbar = () => {
                         <VStack align="stretch" spacing={4} mt={4}>
                             {currentUser && (
                                 <>
-                                    <NavLink to="/" icon={<Icon as={FaHome} />} isMobile>
+                                    {/* <NavLink to="/" icon={<Icon as={FaHome} />} isMobile>
                                         Home
                                     </NavLink>
                                     <NavLink to="/saved-recipes" icon={<Icon as={FaBookmark} />} isMobile>
                                         Saved Recipes
-                                    </NavLink>
+                                    </NavLink> */}
                                     <Button
                                         variant="outline"
                                         colorScheme="red"
@@ -160,12 +160,12 @@ const Navbar = () => {
                         <HStack spacing={4} ml={8} display={{ base: "none", md: "flex" }}>
                             {currentUser && (
                                 <>
-                                    <NavLink to="/" icon={<Icon as={FaHome} />}>
+                                    {/* <NavLink to="/" icon={<Icon as={FaHome} />}>
                                         Home
                                     </NavLink>
                                     <NavLink to="/saved-recipes" icon={<Icon as={FaBookmark} />}>
                                         Saved Recipes
-                                    </NavLink>
+                                    </NavLink> */}
                                 </>
                             )}
                         </HStack>

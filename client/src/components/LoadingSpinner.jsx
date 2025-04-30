@@ -1,5 +1,11 @@
 import React from "react";
-import { Flex, Spinner, Text } from "@chakra-ui/react";
+import { Flex, Spinner, Text, keyframes } from "@chakra-ui/react";
+
+const pulseAnimation = keyframes`
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+`;
 
 const LoadingSpinner = ({ text = "Loading..." }) => {
   return (
@@ -18,7 +24,11 @@ const LoadingSpinner = ({ text = "Loading..." }) => {
         size="xl"
         mb={4}
       />
-      <Text color="gray.500" fontFamily="heading">
+      <Text 
+        color="gray.500" 
+        fontFamily="heading"
+        animation={`${pulseAnimation} 1.5s infinite ease-in-out`}
+      >
         {text}
       </Text>
     </Flex>

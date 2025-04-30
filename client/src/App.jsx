@@ -1,17 +1,15 @@
-import { Box } from "@chakra-ui/react"
 import { Route, Routes } from 'react-router-dom'
 import CreatePage from './pages/CreatePage'
 import HomePage from './pages/HomePage'
 import SignUp from './pages/SignUp'
-import Navbar from "./components/Navbar"
 import Login from './pages/Login'
 import ProtectedRoute from "./components/ProtectedRoute"
 import SavedRecipesPage from "./pages/SavedRecipesPage"
+import Layout from './components/Layout'
 
 function App() {
   return (
-    <Box minH={"100vh"} bg={"brand.light"}>
-      {<Navbar />}
+    <Layout>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
@@ -40,8 +38,8 @@ function App() {
           }
         />
       </Routes>
-    </Box>
-  )
+    </Layout>
+  );
 }
 
-export default App
+export default App;

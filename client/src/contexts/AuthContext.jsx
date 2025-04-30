@@ -45,9 +45,9 @@ export function AuthProvider({ children }) {
             .then(result => createOrUpdateUser(result.user))
     }
 
-    function login(email, password) {
-        return auth.signInWithEmailAndPassword(email, password)
-            .then(result => createOrUpdateUser(result.user))
+    async function login(email, password) {
+        const result = await auth.signInWithEmailAndPassword(email, password)
+        return await createOrUpdateUser(result.user)
     }
 
     function logout() {

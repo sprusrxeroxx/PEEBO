@@ -1,14 +1,17 @@
 import React from "react";
 import { Box, Container } from "@chakra-ui/react";
 import Navbar from "./Navbar";
+import FadeTransition from "./FadeTransition";
 
 const Layout = ({ children }) => {
   return (
     <Box minH="100vh" bg="brand.light">
       <Navbar />
-      <Box as="main" py={{ base: 4, md: 8 }}>
-        {children}
-      </Box>
+      <FadeTransition>
+        <Box as="main" py={{ base: 4, md: 8 }}>
+          {children}
+        </Box>
+      </FadeTransition>
       <Box 
         as="footer" 
         py={6}

@@ -38,6 +38,11 @@ const RecipeCard = ({ recipe }) => {
         description: "Please login to save recipes",
         status: "warning",
         isClosable: true,
+        duration: 3000,
+        position: "top",
+        variant: "subtle",
+        animation: "ease-in",
+        icon: <Icon as={FaBookmark} />,
       });
       return;
     }
@@ -55,7 +60,9 @@ const RecipeCard = ({ recipe }) => {
       status: success ? "success" : "error",
       isClosable: true,
       duration: 3000,
-      position: "top"
+      position: "top",
+      variant: "subtle",
+      icon: success ? <Icon as={FaBookmark} /> : undefined,
     });
     
     setIsSaving(false);
@@ -68,19 +75,24 @@ const RecipeCard = ({ recipe }) => {
         shadow="md"
         rounded="lg"    
         overflow="hidden"
-        transition="all 0.3s"
-        _hover={{ transform: "translateY(-6px)", shadow: "xl" }}
+        transition="all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+        _hover={{ 
+          transform: "translateY(-6px)", 
+          shadow: "xl",
+          "& img": { transform: "scale(1.05)" } 
+        }}
         borderWidth="1px"
         borderColor="gray.100"
       >
         {/* Recipe Image */}
-        <Box position="relative">
+        <Box position="relative" overflow="hidden">
           <Image
             src={recipe.image}
             alt={recipe.title}
             objectFit="cover"
             w="full"
             h="220px"
+            transition="transform 0.3s ease"
           />
           <Badge 
             position="absolute" 
@@ -173,9 +185,20 @@ const RecipeCard = ({ recipe }) => {
       </Box>
 
       {/* Recipe Details Modal */}
-      <Modal isOpen={isOpen} onClose={onClose} size="lg">
-        <ModalOverlay />
-        <ModalContent>
+      <Modal 
+        isOpen={isOpen} 
+        onClose={onClose} 
+        size="lg"
+        motionPreset="slideInBottom"
+      >
+        <ModalOverlay 
+          bg="blackAlpha.300"
+          backdropFilter="blur(5px)"
+        />
+        <ModalContent
+          border="1px solid"
+          borderColor="gray.100"
+        >
           <ModalHeader 
             fontFamily="heading" 
             fontWeight="bold" 
@@ -251,7 +274,6 @@ const RecipeCard = ({ recipe }) => {
               </VStack>
             </Box>
           </ModalBody>
-
           <ModalFooter>
             <Button 
               variant="secondary" 

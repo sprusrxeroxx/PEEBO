@@ -19,18 +19,22 @@ import { FaLeaf } from "react-icons/fa";
 const RecipeSearch = () => {
   const [ingredients, setIngredients] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const [error, setError] = useState(null);
   const fetchRecipes = useRecipeStore((state) => state.fetchRecipes);
   const toast = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
 
     if (!ingredients.trim()) {
+      setError("Please enter at least one ingredient");
       toast({
         title: "Error",
         description: "Please enter at least one ingredient.",
         status: "error",
         isClosable: true,
+        position: "top",
       });
       return;
     }
@@ -40,80 +44,102 @@ const RecipeSearch = () => {
     setIsSearching(false);
 
     if (!success) {
+      setError(message || "Failed to fetch recipes");
       toast({
         title: "Error",
         description: message || "Failed to fetch recipes.",
         status: "error",
         isClosable: true,
+        position: "top",
       });
     }
   };
 
   return (
-    <VStack spacing={6}>
-      <Flex align="center">
-        <Icon as={FaLeaf} color="brand.secondary" mr={3} boxSize={6} />
+    <VStack spacing={{ base: 4, md: 6 }}>
+      <Flex align="center" direction={{ base: "column", md: "row" }}>
+        <Icon as={FaLeaf} color="brand.secondary" mr={{ base: 0, md: 3 }} mb={{ base: 2, md: 0 }} boxSize={{ base: 5, md: 6 }} />
         <Heading 
           as="h2" 
-          fontSize={{ base: "2xl", md: "3xl" }}
+          fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}
           fontWeight="bold" 
           color="brand.dark"
           fontFamily="heading"
           letterSpacing="tight"
+          textAlign={{ base: "center", md: "left" }}
         >
           What's in Your Kitchen?
         </Heading>
       </Flex>
       
       <Text 
-        fontSize={{ base: "md", md: "lg" }} 
+        fontSize={{ base: "sm", md: "md", lg: "lg" }} 
         color="gray.600" 
         textAlign="center" 
         maxW="600px"
         fontFamily="body"
         lineHeight="tall"
+        px={{ base: 2, md: 0 }}
       >
         Enter the ingredients you have, separated by commas, and we'll find delicious recipes you can make.
       </Text>
       
       <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '600px' }}>
-        <InputGroup size="lg">
+        <InputGroup size={{ base: "md", md: "lg" }}>
           <Input
             placeholder="chicken, rice, broccoli..."
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
             bg="brand.light"
             border="1px"
-            borderColor="gray.300"
-            focusBorderColor="brand.secondary"
-            _hover={{ borderColor: "brand.secondary" }}
+            borderColor={error ? "red.300" : "gray.300"}
+            focusBorderColor={error ? "red.400" : "brand.secondary"}
+            _hover={{ borderColor: error ? "red.400" : "brand.secondary" }}
             _focus={{ 
-              borderColor: "brand.secondary", 
-              boxShadow: "0 0 0 1px var(--chakra-colors-brand-secondary)",
+              borderColor: error ? "red.400" : "brand.secondary", 
+              boxShadow: `0 0 0 1px var(--chakra-colors-${error ? "red-400" : "brand-secondary"})`,
               transform: "scale(1.01)",
             }}
             pr="4.5rem"
-            fontSize="md"
-            height="60px"
+            fontSize={{ base: "sm", md: "md" }}
+            height={{ base: "50px", md: "60px" }}
             fontFamily="body"
             transition="all 0.2s"
+            aria-invalid={error ? "true" : "false"}
+            aria-describedby={error ? "search-error" : undefined}
           />
           <InputRightElement width="4.5rem" h="100%">
             <Button 
               h="90%" 
               size="sm" 
-              variant="transparent"
+              variant="primary"
               isLoading={isSearching}
               type="submit"
               mr={1}
-              rightIcon={<SearchIcon />}
+              rightIcon={isSearching ? null : <SearchIcon />}
               fontFamily="heading"
               fontWeight="medium"
               letterSpacing="wide"
+              loadingText=""
+              aria-label="Search recipes"
             >
+              {isSearching ? "" : "Find"}
             </Button>
           </InputRightElement>
         </InputGroup>
+        
+        {error && (
+          <Text 
+            color="red.500" 
+            fontSize="sm" 
+            mt={2} 
+            id="search-error"
+            textAlign="left"
+            pl={2}
+          >
+            {error}
+          </Text>
+        )}
       </form>
     </VStack>
   );

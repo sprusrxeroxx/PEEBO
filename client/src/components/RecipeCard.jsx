@@ -83,15 +83,18 @@ const RecipeCard = ({ recipe }) => {
         }}
         borderWidth="1px"
         borderColor="gray.100"
+        h="100%"
+        display="flex"
+        flexDirection="column"
       >
         {/* Recipe Image */}
-        <Box position="relative" overflow="hidden">
+        <Box position="relative" overflow="hidden" flexShrink={0}>
           <Image
             src={recipe.image}
             alt={recipe.title}
             objectFit="cover"
             w="full"
-            h="220px"
+            h={{ base: "180px", md: "220px" }}
             transition="transform 0.3s ease"
           />
           <Badge 
@@ -111,14 +114,14 @@ const RecipeCard = ({ recipe }) => {
         </Box>
 
         {/* Recipe Details */}
-        <Box p={5}>
+        <Box p={{ base: 4, md: 5 }} flex="1" display="flex" flexDirection="column">
           {/* Recipe Title */}
           <Heading 
             as="h3" 
-            size="md" 
+            fontSize={{ base: "md", md: "lg" }}
             mb={3} 
             noOfLines={2}
-            height="50px"
+            minHeight={{ base: "40px", md: "50px" }}
             display="flex"
             alignItems="center"
             fontFamily="heading"
@@ -152,12 +155,12 @@ const RecipeCard = ({ recipe }) => {
           </Text>
 
           {/* Action Buttons */}
-          <Flex mt={4} justifyContent="space-between">
+          <Flex mt="auto" pt={3} justifyContent="space-between">
             <Button 
               onClick={onOpen}
               variant="outline"
               colorScheme="teal"
-              size="sm"
+              size={{ base: "xs", md: "sm" }}
               flex="1"
               mr={2}
               fontFamily="heading"
@@ -169,7 +172,7 @@ const RecipeCard = ({ recipe }) => {
             <Button
               leftIcon={<FaBookmark />}
               variant="primary"
-              size="sm"
+              size={{ base: "xs", md: "sm" }}
               onClick={handleSaveRecipe}
               isLoading={isSaving}
               loadingText="Saving"

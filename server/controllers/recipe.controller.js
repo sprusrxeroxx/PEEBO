@@ -63,6 +63,9 @@ export const saveRecipe = async (req, res) => {
       spoonacularId: recipeData.id // Using the Spoonacular ID as a unique identifier
     };
 
+    // Have to implement api recipe enrichment here
+    // const apiRecipe = await axios.get(`https://api.spoonacular.com/recipes/${recipeData.id}/information`
+
     // Use findOneAndUpdate with upsert to either update an existing recipe or create a new one
     const recipe = await Recipe.findOneAndUpdate(
       { spoonacularId: recipeData.id },

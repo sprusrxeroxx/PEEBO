@@ -87,10 +87,16 @@ const RecipeSearch = () => {
             borderColor="gray.300"
             focusBorderColor="brand.secondary"
             _hover={{ borderColor: "brand.secondary" }}
+            _focus={{ 
+              borderColor: "brand.secondary", 
+              boxShadow: "0 0 0 1px var(--chakra-colors-brand-secondary)",
+              transform: "scale(1.01)",
+            }}
             pr="4.5rem"
             fontSize="md"
             height="60px"
             fontFamily="body"
+            transition="all 0.2s"
           />
           <InputRightElement width="4.5rem" h="100%">
             <Button 

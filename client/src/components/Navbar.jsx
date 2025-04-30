@@ -187,6 +187,9 @@ const Navbar = () => {
                         <HStack spacing={4} ml={8} display={{ base: "none", md: "flex" }}>
                             {currentUser && (
                                 <>
+                                    {/* {/* <NavLink to="/" icon={<Icon as={FaHome} />}>
+                                        Home
+                                    </NavLink> */}
                                     <NavLink to="/saved-recipes" icon={<Icon as={FaBookmark} />}>
                                         Saved Recipes
                                     </NavLink>
@@ -199,44 +202,41 @@ const Navbar = () => {
                     <MobileNav />
 
                     {/* Desktop Right Side Navigation */}
-                    <HStack spacing={3} display={{ base: "none", md: "flex" }}>
-                        <Button 
-                            onClick={toggleColorMode} 
-                            size="sm"
-                            variant="ghost"
-                            color="brand.accent"
-                        >
-                            {colorMode === "light" ? <IoMoon /> : <LuSun size="20" />}
-                        </Button>
-                        
+                    <HStack spacing={3} display={{ base: "none", md: "flex" }}>                      
                         {currentUser && (
-                            <Menu>
-                                <MenuButton
-                                    as={Button}
-                                    rounded="full"
-                                    variant="link"
-                                    cursor="pointer"
-                                    minW={0}
-                                >
-                                    <Avatar
-                                        size="sm"
-                                        name={currentUser.email}
-                                        bg="brand.primary"
-                                        color="white"
-                                    />
-                                </MenuButton>
-                                <MenuList>
-                                    <MenuItem icon={<FaBookmark />} as={Link} to="/saved-recipes">
-                                        My Saved Recipes
-                                    </MenuItem>
-                                    <MenuItem 
-                                        icon={<IoLogOutOutline />}
-                                        onClick={handleLogout}
+                                <><Button
+                                onClick={toggleColorMode}
+                                size="sm"
+                                variant="ghost"
+                                color="brand.accent"
+                            >
+                                {colorMode === "light" ? <IoMoon /> : <LuSun size="20" />}
+                            </Button><Menu>
+                                    <MenuButton
+                                        as={Button}
+                                        rounded="full"
+                                        variant="link"
+                                        cursor="pointer"
+                                        minW={0}
                                     >
-                                        Logout
-                                    </MenuItem>
-                                </MenuList>
-                            </Menu>
+                                        <Avatar
+                                            size="sm"
+                                            name={currentUser.email}
+                                            bg="brand.primary"
+                                            color="white" />
+                                    </MenuButton>
+                                    <MenuList>
+                                        <MenuItem icon={<FaBookmark />} as={Link} to="/saved-recipes">
+                                            My Saved Recipes
+                                        </MenuItem>
+                                        <MenuItem
+                                            icon={<IoLogOutOutline />}
+                                            onClick={handleLogout}
+                                        >
+                                            Logout
+                                        </MenuItem>
+                                    </MenuList>
+                                </Menu></>
                         )}
 
                         {!currentUser && (

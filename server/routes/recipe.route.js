@@ -1,5 +1,10 @@
 import express from "express";
-import { searchRecipes, saveRecipe, getSavedRecipes } from "../controllers/recipe.controller.js";
+import { 
+  searchRecipes, 
+  saveRecipe, 
+  getSavedRecipes,
+  deleteSavedRecipe 
+} from "../controllers/recipe.controller.js";
 
 const router = express.Router();
 
@@ -11,5 +16,8 @@ router.post("/save", saveRecipe);
 
 // Get user's saved recipes
 router.get("/saved/:userId", getSavedRecipes);
+
+// Delete a saved recipe
+router.delete("/saved/:id", deleteSavedRecipe);
 
 export default router;

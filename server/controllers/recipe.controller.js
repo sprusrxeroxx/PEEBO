@@ -2,7 +2,6 @@ import axios from "axios";
 import Recipe from "../models/recipe.model.js";
 import SavedRecipe from "../models/savedRecipe.model.js";
 import User from "../models/user.model.js";
-import mongoose from "mongoose";
 
 export const searchRecipes = async (req, res) => {
   const ranking = 1;
@@ -138,6 +137,42 @@ export const getSavedRecipes = async (req, res) => {
     res.status(500).json({ 
       success: false, 
       message: "Failed to fetch saved recipes" 
+    });
+  }
+};
+
+// Delete a saved recipe
+export const deleteSavedRecipe = async (req, res) => {
+  try {
+    const { id: savedRecipeId } = req.params;
+    
+    if (!savedRecipeId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Saved recipe ID is required" 
+      });
+    }
+
+    // Find and delete the saved recipe
+    const deletedRecipe = await SavedRecipe.findByIdAndDelete(savedRecipeId);
+    
+    if (!deletedRecipe) {
+      return res.status(404).json({
+        success: false,
+        message: "Saved recipe not found"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Recipe removed successfully",
+      data: deletedRecipe
+    });
+  } catch (error) {
+    console.error("Error deleting saved recipe:", error.message);
+    res.status(500).json({ 
+      success: false, 
+      message: "Failed to delete saved recipe" 
     });
   }
 };

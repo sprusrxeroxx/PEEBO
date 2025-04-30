@@ -6,69 +6,176 @@ import {
   Text, 
   useColorMode, 
   Box,
-  Icon
+  Icon,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
+  useDisclosure,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  VStack,
+  IconButton
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import { AddIcon } from "@chakra-ui/icons";
+import { Link, useLocation } from "react-router-dom";
+import { AddIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { IoMoon } from "react-icons/io5";
 import { LuSun } from "react-icons/lu";
 import { useAuth } from "../contexts/AuthContext";
 import { IoLogOutOutline } from "react-icons/io5";
-import { FaBookmark, FaUtensils } from "react-icons/fa";
+import { FaBookmark, FaHome, FaUtensils } from "react-icons/fa";
 
 const Navbar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
     const { logout, currentUser } = useAuth();
+    const location = useLocation();
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const handleLogout = async () => {
         try {
             await logout();
+            onClose(); // Close drawer if open
         } catch (error) {
             console.error("Failed to log out:", error.message);
         }
     };
 
-    return (
-        <Box boxShadow="sm" bg="white" position="sticky" top={0} zIndex={10}>
-            <Container maxW="1140px" px={4}>
-                <Flex
-                    h={16}
-                    alignItems={'center'}
-                    justifyContent={'space-between'}
-                    flexDir={{
-                        base: "column",
-                        sm: "row"
-                    }}>
-                    <Link to="/">
-                        <Flex alignItems="center">
+    const NavLink = ({ to, icon, children, isMobile = false }) => {
+        const isActive = location.pathname === to;
+        
+        return (
+            <Link to={to}>
+                <Button
+                    variant={isActive ? "solid" : "ghost"}
+                    colorScheme={isActive ? "brand" : undefined}
+                    bg={isActive ? "brand.primary" : undefined}
+                    color={isActive ? "white" : undefined}
+                    leftIcon={icon}
+                    size={isMobile ? "md" : "sm"}
+                    w={isMobile ? "full" : undefined}
+                    justifyContent={isMobile ? "flex-start" : undefined}
+                >
+                    {children}
+                </Button>
+            </Link>
+        );
+    };
+
+    // Mobile navigation
+    const MobileNav = () => (
+        <>
+            <IconButton
+                display={{ base: "flex", md: "none" }}
+                aria-label="Open menu"
+                icon={<HamburgerIcon />}
+                onClick={onOpen}
+                variant="ghost"
+            />
+            <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader>
+                        <Flex align="center">
                             <Icon as={FaUtensils} color="brand.primary" mr={2} boxSize={5} />
                             <Text
-                                fontSize={{ base: "22px", sm: "28px" }}
-                                fontWeight={"bold"}
+                                fontSize="xl"
+                                fontWeight="bold"
                                 fontFamily="heading"
                                 color="brand.primary"
                             >
                                 PEEBO
                             </Text>
                         </Flex>
-                    </Link>
-                    <HStack spacing={3} alignItems={"center"}>
-                        {currentUser && (
-                            <>
-                                <Link to="/create">
-                                    <Button variant="accent" size="sm" leftIcon={<AddIcon />}>
-                                        Add Recipe
+                    </DrawerHeader>
+
+                    <DrawerBody>
+                        <VStack align="stretch" spacing={4} mt={4}>
+                            {currentUser && (
+                                <>
+                                    <NavLink to="/" icon={<Icon as={FaHome} />} isMobile>
+                                        Home
+                                    </NavLink>
+                                    <NavLink to="/saved-recipes" icon={<Icon as={FaBookmark} />} isMobile>
+                                        Saved Recipes
+                                    </NavLink>
+                                    <Button
+                                        variant="outline"
+                                        colorScheme="red"
+                                        leftIcon={<IoLogOutOutline />}
+                                        onClick={handleLogout}
+                                        w="full"
+                                        justifyContent="flex-start"
+                                    >
+                                        Logout
                                     </Button>
-                                </Link>
-                                
-                                <Link to="/saved-recipes">
-                                    <Button variant="secondary" size="sm" leftIcon={<FaBookmark />}>
-                                        Saved
-                                    </Button>
-                                </Link>
-                            </>
-                        )}
+                                </>
+                            )}
+                            {!currentUser && (
+                                <>
+                                    <NavLink to="/login" icon={<Icon as={FaUtensils} />} isMobile>
+                                        Login
+                                    </NavLink>
+                                    <NavLink to="/signup" icon={<AddIcon />} isMobile>
+                                        Sign Up
+                                    </NavLink>
+                                </>
+                            )}
+                        </VStack>
+                    </DrawerBody>
+                </DrawerContent>
+            </Drawer>
+        </>
+    );
+
+    return (
+        <Box boxShadow="sm" bg="white" position="sticky" top={0} zIndex={10}>
+            <Container maxW="1140px" px={4}>
+                <Flex
+                    h={16}
+                    alignItems="center"
+                    justifyContent="space-between"
+                >
+                    <Flex align="center">
+                        <Link to="/">
+                            <Flex alignItems="center">
+                                <Icon as={FaUtensils} color="brand.primary" mr={2} boxSize={5} />
+                                <Text
+                                    fontSize={{ base: "22px", sm: "28px" }}
+                                    fontWeight="bold"
+                                    fontFamily="heading"
+                                    color="brand.primary"
+                                >
+                                    PEEBO
+                                </Text>
+                            </Flex>
+                        </Link>
                         
+                        {/* Desktop Navigation Links */}
+                        <HStack spacing={4} ml={8} display={{ base: "none", md: "flex" }}>
+                            {currentUser && (
+                                <>
+                                    <NavLink to="/" icon={<Icon as={FaHome} />}>
+                                        Home
+                                    </NavLink>
+                                    <NavLink to="/saved-recipes" icon={<Icon as={FaBookmark} />}>
+                                        Saved Recipes
+                                    </NavLink>
+                                </>
+                            )}
+                        </HStack>
+                    </Flex>
+
+                    {/* Mobile Navigation */}
+                    <MobileNav />
+
+                    {/* Desktop Right Side Navigation */}
+                    <HStack spacing={3} display={{ base: "none", md: "flex" }}>
                         <Button 
                             onClick={toggleColorMode} 
                             size="sm"
@@ -79,16 +186,55 @@ const Navbar = () => {
                         </Button>
                         
                         {currentUser && (
-                            <Button 
-                                onClick={handleLogout} 
-                                variant="outline" 
-                                size="sm"
-                                borderColor="brand.primary"
-                                color="brand.primary"
-                                leftIcon={<IoLogOutOutline />}
-                            >
-                                Logout
-                            </Button>
+                            <Menu>
+                                <MenuButton
+                                    as={Button}
+                                    rounded="full"
+                                    variant="link"
+                                    cursor="pointer"
+                                    minW={0}
+                                >
+                                    <Avatar
+                                        size="sm"
+                                        name={currentUser.email}
+                                        bg="brand.primary"
+                                        color="white"
+                                    />
+                                </MenuButton>
+                                <MenuList>
+                                    <MenuItem icon={<FaBookmark />} as={Link} to="/saved-recipes">
+                                        My Saved Recipes
+                                    </MenuItem>
+                                    <MenuItem 
+                                        icon={<IoLogOutOutline />}
+                                        onClick={handleLogout}
+                                    >
+                                        Logout
+                                    </MenuItem>
+                                </MenuList>
+                            </Menu>
+                        )}
+
+                        {!currentUser && (
+                            <HStack spacing={2}>
+                                <Button
+                                    as={Link}
+                                    to="/login"
+                                    variant="outline"
+                                    colorScheme="brand"
+                                    size="sm"
+                                >
+                                    Login
+                                </Button>
+                                <Button
+                                    as={Link}
+                                    to="/signup"
+                                    variant="primary"
+                                    size="sm"
+                                >
+                                    Sign Up
+                                </Button>
+                            </HStack>
                         )}
                     </HStack>
                 </Flex>

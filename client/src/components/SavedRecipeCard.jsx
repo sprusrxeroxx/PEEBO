@@ -25,6 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { FaClock, FaUtensils } from "react-icons/fa";
+import { useRecipeStore } from "../store/recipe";
 
 const SavedRecipeCard = ({ savedRecipe }) => {
   const recipe = savedRecipe.recipeId; // The populated recipe data
@@ -32,6 +33,10 @@ const SavedRecipeCard = ({ savedRecipe }) => {
   const [isEditing, setIsEditing] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const [isDeleting, setIsDeleting] = useState(false);
+  
+  // Get the delete function from the store
+  const deleteSavedRecipe = useRecipeStore((state) => state.deleteSavedRecipe);
   
   const cardBg = useColorModeValue("white", "gray.800");
   const textColor = useColorModeValue("gray.700", "gray.300");
@@ -51,16 +56,44 @@ const SavedRecipeCard = ({ savedRecipe }) => {
     });
   };
 
-  const handleDelete = () => {
-    // Here you would implement the API call to delete the saved recipe
-    // For now we'll just simulate success
-    onClose();
-    toast({
-      title: "Recipe removed from favorites",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
+  const handleDelete = async () => {
+    try {
+      setIsDeleting(true);
+      const { success, message } = await deleteSavedRecipe(savedRecipe._id);
+      
+      if (success) {
+        toast({
+          title: "Recipe deleted",
+          description: message,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top"
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: message || "Failed to delete recipe",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top"
+        });
+      }
+      
+      onClose(); // Close the confirmation modal
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top"
+      });
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -194,7 +227,10 @@ const SavedRecipeCard = ({ savedRecipe }) => {
 
       {/* Confirmation Modal for Delete */}
       <Modal isOpen={isOpen} onClose={onClose} isCentered size="sm">
-        <ModalOverlay />
+        <ModalOverlay 
+          bg="blackAlpha.300"
+          backdropFilter="blur(5px)"
+        />
         <ModalContent>
           <ModalHeader color="brand.primary">Remove Recipe</ModalHeader>
           <ModalCloseButton />
@@ -204,10 +240,15 @@ const SavedRecipeCard = ({ savedRecipe }) => {
             </Text>
           </ModalBody>
           <ModalFooter>
-            <Button mr={3} onClick={onClose}>
+            <Button variant="ghost" mr={3} onClick={onClose} isDisabled={isDeleting}>
               Cancel
             </Button>
-            <Button colorScheme="red" onClick={handleDelete}>
+            <Button 
+              colorScheme="red" 
+              onClick={handleDelete} 
+              isLoading={isDeleting}
+              loadingText="Removing"
+            >
               Remove
             </Button>
           </ModalFooter>

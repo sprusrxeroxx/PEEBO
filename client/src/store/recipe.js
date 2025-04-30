@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
 export const useRecipeStore = create((set) => ({
-  recipes: [], // Store for fetched recipes
-  savedRecipes: [], // Store for user's saved recipes
+  recipes: [], 
+  savedRecipes: [], 
   
   setRecipes: (recipes) => set({ recipes }),
   setSavedRecipes: (savedRecipes) => set({ savedRecipes }),
@@ -67,6 +67,33 @@ export const useRecipeStore = create((set) => ({
     } catch (error) {
       console.error("Error fetching saved recipes:", error.message);
       return { success: false, message: "Failed to fetch saved recipes." };
+    }
+  },
+
+  // function to delete a saved recipe
+  deleteSavedRecipe: async (savedRecipeId) => {
+    try {
+      const res = await fetch(`/api/v1/recipes/saved/${savedRecipeId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      
+      const data = await res.json();
+      
+      if (data.success) {
+        // Update the state by filtering out the deleted recipe
+        set((state) => ({
+          savedRecipes: state.savedRecipes.filter(recipe => recipe._id !== savedRecipeId)
+        }));
+        return { success: true, message: "Recipe removed successfully" };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      console.error("Error deleting recipe:", error.message);
+      return { success: false, message: "Failed to delete recipe." };
     }
   },
 }));

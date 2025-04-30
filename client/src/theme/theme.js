@@ -144,6 +144,11 @@ const components = {
       fontFamily: 'heading',
       fontWeight: 'medium',
       letterSpacing: 'wide',
+      position: 'relative',
+      transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+      _focus: {
+        boxShadow: 'outline',
+      }
     },
     variants: {
       primary: {
@@ -156,6 +161,8 @@ const components = {
         },
         _active: {
           bg: '#B53535',
+          transform: 'translateY(0)',
+          boxShadow: 'inner',
         },
       },
       secondary: {
@@ -168,6 +175,8 @@ const components = {
         },
         _active: {
           bg: '#D69B45',
+          transform: 'translateY(0)',
+          boxShadow: 'inner',
         },
       },
       accent: {
@@ -180,6 +189,28 @@ const components = {
         },
         _active: {
           bg: '#334547',
+          transform: 'translateY(0)',
+          boxShadow: 'inner',
+        },
+      },
+      ghost: {
+        _hover: {
+          bg: 'rgba(0,0,0,0.05)',
+          transform: 'translateY(-1px)',
+        },
+        _active: {
+          bg: 'rgba(0,0,0,0.1)',
+          transform: 'translateY(0)',
+        },
+      },
+      outline: {
+        _hover: {
+          transform: 'translateY(-1px)',
+          boxShadow: 'sm',
+        },
+        _active: {
+          transform: 'translateY(0)',
+          boxShadow: 'inner',
         },
       },
     }

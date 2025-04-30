@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
                     profilePhoto: user.photoURL || ''
                 })
             })
-            
+            console.log('User synced with database:', response)
             if (!response.ok) {
                 console.error('Failed to sync user with database')
             }
@@ -40,9 +40,9 @@ export function AuthProvider({ children }) {
         return user
     }
 
-    function signup(email, password) {
-        return auth.createUserWithEmailAndPassword(email, password)
-            .then(result => createOrUpdateUser(result.user))
+    async function signup(email, password) {
+        const result = await auth.createUserWithEmailAndPassword(email, password)
+        return await createOrUpdateUser(result.user)
     }
 
     async function login(email, password) {

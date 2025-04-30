@@ -62,10 +62,16 @@ const letterSpacings = {
   widest: '0.1em',
 };
 
+// Focus styles for better accessibility
+const shadows = {
+  outline: '0 0 0 3px var(--chakra-colors-brand-secondary)',
+};
+
+// Color mode specific styles for better contrast
 const styles = {
   global: (props) => ({
     body: {
-      bg: props.colorMode === 'dark' ? 'brand.dark' : 'brand.light',
+      bg: props.colorMode === 'dark' ? 'gray.900' : 'brand.light',
       color: props.colorMode === 'dark' ? 'white' : 'brand.dark',
       fontFamily: 'body',
       lineHeight: 'base',
@@ -74,10 +80,21 @@ const styles = {
       fontFamily: 'heading',
       fontWeight: 'bold',
       lineHeight: 'shorter',
+      color: props.colorMode === 'dark' ? 'white' : 'brand.dark',
     },
     p: {
       fontFamily: 'body',
       lineHeight: 'tall',
+      color: props.colorMode === 'dark' ? 'gray.200' : 'gray.700',
+    },
+    // Improve focus visibility
+    ':focus': {
+      boxShadow: 'outline',
+      outline: 'none',
+    },
+    // Make sure links are underlined for better visibility
+    a: {
+      color: props.colorMode === 'dark' ? 'brand.secondary' : 'brand.primary',
     }
   }),
 };
@@ -148,7 +165,8 @@ const components = {
       transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
       _focus: {
         boxShadow: 'outline',
-      }
+        outline: 'none',
+      },
     },
     variants: {
       primary: {
@@ -247,6 +265,7 @@ const theme = extendTheme({
   fontWeights,
   lineHeights,
   letterSpacings,
+  shadows,
   styles, 
   components 
 });

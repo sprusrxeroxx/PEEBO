@@ -226,7 +226,13 @@ const SavedRecipeCard = ({ savedRecipe }) => {
       </Box>
 
       {/* Confirmation Modal for Delete */}
-      <Modal isOpen={isOpen} onClose={onClose} isCentered size="sm">
+      <Modal 
+        isOpen={isOpen} 
+        onClose={onClose} 
+        isCentered 
+        size="sm"
+        motionPreset="slideInBottom"
+      >
         <ModalOverlay 
           bg="blackAlpha.300"
           backdropFilter="blur(5px)"
@@ -240,7 +246,12 @@ const SavedRecipeCard = ({ savedRecipe }) => {
             </Text>
           </ModalBody>
           <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={onClose} isDisabled={isDeleting}>
+            <Button 
+              variant="ghost" 
+              mr={3} 
+              onClick={onClose} 
+              isDisabled={isDeleting}
+            >
               Cancel
             </Button>
             <Button 

@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
                     profilePhoto: user.photoURL || ''
                 })
             })
-            console.log('User synced with database:', response)
+            
             if (!response.ok) {
                 console.error('Failed to sync user with database')
             }
@@ -41,22 +41,42 @@ export function AuthProvider({ children }) {
     }
 
     async function signup(email, password) {
-        const result = await auth.createUserWithEmailAndPassword(email, password)
-        return await createOrUpdateUser(result.user)
+        try {
+            // Create a new user with email and password
+            const result = await auth.createUserWithEmailAndPassword(email, password)
+            
+            // Sync the new user with our database
+            return await createOrUpdateUser(result.user)
+        } catch (error) {
+            console.error("Error during signup:", error)
+            throw error
+        }
     }
 
     async function login(email, password) {
-        const result = await auth.signInWithEmailAndPassword(email, password)
-        return await createOrUpdateUser(result.user)
+        try {
+            // Explicitly sign in with email and password, which creates a new session
+            const result = await auth.signInWithEmailAndPassword(email, password)
+            
+            // Sync the user with our database
+            return await createOrUpdateUser(result.user)
+        } catch (error) {
+            console.error("Error during login:", error)
+            throw error
+        }
     }
 
     function logout() {
+        // Sign out only affects the current session
         return auth.signOut()
     }
 
     useEffect(() => {
+        // This listener is only for the current browser session
+        // It will not affect other browser sessions or devices
         const unsubscribe = auth.onAuthStateChanged(async user => {
             if (user) {
+                // When user signs in, sync with database
                 await createOrUpdateUser(user)
             }
             setCurrentUser(user)

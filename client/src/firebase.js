@@ -12,4 +12,8 @@ const app = firebase.initializeApp({
 });
 
 export const auth = app.auth();
+
+// ensures that auth state is not shared across tabs/browsers
+auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+
 export default app;

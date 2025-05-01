@@ -5,12 +5,20 @@ import FadeTransition from "./FadeTransition";
 
 const Layout = ({ children }) => {
   const { colorMode } = useColorMode();
-  const bgColor = useColorModeValue("brand.light", "gray.900");
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-  const textColor = useColorModeValue("gray.600", "gray.400");
+  const bgColor = useColorModeValue("bg.primary", "gray.900");
+  const borderColor = useColorModeValue("border.subtle", "gray.700");
+  const textColor = useColorModeValue("text.secondary", "gray.400");
   
   // Update document background color when color mode changes
   useEffect(() => {
+    // Add a class to the document element for easier global dark mode styling
+    if (colorMode === 'dark') {
+      document.documentElement.classList.add('dark-mode');
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+    }
+    
+    // Update document background color when color mode changes
     document.body.style.backgroundColor = 
       colorMode === 'dark' ? 'var(--chakra-colors-gray-900)' : 'var(--chakra-colors-brand-light)';
     

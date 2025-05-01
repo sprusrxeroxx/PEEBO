@@ -23,16 +23,33 @@ import { FaBookmark, FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const SavedRecipes = () => {
+  // Fix: Ensure all hooks are called in the same order every time
+  // 1. Get color mode values first (these are hooks)
+  const bgColor = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("gray.100", "gray.700");
+  const iconColor = useColorModeValue("gray.300", "gray.600");
+  const textColor = useColorModeValue("gray.500", "gray.400");
+  const searchIconColor = useColorModeValue("gray.400", "gray.500");
+  const searchBg = useColorModeValue("white", "gray.700");
+  const searchBorderColor = useColorModeValue("gray.300", "gray.600");
+  const searchHoverBorderColor = useColorModeValue("gray.400", "gray.500");
+  const searchTextColor = useColorModeValue("gray.800", "white");
+  const searchFocusBorderColor = useColorModeValue("brand.primary", "brand.secondary");
+  
+  // 2. Then component state
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  
+  // 3. Then context/store hooks
   const { currentUser } = useAuth();
   const { savedRecipes, fetchSavedRecipes } = useRecipeStore();
   
-  // Filter recipes based on search term
+  // Filter recipes (no hooks here, just derived state)
   const filteredRecipes = savedRecipes.filter(savedRecipe => 
     savedRecipe.recipeId.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // 4. useEffect hook comes last
   useEffect(() => {
     const loadSavedRecipes = async () => {
       if (currentUser) {
@@ -75,15 +92,15 @@ const SavedRecipes = () => {
         <Box 
           textAlign="center" 
           py={10} 
-          bg={useColorModeValue("white", "gray.800")} 
+          bg={bgColor} 
           borderRadius="lg" 
           boxShadow="md"
           p={8}
           borderWidth="1px"
-          borderColor={useColorModeValue("gray.100", "gray.700")}
+          borderColor={borderColor}
         >
-          <Icon as={FaBookmark} boxSize={12} mb={6} color={useColorModeValue("gray.300", "gray.600")} />
-          <Text fontSize="lg" color={useColorModeValue("gray.500", "gray.400")} mb={4}>
+          <Icon as={FaBookmark} boxSize={12} mb={6} color={iconColor} />
+          <Text fontSize="lg" color={textColor} mb={4}>
             You haven't saved any recipes yet.
           </Text>
           <Button as={Link} to="/" variant="primary" size="md">
@@ -96,23 +113,23 @@ const SavedRecipes = () => {
           <Box mb={6} maxW="500px" mx="auto" w="full">
             <InputGroup>
               <InputLeftElement pointerEvents="none">
-                <Icon as={FaSearch} color={useColorModeValue("gray.400", "gray.500")} />
+                <Icon as={FaSearch} color={searchIconColor} />
               </InputLeftElement>
               <Input
                 placeholder="Search your saved recipes"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                bg={useColorModeValue("white", "gray.700")}
-                borderColor={useColorModeValue("gray.300", "gray.600")}
-                color={useColorModeValue("gray.800", "white")}
+                bg={searchBg}
+                borderColor={searchBorderColor}
+                color={searchTextColor}
                 _hover={{
-                  borderColor: useColorModeValue("gray.400", "gray.500"),
+                  borderColor: searchHoverBorderColor,
                 }}
                 _focus={{
                   borderColor: "brand.secondary",
                   boxShadow: `0 0 0 1px var(--chakra-colors-brand-secondary)`,
                 }}
-                focusBorderColor={useColorModeValue("brand.primary", "brand.secondary")}
+                focusBorderColor={searchFocusBorderColor}
               />
             </InputGroup>
           </Box>
@@ -129,7 +146,7 @@ const SavedRecipes = () => {
             </SimpleGrid>
           ) : (
             <Box textAlign="center" py={10}>
-              <Text fontSize="lg" color={useColorModeValue("gray.500", "gray.400")}>
+              <Text fontSize="lg" color={textColor}>
                 No recipes match your search.
               </Text>
             </Box>

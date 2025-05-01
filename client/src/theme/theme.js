@@ -10,6 +10,52 @@ const colors = {
   }
 };
 
+// Update the semanticTokens to include additional tokens for color mode:
+
+const semanticTokens = {
+  colors: {
+    // Existing tokens
+    "bg.primary": {
+      default: "brand.light",
+      _dark: "gray.900",
+    },
+    "bg.card": {
+      default: "white",
+      _dark: "gray.800",
+    },
+    "bg.input": {
+      default: "white",
+      _dark: "gray.700",
+    },
+    "text.primary": {
+      default: "brand.dark",
+      _dark: "gray.100",
+    },
+    "text.secondary": {
+      default: "gray.600",
+      _dark: "gray.400",
+    },
+    "border.subtle": {
+      default: "gray.200",
+      _dark: "gray.700",
+    },
+    
+    // New tokens for accent colors in dark mode
+    "accent.primary": {
+      default: "brand.primary",
+      _dark: "#F56565", // Brighter red for dark mode
+    },
+    "accent.secondary": {
+      default: "brand.secondary",
+      _dark: "#FFD580", // Brighter gold for dark mode
+    },
+    "accent.tertiary": {
+      default: "brand.accent",
+      _dark: "#81A4A7", // Lighter teal for dark mode
+    }
+  }
+};
+
 // Typography configuration
 const fonts = {
   heading: "'Montserrat', sans-serif",
@@ -99,14 +145,16 @@ const styles = {
   }),
 };
 
+// Update the components object to handle dark mode properly
+
 const components = {
   Heading: {
-    baseStyle: {
+    baseStyle: (props) => ({
       fontFamily: 'heading',
       fontWeight: 'bold',
-      color: 'brand.dark',
+      color: props.colorMode === 'dark' ? 'gray.100' : 'brand.dark',
       letterSpacing: 'tight',
-    },
+    }),
     sizes: {
       '4xl': { fontSize: '7xl', lineHeight: 'shorter' },
       '3xl': { fontSize: '6xl', lineHeight: 'shorter' },
@@ -119,41 +167,42 @@ const components = {
     },
   },
   Text: {
-    baseStyle: {
+    baseStyle: (props) => ({
       fontFamily: 'body',
       lineHeight: 'tall',
-    },
+      color: props.colorMode === 'dark' ? 'gray.300' : 'inherit',
+    }),
     variants: {
       // For recipe descriptions
-      description: {
+      description: (props) => ({
         fontStyle: 'italic',
         fontSize: 'md',
-        color: 'gray.600',
+        color: props.colorMode === 'dark' ? 'gray.400' : 'gray.600',
         lineHeight: 'tall',
-      },
+      }),
       // For recipe instructions
-      instructions: {
+      instructions: (props) => ({
         fontSize: 'md',
         lineHeight: 'tall',
-        color: 'brand.dark',
-      },
+        color: props.colorMode === 'dark' ? 'gray.300' : 'brand.dark',
+      }),
       // For ingredient lists
-      ingredient: {
+      ingredient: (props) => ({
         fontSize: 'sm',
         lineHeight: 'base',
-        color: 'gray.700',
-      },
+        color: props.colorMode === 'dark' ? 'gray.400' : 'gray.700',
+      }),
       // For card titles
-      cardTitle: {
+      cardTitle: (props) => ({
         fontWeight: 'semibold',
         fontSize: 'lg',
-        color: 'brand.dark',
-      },
+        color: props.colorMode === 'dark' ? 'white' : 'brand.dark',
+      }),
       // For card subtitles
-      cardSubtitle: {
+      cardSubtitle: (props) => ({
         fontSize: 'sm',
-        color: 'gray.600',
-      },
+        color: props.colorMode === 'dark' ? 'gray.400' : 'gray.600',
+      }),
     },
   },
   Button: {
@@ -169,97 +218,186 @@ const components = {
       },
     },
     variants: {
-      primary: {
+      primary: (props) => ({
         bg: 'brand.primary',
         color: 'white',
         _hover: {
-          bg: '#C03C3C',
+          bg: props.colorMode === 'dark' ? '#E56060' : '#C03C3C',
           transform: 'translateY(-2px)',
           boxShadow: 'md',
         },
         _active: {
-          bg: '#B53535',
+          bg: props.colorMode === 'dark' ? '#C03C3C' : '#B53535',
           transform: 'translateY(0)',
           boxShadow: 'inner',
         },
-      },
-      secondary: {
+      }),
+      secondary: (props) => ({
         bg: 'brand.secondary',
-        color: 'brand.dark',
+        color: props.colorMode === 'dark' ? 'gray.800' : 'brand.dark',
         _hover: {
-          bg: '#E0A955',
+          bg: props.colorMode === 'dark' ? '#FFCB80' : '#E0A955',
           transform: 'translateY(-2px)',
           boxShadow: 'md',
         },
         _active: {
-          bg: '#D69B45',
+          bg: props.colorMode === 'dark' ? '#E0A955' : '#D69B45',
           transform: 'translateY(0)',
           boxShadow: 'inner',
         },
-      },
-      accent: {
+      }),
+      accent: (props) => ({
         bg: 'brand.accent',
         color: 'white',
         _hover: {
-          bg: '#3E5658',
+          bg: props.colorMode === 'dark' ? '#5D8082' : '#3E5658',
           transform: 'translateY(-2px)',
           boxShadow: 'md',
         },
         _active: {
-          bg: '#334547',
+          bg: props.colorMode === 'dark' ? '#3E5658' : '#334547',
           transform: 'translateY(0)',
           boxShadow: 'inner',
         },
-      },
-      ghost: {
+      }),
+      ghost: (props) => ({
         _hover: {
-          bg: 'rgba(0,0,0,0.05)',
+          bg: props.colorMode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
           transform: 'translateY(-1px)',
         },
         _active: {
-          bg: 'rgba(0,0,0,0.1)',
+          bg: props.colorMode === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)',
           transform: 'translateY(0)',
         },
-      },
-      outline: {
+      }),
+      outline: (props) => ({
+        borderColor: props.colorMode === 'dark' ? 'gray.600' : 'gray.200',
         _hover: {
           transform: 'translateY(-1px)',
           boxShadow: 'sm',
+          bg: props.colorMode === 'dark' ? 'rgba(255,255,255,0.05)' : 'transparent',
         },
         _active: {
           transform: 'translateY(0)',
           boxShadow: 'inner',
         },
-      },
+      }),
     }
   },
   Card: {
-    baseStyle: {
+    baseStyle: (props) => ({
       p: '6',
       rounded: 'lg',
-      bg: 'white',
+      bg: props.colorMode === 'dark' ? 'gray.800' : 'white',
       boxShadow: 'md',
-    },
+      borderColor: props.colorMode === 'dark' ? 'gray.700' : 'gray.100',
+      borderWidth: '1px',
+    }),
   },
   Input: {
-    baseStyle: {
+    baseStyle: (props) => ({
       field: {
         fontFamily: 'body',
+        bg: props.colorMode === 'dark' ? 'gray.700' : 'white',
+        borderColor: props.colorMode === 'dark' ? 'gray.600' : 'gray.200',
       }
-    },
+    }),
   },
   FormLabel: {
-    baseStyle: {
+    baseStyle: (props) => ({
       fontFamily: 'heading',
       fontWeight: 'medium',
       fontSize: 'sm',
-    },
+      color: props.colorMode === 'dark' ? 'gray.300' : 'gray.700',
+    }),
+  },
+  Modal: {
+    baseStyle: (props) => ({
+      dialog: {
+        bg: props.colorMode === "dark" ? "gray.800" : "white",
+        borderColor: props.colorMode === "dark" ? "gray.700" : "gray.200",
+        boxShadow: "xl",
+      },
+      header: {
+        fontFamily: "heading",
+        fontWeight: "bold",
+        fontSize: "lg",
+        color: props.colorMode === "dark" ? "gray.100" : "brand.dark",
+      },
+      body: {
+        fontFamily: "body",
+      },
+      footer: {
+        borderTopWidth: "1px",
+        borderTopColor: props.colorMode === "dark" ? "gray.700" : "gray.100",
+      }
+    }),
+  },
+  
+  Drawer: {
+    baseStyle: (props) => ({
+      dialog: {
+        bg: props.colorMode === "dark" ? "gray.800" : "white",
+        color: props.colorMode === "dark" ? "gray.100" : "brand.dark",
+      },
+      header: {
+        fontFamily: "heading",
+        fontWeight: "bold",
+        borderBottomWidth: "1px",
+        borderBottomColor: props.colorMode === "dark" ? "gray.700" : "gray.100",
+      },
+      body: {
+        fontFamily: "body",
+      },
+    }),
+  },
+  
+  Menu: {
+    baseStyle: (props) => ({
+      list: {
+        bg: props.colorMode === "dark" ? "gray.800" : "white",
+        borderColor: props.colorMode === "dark" ? "gray.700" : "gray.200",
+        boxShadow: "lg",
+      },
+      item: {
+        bg: props.colorMode === "dark" ? "gray.800" : "white",
+        _hover: {
+          bg: props.colorMode === "dark" ? "gray.700" : "gray.100",
+        },
+        _focus: {
+          bg: props.colorMode === "dark" ? "gray.700" : "gray.100",
+        },
+      },
+    }),
+  },
+  
+  Badge: {
+    baseStyle: (props) => ({
+      fontFamily: "heading",
+      fontWeight: "medium",
+    }),
+  },
+  
+  Textarea: {
+    baseStyle: (props) => ({
+      fontFamily: "body",
+      bg: props.colorMode === "dark" ? "gray.700" : "white",
+      borderColor: props.colorMode === "dark" ? "gray.600" : "gray.200",
+      _hover: {
+        borderColor: props.colorMode === "dark" ? "gray.500" : "gray.300",
+      },
+      _focus: {
+        borderColor: "brand.secondary",
+        boxShadow: `0 0 0 1px var(--chakra-colors-brand-secondary)`,
+      },
+    }),
   },
 };
 
 // Create the extended theme
 const theme = extendTheme({ 
   colors, 
+  semanticTokens,
   fonts, 
   fontSizes,
   fontWeights,

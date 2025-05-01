@@ -18,7 +18,8 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  useColorModeValue
 } from "@chakra-ui/react";
 import { useAuth } from "../contexts/AuthContext";
 import { useRecipeStore } from "../store/recipe";
@@ -71,7 +72,7 @@ const RecipeCard = ({ recipe }) => {
   return (
     <>
       <Box
-        bg="white"
+        bg={useColorModeValue("white", "gray.800")}
         shadow="md"
         rounded="lg"    
         overflow="hidden"
@@ -82,7 +83,7 @@ const RecipeCard = ({ recipe }) => {
           "& img": { transform: "scale(1.05)" } 
         }}
         borderWidth="1px"
-        borderColor="gray.100"
+        borderColor={useColorModeValue("gray.100", "gray.700")}
         h="100%"
         display="flex"
         flexDirection="column"
@@ -200,7 +201,8 @@ const RecipeCard = ({ recipe }) => {
         />
         <ModalContent
           border="1px solid"
-          borderColor="gray.100"
+          borderColor={useColorModeValue("gray.100", "gray.700")}
+          bg={useColorModeValue("white", "gray.800")}
         >
           <ModalHeader 
             fontFamily="heading" 

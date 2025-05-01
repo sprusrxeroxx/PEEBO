@@ -106,7 +106,7 @@ const SavedRecipeCard = ({ savedRecipe }) => {
         transition="all 0.3s"
         _hover={{ transform: "translateY(-6px)", shadow: "xl" }}
         borderWidth="1px"
-        borderColor="gray.200"
+        borderColor={useColorModeValue("gray.200", "gray.700")}
         position="relative"
       >
         {/* Recipe Image */}
@@ -184,7 +184,8 @@ const SavedRecipeCard = ({ savedRecipe }) => {
                     onChange={(e) => setNotes(e.target.value)}
                     size="sm"
                     resize="vertical"
-                    bg="gray.50"
+                    bg={useColorModeValue("gray.50", "gray.700")}
+                    color={useColorModeValue("gray.700", "gray.100")}
                     placeholder="Add your notes here..."
                     mb={2}
                   />
@@ -202,6 +203,8 @@ const SavedRecipeCard = ({ savedRecipe }) => {
                   bg={useColorModeValue("gray.50", "gray.700")}
                   borderRadius="md"
                   w="full"
+                  borderWidth="1px"
+                  borderColor={useColorModeValue("gray.200", "gray.600")}
                 >
                   <Text fontSize="sm" color={textColor}>
                     {notes || "No notes added yet."}
@@ -237,7 +240,10 @@ const SavedRecipeCard = ({ savedRecipe }) => {
           bg="blackAlpha.300"
           backdropFilter="blur(5px)"
         />
-        <ModalContent>
+        <ModalContent
+          bg={useColorModeValue("white", "gray.800")}
+          borderColor={useColorModeValue("gray.100", "gray.700")}
+        >
           <ModalHeader color="brand.primary">Remove Recipe</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

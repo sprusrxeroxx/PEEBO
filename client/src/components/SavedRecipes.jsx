@@ -75,13 +75,15 @@ const SavedRecipes = () => {
         <Box 
           textAlign="center" 
           py={10} 
-          bg="white" 
+          bg={useColorModeValue("white", "gray.800")} 
           borderRadius="lg" 
           boxShadow="md"
           p={8}
+          borderWidth="1px"
+          borderColor={useColorModeValue("gray.100", "gray.700")}
         >
-          <Icon as={FaBookmark} boxSize={12} mb={6} color="gray.300" />
-          <Text fontSize="lg" color="gray.500" mb={4}>
+          <Icon as={FaBookmark} boxSize={12} mb={6} color={useColorModeValue("gray.300", "gray.600")} />
+          <Text fontSize="lg" color={useColorModeValue("gray.500", "gray.400")} mb={4}>
             You haven't saved any recipes yet.
           </Text>
           <Button as={Link} to="/" variant="primary" size="md">
@@ -94,14 +96,23 @@ const SavedRecipes = () => {
           <Box mb={6} maxW="500px" mx="auto" w="full">
             <InputGroup>
               <InputLeftElement pointerEvents="none">
-                <Icon as={FaSearch} color="gray.400" />
+                <Icon as={FaSearch} color={useColorModeValue("gray.400", "gray.500")} />
               </InputLeftElement>
               <Input
                 placeholder="Search your saved recipes"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                bg="white"
-                focusBorderColor="brand.primary"
+                bg={useColorModeValue("white", "gray.700")}
+                borderColor={useColorModeValue("gray.300", "gray.600")}
+                color={useColorModeValue("gray.800", "white")}
+                _hover={{
+                  borderColor: useColorModeValue("gray.400", "gray.500"),
+                }}
+                _focus={{
+                  borderColor: "brand.secondary",
+                  boxShadow: `0 0 0 1px var(--chakra-colors-brand-secondary)`,
+                }}
+                focusBorderColor={useColorModeValue("brand.primary", "brand.secondary")}
               />
             </InputGroup>
           </Box>
@@ -118,7 +129,7 @@ const SavedRecipes = () => {
             </SimpleGrid>
           ) : (
             <Box textAlign="center" py={10}>
-              <Text fontSize="lg" color="gray.500">
+              <Text fontSize="lg" color={useColorModeValue("gray.500", "gray.400")}>
                 No recipes match your search.
               </Text>
             </Box>

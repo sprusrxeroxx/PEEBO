@@ -20,7 +20,8 @@ import {
   DrawerContent,
   DrawerCloseButton,
   VStack,
-  IconButton
+  IconButton,
+  useColorModeValue
 } from "@chakra-ui/react";
 import { Link, useLocation } from "react-router-dom";
 import { AddIcon, HamburgerIcon } from "@chakra-ui/icons";
@@ -160,8 +161,22 @@ const Navbar = () => {
         </>
     );
 
+    // Use color mode values
+    const bgColor = useColorModeValue("white", "gray.800");
+    const borderColor = useColorModeValue("gray.100", "gray.700");
+    const logoColor = useColorModeValue("brand.primary", "brand.secondary");
+    const navBgShadow = useColorModeValue("sm", "dark-lg");
+
     return (
-        <Box boxShadow="sm" bg="white" position="sticky" top={0} zIndex={10}>
+        <Box 
+            boxShadow={navBgShadow} 
+            bg={bgColor} 
+            position="sticky" 
+            top={0} 
+            zIndex={10}
+            borderBottom="1px solid"
+            borderColor={borderColor}
+        >
             <Container maxW="1140px" px={4}>
                 <Flex
                     h={16}
@@ -171,12 +186,12 @@ const Navbar = () => {
                     <Flex align="center">
                         <Link to="/">
                             <Flex alignItems="center">
-                                <Icon as={FaUtensils} color="brand.primary" mr={2} boxSize={5} />
+                                <Icon as={FaUtensils} color={logoColor} mr={2} boxSize={5} />
                                 <Text
                                     fontSize={{ base: "22px", sm: "28px" }}
                                     fontWeight="bold"
                                     fontFamily="heading"
-                                    color="brand.primary"
+                                    color={logoColor}
                                 >
                                     PEEBO
                                 </Text>
@@ -209,6 +224,7 @@ const Navbar = () => {
                                 size="sm"
                                 variant="ghost"
                                 color="brand.accent"
+                                aria-label={colorMode === "light" ? "Switch to dark mode" : "Switch to light mode"}
                             >
                                 {colorMode === "light" ? <IoMoon /> : <LuSun size="20" />}
                             </Button><Menu>

@@ -10,7 +10,8 @@ import {
   InputGroup,
   InputRightElement,
   Flex,
-  Icon
+  Icon,
+  useColorModeValue
 } from "@chakra-ui/react";
 import { useRecipeStore } from "../store/recipe";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -90,14 +91,30 @@ const RecipeSearch = () => {
             placeholder="chicken, rice, broccoli..."
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
-            bg="brand.light"
+            bg={useColorModeValue("brand.light", "gray.700")}
             border="1px"
-            borderColor={error ? "red.300" : "gray.300"}
-            focusBorderColor={error ? "red.400" : "brand.secondary"}
-            _hover={{ borderColor: error ? "red.400" : "brand.secondary" }}
+            borderColor={error ? 
+              useColorModeValue("red.300", "red.500") : 
+              useColorModeValue("gray.300", "gray.600")
+            }
+            focusBorderColor={error ? 
+              useColorModeValue("red.400", "red.300") : 
+              useColorModeValue("brand.secondary", "brand.secondary")
+            }
+            _hover={{ 
+              borderColor: error ? 
+                useColorModeValue("red.400", "red.300") : 
+                useColorModeValue("brand.secondary", "brand.secondary")
+            }}
+            color={useColorModeValue("gray.800", "white")}
             _focus={{ 
-              borderColor: error ? "red.400" : "brand.secondary", 
-              boxShadow: `0 0 0 1px var(--chakra-colors-${error ? "red-400" : "brand-secondary"})`,
+              borderColor: error ? 
+                useColorModeValue("red.400", "red.300") : 
+                useColorModeValue("brand.secondary", "brand.secondary"),
+              boxShadow: `0 0 0 1px ${error ? 
+                "var(--chakra-colors-red-400)" : 
+                "var(--chakra-colors-brand-secondary)"
+              }`,
               transform: "scale(1.01)",
             }}
             pr="4.5rem"

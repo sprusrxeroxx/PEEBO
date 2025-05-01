@@ -11,6 +11,7 @@ import {
   Grid,
   GridItem,
   Button,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import { useProductStore } from '../store/product';
@@ -34,12 +35,12 @@ const HomePage = () => {
       <>
         {/* Simplified Hero Section */}
         <Box 
-          bg="white" 
-          color="brand.dark"
+          bg={useColorModeValue("white", "gray.800")}
+          color={useColorModeValue("brand.dark", "white")}
           pt={{ base: 16, md: 24 }}
           pb={{ base: 10, md: 16 }}
           borderBottom="1px"
-          borderColor="gray.100"
+          borderColor={useColorModeValue("gray.100", "gray.700")}
           position="relative"
           overflow="hidden"
         >
@@ -87,7 +88,10 @@ const HomePage = () => {
             left="0"
             right="0"
             bottom="0"
-            backgroundImage="radial-gradient(circle at 25px 25px, rgba(0,0,0,0.02) 2px, transparent 0)"
+            backgroundImage={useColorModeValue(
+              "radial-gradient(circle at 25px 25px, rgba(0,0,0,0.02) 2px, transparent 0)",
+              "radial-gradient(circle at 25px 25px, rgba(255,255,255,0.03) 2px, transparent 0)"
+            )}
             backgroundSize="50px 50px"
             zIndex="0"
           />
@@ -149,13 +153,15 @@ const HomePage = () => {
                 <GridItem colSpan={1}>
                   <Box 
                     p={{ base: 6, md: 8 }}
-                    bg="white" 
+                    bg={useColorModeValue("white", "gray.800")}
                     borderRadius="lg" 
                     boxShadow="md" 
                     textAlign="center"
                     height="100%"
                     transition="transform 0.2s"
                     _hover={{ transform: "translateY(-5px)" }}
+                    borderWidth="1px"
+                    borderColor={useColorModeValue("gray.100", "gray.700")}
                   >
                     <Icon as={FaSearch} boxSize={10} mb={6} color="brand.secondary" />
                     <Heading as="h3" size="md" mb={4} fontFamily="heading">
@@ -170,13 +176,15 @@ const HomePage = () => {
                 <GridItem colSpan={1}>
                   <Box 
                     p={{ base: 6, md: 8 }}
-                    bg="white" 
+                    bg={useColorModeValue("white", "gray.800")}
                     borderRadius="lg" 
                     boxShadow="md" 
                     textAlign="center"
                     height="100%"
                     transition="transform 0.2s"
                     _hover={{ transform: "translateY(-5px)" }}
+                    borderWidth="1px"
+                    borderColor={useColorModeValue("gray.100", "gray.700")}
                   >
                     <Icon as={FaUtensils} boxSize={10} mb={6} color="brand.primary" />
                     <Heading as="h3" size="md" mb={4} fontFamily="heading">
@@ -191,13 +199,15 @@ const HomePage = () => {
                 <GridItem colSpan={1}>
                   <Box 
                     p={{ base: 6, md: 8 }}
-                    bg="white" 
+                    bg={useColorModeValue("white", "gray.800")}
                     borderRadius="lg" 
                     boxShadow="md" 
                     textAlign="center"
                     height="100%"
                     transition="transform 0.2s"
                     _hover={{ transform: "translateY(-5px)" }}
+                    borderWidth="1px"
+                    borderColor={useColorModeValue("gray.100", "gray.700")}
                   >
                     <Icon as={FaBookmark} boxSize={10} mb={6} color="brand.accent" />
                     <Heading as="h3" size="md" mb={4} fontFamily="heading">

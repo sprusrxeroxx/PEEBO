@@ -11,6 +11,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body, 
+button,
+input,
+textarea,
+.chakra-ui-light,
+.chakra-ui-dark {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 /* Improve scroll on mobile */
 @media (prefers-reduced-motion: reduce) {
   html {

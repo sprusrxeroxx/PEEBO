@@ -3,7 +3,8 @@ import {
   searchRecipes, 
   saveRecipe, 
   getSavedRecipes,
-  deleteSavedRecipe 
+  deleteSavedRecipe,
+  updateRecipeNotes
 } from "../controllers/recipe.controller.js";
 
 const router = express.Router();
@@ -19,5 +20,8 @@ router.get("/saved/:userId", getSavedRecipes);
 
 // Delete a saved recipe
 router.delete("/saved/:id", deleteSavedRecipe);
+
+// Update notes for a saved recipe
+router.patch("/saved/:id/notes", updateRecipeNotes);
 
 export default router;

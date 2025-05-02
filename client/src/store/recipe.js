@@ -96,4 +96,34 @@ export const useRecipeStore = create((set) => ({
       return { success: false, message: "Failed to delete recipe." };
     }
   },
+
+  // function to update recipe notes
+  updateRecipeNotes: async (savedRecipeId, notes) => {
+    try {
+      const res = await fetch(`/api/v1/recipes/saved/${savedRecipeId}/notes`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ notes })
+      });
+      
+      const data = await res.json();
+      
+      if (data.success) {
+        // Update the notes in the state
+        set((state) => ({
+          savedRecipes: state.savedRecipes.map(recipe => 
+            recipe._id === savedRecipeId ? {...recipe, notes} : recipe
+          )
+        }));
+        return { success: true, message: "Notes updated successfully" };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      console.error("Error updating notes:", error.message);
+      return { success: false, message: "Failed to update notes." };
+    }
+  }
 }));

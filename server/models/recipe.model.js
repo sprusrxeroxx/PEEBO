@@ -32,7 +32,23 @@ const recipeSchema = new Schema ({
       spoonacularId: {
         type: Number,
         unique: true
-      }
+      },
+      readyInMinutes: {
+        type: Number,
+        required: true
+      },
+      servings: {
+        type: Number,
+        required: true
+      },
+      dishTypes: [{
+        type: String,
+        trim: true
+      }],
+      cuisines: [{
+        type: String,
+        trim: true
+      }],
 }, {
   timestamps: true
 });

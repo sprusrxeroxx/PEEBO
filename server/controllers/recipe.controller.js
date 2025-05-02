@@ -53,18 +53,38 @@ export const saveRecipe = async (req, res) => {
       });
     }
 
-    // Save or update the recipe in the Recipe collection
+    // Fetch additional recipe details from Spoonacular API
+    let enrichedRecipeData;
+    try {
+      const apiResponse = await axios.get(`https://api.spoonacular.com/recipes/${recipeData.id}/information`, {
+        params: {
+          apiKey: process.env.SPOONACULAR_API_KEY,
+        }
+      });
+      
+      enrichedRecipeData = apiResponse.data;
+    } catch (apiError) {
+      console.error("Error fetching recipe details from API:", apiError.message);
+      // If API call fails, continue with basic data
+      enrichedRecipeData = null;
+    }
+
+    // Prepare recipe data, enriched if available
     const recipeToSave = {
       title: recipeData.title,
-      description: recipeData.description || "",
-      ingredients: recipeData.ingredients || [],
-      missingIngredients: recipeData.missedIngredients || [],
       image: recipeData.image || "",
-      spoonacularId: recipeData.id // Using the Spoonacular ID as a unique identifier
+      spoonacularId: recipeData.id,
+      ingredients: recipeData.usedIngredients || [],
+      missingIngredients: recipeData.missedIngredients || [],
+      
+      // Add enriched data if available
+      readyInMinutes: enrichedRecipeData?.readyInMinutes || 30, // Default value if not available
+      servings: enrichedRecipeData?.servings || 4,
+      description: enrichedRecipeData?.summary || "",
+      dishTypes: enrichedRecipeData?.dishTypes || [],
+      cuisines: enrichedRecipeData?.cuisines || [],
+      instructions: enrichedRecipeData?.instructions || "",
     };
-
-    // Have to implement api recipe enrichment here
-    // const apiRecipe = await axios.get(`https://api.spoonacular.com/recipes/${recipeData.id}/information`
 
     // Use findOneAndUpdate with upsert to either update an existing recipe or create a new one
     const recipe = await Recipe.findOneAndUpdate(
@@ -176,6 +196,47 @@ export const deleteSavedRecipe = async (req, res) => {
     res.status(500).json({ 
       success: false, 
       message: "Failed to delete saved recipe" 
+    });
+  }
+};
+
+// Add this function to your recipe.controller.js file
+export const updateRecipeNotes = async (req, res) => {
+  try {
+    const { id: savedRecipeId } = req.params;
+    const { notes } = req.body;
+    
+    if (!savedRecipeId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Saved recipe ID is required" 
+      });
+    }
+
+    // Find and update the saved recipe's notes
+    const updatedRecipe = await SavedRecipe.findByIdAndUpdate(
+      savedRecipeId,
+      { notes },
+      { new: true } // Return the updated document
+    ).populate('recipeId');
+    
+    if (!updatedRecipe) {
+      return res.status(404).json({
+        success: false,
+        message: "Saved recipe not found"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Notes updated successfully",
+      data: updatedRecipe
+    });
+  } catch (error) {
+    console.error("Error updating recipe notes:", error.message);
+    res.status(500).json({ 
+      success: false, 
+      message: "Failed to update notes" 
     });
   }
 };

@@ -127,7 +127,7 @@ function SignUp() {
             fontFamily="body"
             textAlign="center"
           >
-            Join PEEBO to discover and save recipes
+            Join PEEBO to discover delicious recipes
           </Text>
         </Flex>
         

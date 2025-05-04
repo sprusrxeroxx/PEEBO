@@ -15,11 +15,18 @@ import {
   HStack,
   Tag,
   TagLabel,
-  TagCloseButton
+  TagCloseButton,
+  Wrap,
+  WrapItem,
+  Divider
 } from "@chakra-ui/react";
 import { useRecipeStore } from "../store/recipe";
-import { SearchIcon } from "@chakra-ui/icons";
-import { FaLeaf } from "react-icons/fa";
+import { SearchIcon, AddIcon } from "@chakra-ui/icons";
+import { FaLeaf, FaPepperHot, FaAppleAlt } from "react-icons/fa";
+import { GiChickenOven, GiTomato, GiGarlic, GiPotato, GiCabbage  } from "react-icons/gi";
+import { FaBowlRice, FaCheese, FaShrimp, FaFish, FaCarrot  } from "react-icons/fa6";
+import { LuBeef } from "react-icons/lu";
+import { IoEggSharp } from "react-icons/io5";
 import { motion } from "framer-motion";
 
 // Motion variants for animations
@@ -28,6 +35,32 @@ const tagVariants = {
   hidden: { opacity: 0, scale: 0.8 },
   visible: { opacity: 1, scale: 1, transition: { duration: 0.2 } }
 };
+
+// Popular ingredients suggestions
+const POPULAR_INGREDIENTS = [
+  { name: "Chicken", icon: GiChickenOven },
+  { name: "Pasta", icon: null },
+  { name: "Onion", icon: null },
+  { name: "Rice", icon: FaBowlRice },
+  { name: "Tomatoes", icon: GiTomato },
+  { name: "Garlic", icon: GiGarlic },
+  { name: "Potatoes", icon: GiPotato },
+  { name: "Bell Peppers", icon: FaPepperHot },
+  { name: "Cheese", icon: FaCheese  },
+  { name: "Eggs", icon: IoEggSharp },
+  { name: "Beef", icon: LuBeef },
+  { name: "Beans", icon: null },
+  { name: "Spinach", icon: null },
+  { name: "Carrots", icon: FaCarrot },
+  { name: "Broccoli", icon: null },
+  { name: "Apples", icon: FaAppleAlt },
+  { name: "Fish", icon: FaFish },
+  { name: "Shrimp", icon: FaShrimp },
+  { name: "Lentils", icon: null },
+  { name: "Zucchini", icon: null },
+  { name: "Cabbage", icon: GiCabbage  },
+  { name: "Cauliflower", icon: null }
+];
 
 const RecipeSearch = () => {
   const [currentInput, setCurrentInput] = useState("");
@@ -117,6 +150,18 @@ const RecipeSearch = () => {
     }
   };
 
+  // Handle popular ingredient selection
+  const addPopularIngredient = (ingredient) => {
+    if (!ingredientTags.includes(ingredient)) {
+      setIngredientTags(prev => [...prev, ingredient]);
+
+      // Focus back on input after adding
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -169,6 +214,11 @@ const RecipeSearch = () => {
   const tagBg = useColorModeValue("brand.primary", "brand.secondary");
   const tagColor = "white";
   const hintColor = useColorModeValue("gray.500", "gray.400");
+  const suggestionTagBg = useColorModeValue("gray.100", "gray.700");
+  const suggestionTagHoverBg = useColorModeValue("gray.200", "gray.600");
+  const suggestionTagColor = useColorModeValue("gray.700", "gray.300");
+  const suggestionTagIconColor = useColorModeValue("brand.primary", "brand.secondary");
+  const dividerColor = useColorModeValue("gray.200", "gray.700");
 
   return (
     <VStack spacing={{ base: 4, md: 6 }}>
@@ -304,6 +354,59 @@ const RecipeSearch = () => {
             {error}
           </Text>
         )}
+
+        {/* Popular ingredient suggestions */}
+        <Box mt={6}>
+          <Flex align="center" mb={3}>
+            <Divider flex="1" borderColor={dividerColor} />
+            <Text
+              px={3}
+              fontSize="xs"
+              fontWeight="medium"
+              color={hintColor}
+              textTransform="uppercase"
+              letterSpacing="wider"
+            >
+              Popular Ingredients
+            </Text>
+            <Divider flex="1" borderColor={dividerColor} />
+          </Flex>
+          
+          <Wrap spacing={2}>
+            {POPULAR_INGREDIENTS.map((ingredient) => (
+              <WrapItem key={ingredient.name}>
+                <Tag 
+                  size="sm" 
+                  borderRadius="full" 
+                  variant="subtle" 
+                  bg={suggestionTagBg} 
+                  color={suggestionTagColor}
+                  cursor="pointer"
+                  _hover={{ 
+                    bg: suggestionTagHoverBg,
+                    transform: "translateY(-1px)"
+                  }}
+                  transition="all 0.2s"
+                  onClick={() => addPopularIngredient(ingredient.name)}
+                >
+                  {ingredient.icon && (
+                    <Box mr={1}>
+                      <Icon 
+                        as={ingredient.icon} 
+                        boxSize="10px" 
+                        color={suggestionTagIconColor} 
+                      />
+                    </Box>
+                  )}
+                  <TagLabel fontSize="xs">{ingredient.name}</TagLabel>
+                  <Box ml={1}>
+                    <AddIcon boxSize="8px" color={suggestionTagIconColor} />
+                  </Box>
+                </Tag>
+              </WrapItem>
+            ))}
+          </Wrap>
+        </Box>
       </form>
     </VStack>
   );

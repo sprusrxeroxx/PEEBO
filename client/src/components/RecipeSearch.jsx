@@ -11,24 +11,67 @@ import {
   InputRightElement,
   Flex,
   Icon,
-  useColorModeValue
+  useColorModeValue,
+  HStack,
+  Tag,
+  TagLabel,
+  TagCloseButton
 } from "@chakra-ui/react";
 import { useRecipeStore } from "../store/recipe";
 import { SearchIcon } from "@chakra-ui/icons";
 import { FaLeaf } from "react-icons/fa";
 
 const RecipeSearch = () => {
-  const [ingredients, setIngredients] = useState("");
+  // Change from string to separate currentInput and ingredient tags array
+  const [currentInput, setCurrentInput] = useState("");
+  const [ingredientTags, setIngredientTags] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [error, setError] = useState(null);
   const fetchRecipes = useRecipeStore((state) => state.fetchRecipes);
   const toast = useToast();
 
+  // Handle input change and tag creation
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setCurrentInput(value);
+
+    // If user types comma, create a new tag
+    if (value.endsWith(',')) {
+      const ingredient = value.trim().replace(/,\s*$/, ''); // Remove trailing comma
+      
+      // Only add if it's not empty and not already in the list
+      if (ingredient && !ingredientTags.includes(ingredient)) {
+        setIngredientTags([...ingredientTags, ingredient]);
+        setCurrentInput(''); // Clear the input
+      } else {
+        setCurrentInput(value.replace(/,\s*$/, '')); // Remove trailing comma but keep the text
+      }
+    }
+  };
+
+  // Handle tag removal
+  const removeTag = (tagToRemove) => {
+    setIngredientTags(ingredientTags.filter(tag => tag !== tagToRemove));
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    
+    // Add current input as a tag if there's any text
+    let allIngredients = [...ingredientTags];
+    if (currentInput.trim()) {
+      const newTag = currentInput.trim().replace(/,\s*$/, '');
+      if (!ingredientTags.includes(newTag)) {
+        allIngredients.push(newTag);
+        setIngredientTags(allIngredients);
+      }
+      setCurrentInput('');
+    }
 
-    if (!ingredients.trim()) {
+    // Check if we have any ingredients
+    if (allIngredients.length === 0) {
       setError("Please enter at least one ingredient");
       toast({
         title: "Error",
@@ -40,8 +83,11 @@ const RecipeSearch = () => {
       return;
     }
 
+    // Join all tags into a comma-separated string for the API call
+    const ingredientsString = allIngredients.join(',');
+    
     setIsSearching(true);
-    const { success, message } = await fetchRecipes(ingredients);
+    const { success, message } = await fetchRecipes(ingredientsString);
     setIsSearching(false);
 
     if (!success) {
@@ -55,6 +101,10 @@ const RecipeSearch = () => {
       });
     }
   };
+
+  // Colors for the tags
+  const tagBg = useColorModeValue("brand.primary", "brand.secondary");
+  const tagColor = "white";
 
   return (
     <VStack spacing={{ base: 4, md: 6 }}>
@@ -86,11 +136,34 @@ const RecipeSearch = () => {
       </Text>
       
       <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '600px' }}>
+        {/* Display ingredient tags */}
+        {ingredientTags.length > 0 && (
+          <Box mb={2}>
+            <HStack spacing={2} flexWrap="wrap">
+              {ingredientTags.map((tag, index) => (
+                <Tag 
+                  size="md" 
+                  key={index} 
+                  borderRadius="full" 
+                  variant="solid" 
+                  bg={tagBg} 
+                  color={tagColor}
+                  my={1}
+                >
+                  <TagLabel>{tag}</TagLabel>
+                  <TagCloseButton onClick={() => removeTag(tag)} />
+                </Tag>
+              ))}
+            </HStack>
+          </Box>
+        )}
+        
+        {/* Input for adding new ingredients */}
         <InputGroup size={{ base: "md", md: "lg" }}>
           <Input
-            placeholder="chicken, rice, broccoli..."
-            value={ingredients}
-            onChange={(e) => setIngredients(e.target.value)}
+            placeholder={ingredientTags.length > 0 ? "Add another ingredient..." : "chicken, rice, broccoli..."}
+            value={currentInput}
+            onChange={handleInputChange}
             bg={useColorModeValue("brand.light", "gray.700")}
             border="1px"
             borderColor={error ? 

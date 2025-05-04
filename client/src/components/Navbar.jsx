@@ -202,9 +202,6 @@ const Navbar = () => {
                         <HStack spacing={4} ml={8} display={{ base: "none", md: "flex" }}>
                             {currentUser && (
                                 <>
-                                    {/* {/* <NavLink to="/" icon={<Icon as={FaHome} />}>
-                                        Home
-                                    </NavLink> */}
                                     <NavLink to="/saved-recipes" icon={<Icon as={FaBookmark} />}>
                                         Saved Recipes
                                     </NavLink>

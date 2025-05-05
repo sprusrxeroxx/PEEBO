@@ -23,7 +23,7 @@ import {
 import { useRecipeStore } from "../store/recipe";
 import { SearchIcon, AddIcon } from "@chakra-ui/icons";
 import { FaLeaf, FaPepperHot, FaAppleAlt } from "react-icons/fa";
-import { GiChickenOven, GiTomato, GiGarlic, GiPotato, GiCabbage  } from "react-icons/gi";
+import { GiChickenOven, GiTomato, GiGarlic, GiPotato, GiCabbage, GiMushroom, GiNoodles, GiAvocado  } from "react-icons/gi";
 import { FaBowlRice, FaCheese, FaShrimp, FaFish, FaCarrot  } from "react-icons/fa6";
 import { LuBeef } from "react-icons/lu";
 import { IoEggSharp } from "react-icons/io5";
@@ -56,10 +56,10 @@ const POPULAR_INGREDIENTS = [
   { name: "Apples", icon: FaAppleAlt },
   { name: "Fish", icon: FaFish },
   { name: "Shrimp", icon: FaShrimp },
-  { name: "Lentils", icon: null },
-  { name: "Zucchini", icon: null },
+  { name: "Mushrooms", icon: GiMushroom },
+  { name: "Avocado", icon: GiAvocado },
   { name: "Cabbage", icon: GiCabbage  },
-  { name: "Cauliflower", icon: null }
+  { name: "Noodles", icon: GiNoodles }
 ];
 
 const RecipeSearch = () => {

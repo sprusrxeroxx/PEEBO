@@ -2,6 +2,7 @@ import axios from "axios";
 import Recipe from "../models/recipe.model.js";
 import SavedRecipe from "../models/savedRecipe.model.js";
 import User from "../models/user.model.js";
+import enrichRecipe from "../services/enrichRecipe.js";
 
 export const searchRecipes = async (req, res) => {
   const ranking = 1;
@@ -53,37 +54,24 @@ export const saveRecipe = async (req, res) => {
       });
     }
 
-    // Fetch additional recipe details from Spoonacular API
-    let enrichedRecipeData;
-    try {
-      const apiResponse = await axios.get(`https://api.spoonacular.com/recipes/${recipeData.id}/information`, {
-        params: {
-          apiKey: process.env.SPOONACULAR_API_KEY,
-        }
-      });
-      
-      enrichedRecipeData = apiResponse.data;
-    } catch (apiError) {
-      console.error("Error fetching recipe details from API:", apiError.message);
-      // If API call fails, continue with basic data
-      enrichedRecipeData = null;
-    }
+    // Use the enrichment pipeline to get enhanced recipe data
+    const enrichedRecipeData = await enrichRecipe(recipeData);
 
-    // Prepare recipe data, enriched if available
+    // Prepare recipe data for saving
     const recipeToSave = {
-      title: recipeData.title,
-      image: recipeData.image || "",
+      title: enrichedRecipeData.title || recipeData.title,
+      image: enrichedRecipeData.image || recipeData.image || "",
       spoonacularId: recipeData.id,
       ingredients: recipeData.usedIngredients || [],
       missingIngredients: recipeData.missedIngredients || [],
       
-      // Add enriched data if available
-      readyInMinutes: enrichedRecipeData?.readyInMinutes || 30, // Default value if not available
-      servings: enrichedRecipeData?.servings || 4,
-      description: enrichedRecipeData?.summary || "",
-      dishTypes: enrichedRecipeData?.dishTypes || [],
-      cuisines: enrichedRecipeData?.cuisines || [],
-      instructions: enrichedRecipeData?.instructions || "",
+      // Use enriched data
+      readyInMinutes: enrichedRecipeData.readyInMinutes || recipeData.usedIngredients.length * 5,
+      servings: enrichedRecipeData.servings || 4,
+      description: enrichedRecipeData.description || "",
+      dishTypes: enrichedRecipeData.dishTypes || [],
+      cuisines: enrichedRecipeData.cuisines || [],
+      instructions: enrichedRecipeData.instructions || "",
     };
 
     // Use findOneAndUpdate with upsert to either update an existing recipe or create a new one

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import fetchDetails from './enrichers/fetchDetails.js';
 
 // This array will hold all the enricher functions

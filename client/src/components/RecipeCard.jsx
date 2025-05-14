@@ -135,7 +135,7 @@ const RecipeCard = ({ recipe }) => {
           <HStack mb={4} color="gray.600">
             <Flex align="center">
               <Icon as={FaClock} mr={1} />
-              <Text fontSize="sm" fontFamily="body">30 min</Text>
+              <Text fontSize="sm" fontFamily="body">{(recipe.usedIngredientCount + recipe.missedIngredientCount)*5} mins</Text>
             </Flex>
             <Flex align="center" ml={4}>
               <Icon as={FaUtensils} mr={1} />

@@ -40,7 +40,7 @@ PEEBO is a web application that helps users discover recipes based on ingredient
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/PEEBO.git
+   git clone https://github.com/sprusrxeroxx/PEEBO.git
    cd PEEBO
    ```
 

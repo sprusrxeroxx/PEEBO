@@ -44,7 +44,7 @@ export const saveRecipe = async (req, res) => {
       });
     }
 
-    // First, find the MongoDB user document using the Firebase ID
+    // find the MongoDB user document using the Firebase ID
     const user = await User.findOne({ firebaseId });
     
     if (!user) {
@@ -81,7 +81,7 @@ export const saveRecipe = async (req, res) => {
       { new: true, upsert: true }
     );
 
-    // Now create an entry in SavedRecipe using the MongoDB user's _id
+    // creates an entry in SavedRecipe using the MongoDB user's _id
     const savedRecipe = new SavedRecipe({
       userId: user._id, // Use the MongoDB user _id instead of Firebase ID
       recipeId: recipe._id,
@@ -188,7 +188,7 @@ export const deleteSavedRecipe = async (req, res) => {
   }
 };
 
-// Add this function to your recipe.controller.js file
+// update recipe notes for a saved recipe
 export const updateRecipeNotes = async (req, res) => {
   try {
     const { id: savedRecipeId } = req.params;

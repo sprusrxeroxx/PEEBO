@@ -99,7 +99,8 @@ PEEBO/
 │       └── enrichers/    # Recipe enrichment modules
 
 ## **Recipe Enrichment Pipeline**
-PEEBO uses a modular enrichment pipeline to enhance recipe data. This allows for:
+PEEBO uses a modular enrichment pipeline to enhance recipe data. 
+This allows for:
 - Fetching additional details from the Spoonacular API
 - Extending recipe information with custom data
 - Adding more enrichment steps without changing existing code

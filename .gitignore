@@ -1,6 +1,6 @@
 /node_modules
 package-lock*
 package*
-.env
+.env*
 tests
 node_modules

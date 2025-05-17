@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { auth } from '../firebase'
 
+
 const AuthContext = React.createContext()
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ""
 
 export function useAuth() {
     return useContext(AuthContext)
@@ -17,7 +19,7 @@ export function AuthProvider({ children }) {
         
         try {
             // Create/update user in our MongoDB database
-            const response = await fetch('/api/v1/users/sync', {
+            const response = await fetch('${API_BASE_URL}/api/v1/users/sync', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

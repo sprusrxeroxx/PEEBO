@@ -28,7 +28,7 @@ export const useRecipeStore = create((set) => ({
   // function to save a recipe
   saveRecipe: async (userId, recipeData, notes = "") => {
     try {
-      const res = await fetch("${API_BASE_URL}/api/v1/recipes/save", {
+      const res = await fetch(`${API_BASE_URL}/api/v1/recipes/save`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

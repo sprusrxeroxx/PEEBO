@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
         
         try {
             // Create/update user in our MongoDB database
-            const response = await fetch('${API_BASE_URL}/api/v1/users/sync', {
+            const response = await fetch(`${API_BASE_URL}/api/v1/users/sync`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

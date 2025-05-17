@@ -14,10 +14,32 @@ app.use(helmet());
 
 // CORS Middleware
 app.use(cors({
-    origin: process.env.NODE_ENV === "production"
-    ? process.env.FRONTEND_URL
-    : "http://localhost:5173",
-    credentials: true,
+  origin: function(origin, callback) {
+    const allowedOrigins = [
+      'https://peebo.vercel.app',      // Main production URL
+      'https://peebo-rhpg.vercel.app',         // Local development
+      'http://localhost:5000'          // Alternative local port
+    ];
+    
+    // Allow requests with no origin (like mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    
+    // Check if the origin is allowed
+    if (allowedOrigins.indexOf(origin) === -1) {
+      // If origin contains vercel.app (for preview deployments)
+      if (origin.includes('vercel.app')) {
+        return callback(null, true);
+      }
+      
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 const PORT = process.env.PORT || 5000;

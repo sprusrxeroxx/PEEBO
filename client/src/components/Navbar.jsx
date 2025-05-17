@@ -106,26 +106,39 @@ const Navbar = () => {
                 icon={<HamburgerIcon />}
                 onClick={onOpen}
                 variant="ghost"
+                color={useColorModeValue("gray.800", "white")}
+                _hover={{
+                    bg: useColorModeValue("gray.100", "gray.700")
+                }}
             />
             <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
                 <DrawerOverlay />
-                <DrawerContent>
-                    <DrawerCloseButton />
-                    <DrawerHeader>
+                <DrawerContent
+                    bg={useColorModeValue("white", "gray.800")}
+                    borderRightColor={useColorModeValue("gray.100", "gray.700")}
+                    boxShadow="lg"
+                >
+                    <DrawerCloseButton color={useColorModeValue("gray.800", "gray.100")} />
+                    <DrawerHeader borderBottomWidth="1px" borderBottomColor={useColorModeValue("gray.100", "gray.700")}>
                         <Flex align="center">
-                            <Icon as={FaUtensils} color="brand.primary" mr={2} boxSize={5} />
+                            <Icon 
+                                as={FaUtensils} 
+                                color={useColorModeValue("brand.primary", "brand.secondary")} 
+                                mr={2} 
+                                boxSize={5} 
+                            />
                             <Text
                                 fontSize="xl"
                                 fontWeight="bold"
                                 fontFamily="heading"
-                                color="brand.primary"
+                                color={useColorModeValue("brand.primary", "brand.secondary")}
                             >
                                 PEEBO
                             </Text>
                         </Flex>
                     </DrawerHeader>
 
-                    <DrawerBody>
+                    <DrawerBody bg={useColorModeValue("white", "gray.800")}>
                         <VStack align="stretch" spacing={4} mt={4}>
                             {currentUser && (
                                 <>
@@ -139,6 +152,11 @@ const Navbar = () => {
                                         onClick={handleLogout}
                                         w="full"
                                         justifyContent="flex-start"
+                                        borderColor={useColorModeValue("red.500", "red.300")}
+                                        color={useColorModeValue("red.600", "red.300")}
+                                        _hover={{
+                                            bg: useColorModeValue("red.50", "rgba(254, 178, 178, 0.12)")
+                                        }}
                                     >
                                         Logout
                                     </Button>
@@ -154,6 +172,17 @@ const Navbar = () => {
                                     </NavLink>
                                 </>
                             )}
+                            {/* Dark mode toggle for mobile */}
+                            <Button
+                                variant="ghost"
+                                leftIcon={colorMode === "light" ? <IoMoon /> : <LuSun size="20" />}
+                                onClick={toggleColorMode}
+                                w="full"
+                                justifyContent="flex-start"
+                                mt={2}
+                            >
+                                {colorMode === "light" ? "Dark Mode" : "Light Mode"}
+                            </Button>
                         </VStack>
                     </DrawerBody>
                 </DrawerContent>

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 export const useRecipeStore = create((set) => ({
   recipes: [], 
@@ -9,7 +10,7 @@ export const useRecipeStore = create((set) => ({
 
   fetchRecipes: async (ingredients) => {
     try {
-      const res = await fetch(`/api/v1/recipes/search?ingredients=${ingredients}`);
+      const res = await fetch(`${API_BASE_URL}/api/v1/recipes/search?ingredients=${ingredients}`);
       const data = await res.json();
 
       if (data.success) {
@@ -27,7 +28,7 @@ export const useRecipeStore = create((set) => ({
   // function to save a recipe
   saveRecipe: async (userId, recipeData, notes = "") => {
     try {
-      const res = await fetch("/api/v1/recipes/save", {
+      const res = await fetch("${API_BASE_URL}/api/v1/recipes/save", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -55,7 +56,7 @@ export const useRecipeStore = create((set) => ({
   // function to fetch user's saved recipes
   fetchSavedRecipes: async (userId) => {
     try {
-      const res = await fetch(`/api/v1/recipes/saved/${userId}`);
+      const res = await fetch(`${API_BASE_URL}/api/v1/recipes/saved/${userId}`);
       const data = await res.json();
 
       if (data.success) {
@@ -73,7 +74,7 @@ export const useRecipeStore = create((set) => ({
   // function to delete a saved recipe
   deleteSavedRecipe: async (savedRecipeId) => {
     try {
-      const res = await fetch(`/api/v1/recipes/saved/${savedRecipeId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/recipes/saved/${savedRecipeId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json"
@@ -100,7 +101,7 @@ export const useRecipeStore = create((set) => ({
   // function to update recipe notes
   updateRecipeNotes: async (savedRecipeId, notes) => {
     try {
-      const res = await fetch(`/api/v1/recipes/saved/${savedRecipeId}/notes`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/recipes/saved/${savedRecipeId}/notes`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"

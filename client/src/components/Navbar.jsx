@@ -172,17 +172,7 @@ const Navbar = () => {
                                     </NavLink>
                                 </>
                             )}
-                            {/* Dark mode toggle for mobile */}
-                            <Button
-                                variant="ghost"
-                                leftIcon={colorMode === "light" ? <IoMoon /> : <LuSun size="20" />}
-                                onClick={toggleColorMode}
-                                w="full"
-                                justifyContent="flex-start"
-                                mt={2}
-                            >
-                                {colorMode === "light" ? "Dark Mode" : "Light Mode"}
-                            </Button>
+                            {/* Dark mode toggle button removed from here */}
                         </VStack>
                     </DrawerBody>
                 </DrawerContent>
@@ -195,117 +185,148 @@ const Navbar = () => {
     const borderColor = useColorModeValue("gray.100", "gray.700");
     const logoColor = useColorModeValue("brand.primary", "brand.secondary");
     const navBgShadow = useColorModeValue("sm", "dark-lg");
+    
+    // Floating dark mode button styles
+    const floatingBtnBg = useColorModeValue("brand.primary", "brand.secondary");
+    const floatingBtnColor = useColorModeValue("white", "gray.800");
 
     return (
-        <Box 
-            boxShadow={navBgShadow} 
-            bg={bgColor} 
-            position="sticky" 
-            top={0} 
-            zIndex={10}
-            borderBottom="1px solid"
-            borderColor={borderColor}
-        >
-            <Container maxW="1140px" px={4}>
-                <Flex
-                    h={16}
-                    alignItems="center"
-                    justifyContent="space-between"
-                >
-                    <Flex align="center">
-                        <Link to="/">
-                            <Flex alignItems="center">
-                                <Icon as={FaUtensils} color={logoColor} mr={2} boxSize={5} />
-                                <Text
-                                    fontSize={{ base: "22px", sm: "28px" }}
-                                    fontWeight="bold"
-                                    fontFamily="heading"
-                                    color={logoColor}
-                                >
-                                    PEEBO
-                                </Text>
-                            </Flex>
-                        </Link>
-                        
-                        {/* Desktop Navigation Links */}
-                        <HStack spacing={4} ml={8} display={{ base: "none", md: "flex" }}>
+        <>
+            <Box 
+                boxShadow={navBgShadow} 
+                bg={bgColor} 
+                position="sticky" 
+                top={0} 
+                zIndex={10}
+                borderBottom="1px solid"
+                borderColor={borderColor}
+            >
+                <Container maxW="1140px" px={4}>
+                    <Flex
+                        h={16}
+                        alignItems="center"
+                        justifyContent="space-between"
+                    >
+                        <Flex align="center">
+                            <Link to="/">
+                                <Flex alignItems="center">
+                                    <Icon as={FaUtensils} color={logoColor} mr={2} boxSize={5} />
+                                    <Text
+                                        fontSize={{ base: "22px", sm: "28px" }}
+                                        fontWeight="bold"
+                                        fontFamily="heading"
+                                        color={logoColor}
+                                    >
+                                        PEEBO
+                                    </Text>
+                                </Flex>
+                            </Link>
+                            
+                            {/* Desktop Navigation Links */}
+                            <HStack spacing={4} ml={8} display={{ base: "none", md: "flex" }}>
+                                {currentUser && (
+                                    <>
+                                        <NavLink to="/saved-recipes" icon={<Icon as={FaBookmark} />}>
+                                            Saved Recipes
+                                        </NavLink>
+                                    </>
+                                )}
+                            </HStack>
+                        </Flex>
+
+                        {/* Mobile Navigation */}
+                        <MobileNav />
+
+                        {/* Desktop Right Side Navigation */}
+                        <HStack spacing={3} display={{ base: "none", md: "flex" }}>                      
                             {currentUser && (
-                                <>
-                                    <NavLink to="/saved-recipes" icon={<Icon as={FaBookmark} />}>
-                                        Saved Recipes
-                                    </NavLink>
-                                </>
+                                    <><Button
+                                    onClick={toggleColorMode}
+                                    size="sm"
+                                    variant="ghost"
+                                    color="brand.accent"
+                                    aria-label={colorMode === "light" ? "Switch to dark mode" : "Switch to light mode"}
+                                >
+                                    {colorMode === "light" ? <IoMoon /> : <LuSun size="20" />}
+                                </Button><Menu>
+                                        <MenuButton
+                                            as={Button}
+                                            rounded="full"
+                                            variant="link"
+                                            cursor="pointer"
+                                            minW={0}
+                                        >
+                                            <Avatar
+                                                size="sm"
+                                                name={currentUser.email}
+                                                bg="brand.primary"
+                                                color="white" />
+                                        </MenuButton>
+                                        <MenuList>
+                                            <MenuItem icon={<FaBookmark />} as={Link} to="/saved-recipes">
+                                                My Saved Recipes
+                                            </MenuItem>
+                                            <MenuItem
+                                                icon={<IoLogOutOutline />}
+                                                onClick={handleLogout}
+                                            >
+                                                Logout
+                                            </MenuItem>
+                                        </MenuList>
+                                    </Menu></>
+                            )}
+
+                            {!currentUser && (
+                                <HStack spacing={2}>
+                                    <Button
+                                        as={Link}
+                                        to="/login"
+                                        variant="outline"
+                                        colorScheme="brand"
+                                        size="sm"
+                                    >
+                                        Login
+                                    </Button>
+                                    <Button
+                                        as={Link}
+                                        to="/signup"
+                                        variant="primary"
+                                        size="sm"
+                                    >
+                                        Sign Up
+                                    </Button>
+                                </HStack>
                             )}
                         </HStack>
                     </Flex>
-
-                    {/* Mobile Navigation */}
-                    <MobileNav />
-
-                    {/* Desktop Right Side Navigation */}
-                    <HStack spacing={3} display={{ base: "none", md: "flex" }}>                      
-                        {currentUser && (
-                                <><Button
-                                onClick={toggleColorMode}
-                                size="sm"
-                                variant="ghost"
-                                color="brand.accent"
-                                aria-label={colorMode === "light" ? "Switch to dark mode" : "Switch to light mode"}
-                            >
-                                {colorMode === "light" ? <IoMoon /> : <LuSun size="20" />}
-                            </Button><Menu>
-                                    <MenuButton
-                                        as={Button}
-                                        rounded="full"
-                                        variant="link"
-                                        cursor="pointer"
-                                        minW={0}
-                                    >
-                                        <Avatar
-                                            size="sm"
-                                            name={currentUser.email}
-                                            bg="brand.primary"
-                                            color="white" />
-                                    </MenuButton>
-                                    <MenuList>
-                                        <MenuItem icon={<FaBookmark />} as={Link} to="/saved-recipes">
-                                            My Saved Recipes
-                                        </MenuItem>
-                                        <MenuItem
-                                            icon={<IoLogOutOutline />}
-                                            onClick={handleLogout}
-                                        >
-                                            Logout
-                                        </MenuItem>
-                                    </MenuList>
-                                </Menu></>
-                        )}
-
-                        {!currentUser && (
-                            <HStack spacing={2}>
-                                <Button
-                                    as={Link}
-                                    to="/login"
-                                    variant="outline"
-                                    colorScheme="brand"
-                                    size="sm"
-                                >
-                                    Login
-                                </Button>
-                                <Button
-                                    as={Link}
-                                    to="/signup"
-                                    variant="primary"
-                                    size="sm"
-                                >
-                                    Sign Up
-                                </Button>
-                            </HStack>
-                        )}
-                    </HStack>
-                </Flex>
-            </Container>
-        </Box>
+                </Container>
+            </Box>
+            
+            {/* Floating Dark Mode Button (Mobile Only) */}
+            <IconButton
+                aria-label={colorMode === "light" ? "Switch to dark mode" : "Switch to light mode"}
+                icon={colorMode === "light" ? <IoMoon size={20} /> : <LuSun size={20} />}
+                onClick={toggleColorMode}
+                position="fixed"
+                bottom="24px"
+                right="24px"
+                size="lg"
+                fontSize="20px"
+                rounded="full"
+                bg={floatingBtnBg}
+                color={floatingBtnColor}
+                boxShadow="lg"
+                zIndex={20}
+                _hover={{
+                    transform: "scale(1.05)",
+                }}
+                _active={{
+                    transform: "scale(0.95)",
+                }}
+                display={{ base: "flex", md: "none" }}
+                transition="all 0.2s"
+            />
+        </>
     );
 };
 

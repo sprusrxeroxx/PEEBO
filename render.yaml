@@ -1,0 +1,24 @@
+# Exported from Render on 2025-05-18T11:38:18Z
+services:
+- type: web
+  name: peebo-api
+  runtime: node
+  repo: https://github.com/sprusrxeroxx/PEEBO
+  plan: free
+  envVars:
+  - key: PORT
+    sync: false
+  - key: NODE_ENV
+    sync: false
+  - key: SPOONACULAR_API_KEY
+    sync: false
+  - key: FRONTEND_URL
+    sync: false
+  - key: MONGO_URI
+    sync: false
+  region: oregon
+  buildCommand: npm install
+  startCommand: node index.js
+  autoDeployTrigger: commit
+  rootDir: server
+version: "1"

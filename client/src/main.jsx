@@ -5,6 +5,7 @@ import App from './App.jsx';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext.jsx';
+import { Analytics } from '@vercel/analytics/react';
 import theme from './theme/theme.js';
 import '@fontsource/montserrat/400.css';
 import '@fontsource/montserrat/600.css';
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <AuthProvider>
         <ChakraProvider theme={theme}>
+          <Analytics />
           <App />
         </ChakraProvider>
       </AuthProvider>

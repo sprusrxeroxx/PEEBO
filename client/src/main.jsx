@@ -11,6 +11,7 @@ import '@fontsource/montserrat/600.css';
 import '@fontsource/montserrat/700.css';
 import '@fontsource/open-sans/400.css';
 import '@fontsource/open-sans/600.css';
+import { Analytics } from '@vercel/analytics/react';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
@@ -19,10 +20,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <AuthProvider>
           <ChakraProvider theme={theme}>
             <App />
+            <Analytics />
           </ChakraProvider>
         </AuthProvider>
       </BrowserRouter>
     </React.StrictMode>
-    {/* <Analytics /> */}
   </>
 );

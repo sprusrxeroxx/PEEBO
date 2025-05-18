@@ -17,6 +17,14 @@ export function AuthProvider({ children }) {
     async function createOrUpdateUser(user) {
         if (!user) return null
         
+        // Skip the API call if we're on the Vercel production environment
+        // and haven't configured the API properly
+        const isVercelProduction = window.location.hostname === 'peebo.vercel.app';
+        if (isVercelProduction && !API_BASE_URL) {
+            console.warn('Skipping user sync on Vercel production without API_BASE_URL');
+            return user;
+        }
+        
         try {
             // Create/update user in our MongoDB database
             const response = await fetch(`${API_BASE_URL}/api/v1/users/sync`, {
@@ -33,7 +41,7 @@ export function AuthProvider({ children }) {
             })
             
             if (!response.ok) {
-                console.error('Failed to sync user with database')
+                console.error(`Failed to sync user with database: ${response.status} ${response.statusText}`)
             }
         } catch (error) {
             console.error('Error syncing user with database:', error)

@@ -12,14 +12,6 @@ import '@fontsource/montserrat/700.css';
 import '@fontsource/open-sans/400.css';
 import '@fontsource/open-sans/600.css';
 
-let Analytics = () => null;
-try {
-  const { Analytics: VercelAnalytics } = require('@vercel/analytics/react');
-  Analytics = VercelAnalytics;
-} catch (error) {
-  console.warn("Vercel Analytics not available:", error.message);
-}
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
     <React.StrictMode>

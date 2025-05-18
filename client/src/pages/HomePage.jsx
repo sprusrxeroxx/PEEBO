@@ -14,7 +14,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import { useProductStore } from '../store/product';
 import { FaUtensils, FaSeedling, FaBookmark, FaSearch } from 'react-icons/fa';
 import RecipeSearch from "../components/RecipeSearch";
 import RecipeList from "../components/RecipeList";
@@ -23,14 +22,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { useRecipeStore } from '../store/recipe';
 
 const HomePage = () => {
-    const { fetchProducts } = useProductStore();
     const { currentUser } = useAuth();
     const recipes = useRecipeStore((state) => state.recipes);
-    
-    useEffect(() => {
-      fetchProducts();
-    }, [fetchProducts]);
-    
     return (
       <>
         {/* Simplified Hero Section */}

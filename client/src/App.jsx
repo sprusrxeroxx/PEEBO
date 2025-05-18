@@ -6,23 +6,10 @@ import Login from './pages/Login'
 import ProtectedRoute from "./components/ProtectedRoute"
 import SavedRecipesPage from "./pages/SavedRecipesPage"
 import Layout from './components/Layout'
-import { useState, useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/react';
 
 // Import Analytics conditionally to prevent errors
 function App() {
-  const [Analytics, setAnalytics] = useState(() => () => null);
-  
-  useEffect(() => {
-    // Dynamic import using ES modules syntax
-    import('@vercel/analytics/react')
-      .then(module => {
-        setAnalytics(() => module.Analytics);
-      })
-      .catch(error => {
-        console.warn("Vercel Analytics not available:", error.message);
-      });
-  }, []);
-
   return (
     <>
       <Layout>

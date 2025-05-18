@@ -5,8 +5,6 @@ import {
   Container,
   Heading,
   VStack,
-  Image,
-  Flex,
   Icon,
   Grid,
   GridItem,

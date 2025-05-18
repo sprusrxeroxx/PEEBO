@@ -6,7 +6,7 @@ const colors = {
     secondary: '#F9BC60',  // Golden yellow - comfort and satisfaction
     accent: '#4D6A6D',     // Muted teal - sophistication and balance
     light: '#FFF7EF',      // Soft ivory - clean but warm background
-    dark: '#3D3131'        // Deep charcoal - text and depth
+    dark: '#402f2f'        // Deep charcoal - text and depth
   }
 };
 

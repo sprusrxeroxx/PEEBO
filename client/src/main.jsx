@@ -18,7 +18,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <AuthProvider>
         <ChakraProvider theme={theme}>
-          <Analytics />
           <App />
         </ChakraProvider>
       </AuthProvider>

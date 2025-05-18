@@ -18,7 +18,7 @@ app.use(cors({
     const allowedOrigins = [
       'https://peebo.vercel.app',      // Main production URL
       'https://peebo-rhpg.vercel.app',         // Local development
-      'http://localhost:5000'          // Alternative local port
+      'http://localhost:5173'          // Alternative local port
     ];
     
     // Allow requests with no origin (like mobile apps, curl, Postman)

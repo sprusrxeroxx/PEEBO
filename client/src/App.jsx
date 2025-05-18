@@ -41,8 +41,8 @@ function App() {
             }
           />
         </Routes>
-      </Layout>
       <Analytics />
+      </Layout>
     </>
   );
 }

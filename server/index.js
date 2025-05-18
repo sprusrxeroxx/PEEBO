@@ -27,7 +27,7 @@ app.use(cors({
     // Check if the origin is allowed
     if (allowedOrigins.indexOf(origin) === -1) {
       // If origin contains vercel.app (for preview deployments)
-      if (origin.includes('vercel.app')) {
+      if (origin.includes('vercel.app' || origin.includes('localhost'))) {
         return callback(null, true);
       }
       

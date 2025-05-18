@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.14.0",
     "@fontsource/montserrat": "^5.2.5",
     "@fontsource/open-sans": "^5.2.5",
+    "@vercel/analytics": "^1.5.0",
     "analytics": "github:vercel/analytics",
     "dotenv": "^16.5.0",
     "firebase": "^11.6.0",

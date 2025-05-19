@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import SavedRecipesPage from "./pages/SavedRecipesPage"
 import Layout from './components/Layout'
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // Import Analytics conditionally to prevent errors
 function App() {
@@ -42,6 +43,7 @@ function App() {
           />
         </Routes>
       <Analytics />
+      <SpeedInsights />
       </Layout>
     </>
   );

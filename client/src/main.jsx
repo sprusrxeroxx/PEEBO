@@ -12,7 +12,6 @@ import '@fontsource/montserrat/700.css';
 import '@fontsource/open-sans/400.css';
 import '@fontsource/open-sans/600.css';
 import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
@@ -22,7 +21,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <ChakraProvider theme={theme}>
             <App />
             <Analytics />
-            <SpeedInsights />
           </ChakraProvider>
         </AuthProvider>
       </BrowserRouter>

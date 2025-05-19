@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Heading,
@@ -29,7 +29,7 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon, ExternalLinkIcon } from "@chakra-ui/icons";
-import { FaClock, FaUtensils, FaUsers, FaFireAlt, FaLeaf, FaGlobe } from "react-icons/fa";
+import { FaClock, FaUtensils, FaGlobe, FaUsers } from "react-icons/fa";
 import { useRecipeStore } from "../store/recipe";
 
 const SavedRecipeCard = ({ savedRecipe }) => {
@@ -175,7 +175,7 @@ const SavedRecipeCard = ({ savedRecipe }) => {
             mb={2} 
             color={textColor}
             noOfLines={2}
-            height="48px"
+            height="60px"
           >
             {recipe.title}
           </Heading>
@@ -424,7 +424,7 @@ const SavedRecipeCard = ({ savedRecipe }) => {
                   <Flex key={idx} align="start">
                     <Text as="span" fontSize="sm" mr={2}>•</Text>
                     <Text fontSize="sm">
-                      {ingredient.amount} {ingredient.unit} {ingredient.name}
+                      {Math.ceil(ingredient.amount)} {ingredient.unit} {ingredient.name}
                     </Text>
                   </Flex>
                 ))}
@@ -433,7 +433,7 @@ const SavedRecipeCard = ({ savedRecipe }) => {
                   <Flex key={`missing-${idx}`} align="start">
                     <Text as="span" fontSize="sm" mr={2} color="red.500">•</Text>
                     <Text fontSize="sm" color="red.500">
-                      {ingredient.amount} {ingredient.unit} {ingredient.name} (missing)
+                      {Math.ceil(ingredient.amount)} {ingredient.unit} {ingredient.name} (missing)
                     </Text>
                   </Flex>
                 ))}

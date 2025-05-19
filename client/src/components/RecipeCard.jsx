@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { 
   Box, 
   Heading, 
@@ -128,6 +128,7 @@ const RecipeCard = ({ recipe }) => {
             fontFamily="heading"
             fontWeight="bold"
             letterSpacing="tight"
+            height="10px"
           >
             {recipe.title}
           </Heading>
@@ -245,7 +246,7 @@ const RecipeCard = ({ recipe }) => {
                       fontFamily="body"
                       lineHeight="tall"
                     >
-                      • {ingredient.amount} {ingredient.unit} {ingredient.name}
+                      • {Math.ceil(ingredient.amount)} {ingredient.unit} {ingredient.name}
                     </Text>
                   </Flex>
                 ))}

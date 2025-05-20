@@ -1,7 +1,7 @@
 # **PEEBO - Cook With What You Already Have**
 PEEBO is a web application that helps users discover recipes based on ingredients they already have at home. It provides a simple and intuitive interface to search for recipes, save favorites, and keep track of cooking notes.
 
-![PEEBO App](https://placeholder-for-app-screenshot.com)
+![PEEBO App](https://github.com/user-attachments/assets/54c5fe77-587a-4f1a-aa56-4c70c1dab6d6)
 
 ## Features
 

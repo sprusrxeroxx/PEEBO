@@ -228,3 +228,87 @@ export const updateRecipeNotes = async (req, res) => {
     });
   }
 };
+
+// Get recipe cooking steps
+export const getRecipeSteps = async (req, res) => {
+  try {
+    const { id: spoonacularId } = req.params;
+    
+    if (!spoonacularId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Recipe ID is required" 
+      });
+    }
+
+    // Fetch recipe information from Spoonacular API
+    const response = await axios.get(`https://api.spoonacular.com/recipes/${spoonacularId}/information`, {
+      params: {
+        apiKey: process.env.SPOONACULAR_API_KEY,
+      }
+    });
+    console.log(response.data.analyzedInstructions[0].steps[0].step)
+    // console.log(response.data.analyzedInstructions[0].steps)
+    // Parse the HTML instructions into discrete steps
+    let steps = [];
+    
+    // Check if analyzedInstructions is available (preferred format)
+    if (response.data.analyzedInstructions && 
+        response.data.analyzedInstructions.length > 0 && 
+        response.data.analyzedInstructions[0].steps) {
+      
+      steps = response.data.analyzedInstructions[0].steps.map(step => ({
+        number: step.number,
+        instruction: step.step,
+        ingredients: step.ingredients || [],
+        equipment: step.equipment || []
+      }));
+    } 
+    // Fall back to parsing the HTML instructions if analyzedInstructions is not available
+    else if (response.data.instructions) {
+      // Simple parsing for HTML instructions using regex
+      const instructionText = response.data.instructions
+        .replace(/<[^>]*>/g, '') // Remove HTML tags
+        .trim();
+      
+      // Split by numbered steps (1. Step one, 2. Step two) or by periods
+      const stepMatches = instructionText.match(/\d+\.\s+[^.!?]+[.!?]+/g);
+      
+      if (stepMatches && stepMatches.length > 0) {
+        steps = stepMatches.map((step, index) => ({
+          number: index + 1,
+          instruction: step.trim(),
+          ingredients: [],
+          equipment: []
+        }));
+      } else {
+        // Fall back to splitting by sentences if no numbered steps found
+        const sentences = instructionText.split(/[.!?]+/).filter(s => s.trim().length > 0);
+        steps = sentences.map((sentence, index) => ({
+          number: index + 1,
+          instruction: sentence.trim(),
+          ingredients: [],
+          equipment: []
+        }));
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        recipeId: spoonacularId,
+        title: response.data.title,
+        image: response.data.image,
+        servings: response.data.servings,
+        readyInMinutes: response.data.readyInMinutes,
+        steps
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching recipe steps:", error.message);
+    res.status(500).json({ 
+      success: false, 
+      message: "Failed to fetch recipe steps" 
+    });
+  }
+};

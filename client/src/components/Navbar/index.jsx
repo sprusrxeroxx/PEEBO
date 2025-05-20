@@ -1,5 +1,4 @@
-import React from "react";
-import { Box, Container, Flex } from "@chakra-ui/react";
+import { Box, Container, Flex, HStack } from "@chakra-ui/react";
 import { useNavbar } from "./useNavbar";
 import Logo from "./components/Logo";
 import MobileNav from "./components/MobileNav";
@@ -7,7 +6,7 @@ import DesktopNav from "./components/DesktopNav";
 import DarkModeToggle from "./components/DarkModeToggle";
 
 function Navbar() {
-  const { styles } = useNavbar();
+  const { styles, currentUser } = useNavbar();
 
   return (
     <>
@@ -29,10 +28,15 @@ function Navbar() {
             {/* Logo and left-side navigation */}
             <Flex align="center">
               <Logo />
+              {/* Left side navigation links */}
+              <DesktopNav.LeftSide />
             </Flex>
-            <DesktopNav />
-            {/* Mobile navigation */}
+
+            {/* Mobile menu button */}
             <MobileNav />
+
+            {/* Right side navigation */}
+            <DesktopNav.RightSide />
           </Flex>
         </Container>
       </Box>

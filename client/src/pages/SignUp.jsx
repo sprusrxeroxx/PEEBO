@@ -33,7 +33,6 @@ function SignUp() {
   const navigate = useNavigate();
 
   // Color mode values
-  const bgColor = useColorModeValue("white", "gray.800");
   const textColor = useColorModeValue("gray.800", "gray.100");
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const formBg = useColorModeValue("white", "gray.800");

@@ -4,6 +4,9 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 export const useRecipeStore = create((set) => ({
   recipes: [], 
   savedRecipes: [], 
+  recipeSteps: [],
+  currentStepIndex: 0,
+  isLoadingSteps: false,
   
   setRecipes: (recipes) => set({ recipes }),
   setSavedRecipes: (savedRecipes) => set({ savedRecipes }),
@@ -126,5 +129,44 @@ export const useRecipeStore = create((set) => ({
       console.error("Error updating notes:", error.message);
       return { success: false, message: "Failed to update notes." };
     }
-  }
+  },
+
+  // Function to fetch recipe steps
+  fetchRecipeSteps: async (recipeId) => {
+    set({ isLoadingSteps: true });
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/v1/recipes/${recipeId}/steps`);
+      const data = await res.json();
+      
+      if (data.success) {
+        set({ 
+          recipeSteps: data.data,
+          currentStepIndex: 0,
+          isLoadingSteps: false
+        });
+        return { success: true, data: data.data };
+      } else {
+        set({ isLoadingSteps: false });
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      console.error("Error fetching recipe steps:", error.message);
+      set({ isLoadingSteps: false });
+      return { success: false, message: "Failed to fetch recipe steps." };
+    }
+  },
+  
+  // Navigation functions
+  goToNextStep: () => set(state => ({
+    currentStepIndex: Math.min(state.currentStepIndex + 1, state.recipeSteps.steps?.length - 1 || 0)
+  })),
+  
+  goToPrevStep: () => set(state => ({
+    currentStepIndex: Math.max(state.currentStepIndex - 1, 0)
+  })),
+  
+  resetCookingProgress: () => set({
+    recipeSteps: [],
+    currentStepIndex: 0
+  })
 }));

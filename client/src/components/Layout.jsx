@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Box, Container, useColorMode, useColorModeValue } from "@chakra-ui/react";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/index.jsx";
 import FadeTransition from "./FadeTransition";
 
 const Layout = ({ children }) => {

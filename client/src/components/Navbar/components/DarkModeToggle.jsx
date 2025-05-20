@@ -1,4 +1,3 @@
-import React from "react";
 import { IconButton, Button } from "@chakra-ui/react";
 import { IoMoon } from "react-icons/io5";
 import { LuSun } from "react-icons/lu";

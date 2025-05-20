@@ -1,4 +1,4 @@
-import { Box, Container, Flex, HStack } from "@chakra-ui/react";
+import { Box, Container, Flex } from "@chakra-ui/react";
 import { useNavbar } from "./useNavbar";
 import Logo from "./components/Logo";
 import MobileNav from "./components/MobileNav";

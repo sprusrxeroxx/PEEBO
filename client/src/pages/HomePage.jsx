@@ -11,7 +11,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import { FaUtensils, FaSeedling, FaBookmark, FaSearch } from 'react-icons/fa';
+import { FaUtensils, FaBookmark, FaSearch } from 'react-icons/fa';
 import RecipeSearch from "../components/RecipeSearch/index";
 import RecipeList from "../components/RecipeList";
 import { Link } from 'react-router-dom';

@@ -1,4 +1,3 @@
-import React from "react";
 import { Flex, Spinner, Text, keyframes } from "@chakra-ui/react";
 
 const pulseAnimation = keyframes`

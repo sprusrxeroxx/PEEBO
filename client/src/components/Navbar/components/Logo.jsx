@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { Flex, Icon, Text } from "@chakra-ui/react";
 import { FaUtensils } from "react-icons/fa";

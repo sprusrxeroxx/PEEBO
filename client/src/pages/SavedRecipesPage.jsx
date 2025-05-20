@@ -1,5 +1,5 @@
 import { Container } from "@chakra-ui/react";
-import SavedRecipes from "../components/SavedRecipes";
+import SavedRecipes from "../components/SavedRecipes/index.jsx";
 
 const SavedRecipesPage = () => {
   return (

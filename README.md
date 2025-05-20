@@ -14,7 +14,7 @@ PEEBO is a web application that helps users discover recipes based on ingredient
 ## Tech Stack
 
 ### RESTful API Architecture
-- Serveless functions stitching ev
+- Serveless functions stitching 3rd party api with cloud infrastructure
 
 ### Frontend
 - React.js with Vite

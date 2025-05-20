@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Box,
   Heading,
@@ -30,7 +30,9 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import { FaClock, FaUtensils, FaGlobe, FaUsers } from "react-icons/fa";
+import { MdRestaurantMenu } from "react-icons/md";
 import { useRecipeStore } from "../store/recipe";
+import CookingMode from "./CookingMode";
 
 const SavedRecipeCard = ({ savedRecipe }) => {
   const recipe = savedRecipe.recipeId; // The populated recipe data
@@ -45,6 +47,7 @@ const SavedRecipeCard = ({ savedRecipe }) => {
   
   // Get the delete function from the store
   const deleteSavedRecipe = useRecipeStore((state) => state.deleteSavedRecipe);
+
   const updateRecipeNotes = useRecipeStore((state) => state.updateRecipeNotes);
   
   const cardBg = useColorModeValue("white", "gray.800");
@@ -129,6 +132,8 @@ const SavedRecipeCard = ({ savedRecipe }) => {
       setIsDeleting(false);
     }
   };
+
+  const { isOpen: isCookingModeOpen, onOpen: onCookingModeOpen, onClose: onCookingModeClose } = useDisclosure();
 
   return (
     <>
@@ -277,12 +282,23 @@ const SavedRecipeCard = ({ savedRecipe }) => {
               variant="outline"
               colorScheme="brand"
               size="sm"
-              width="full"
+              width="50%"
               onClick={onDetailOpen}
               leftIcon={<ExternalLinkIcon />}
               fontFamily="heading"
             >
               View Recipe
+            </Button>
+            <Button
+              variant="primary"
+              colorScheme="green"
+              size="sm"
+              width="50%"
+              onClick={onCookingModeOpen}
+              leftIcon={<Icon as={MdRestaurantMenu} />}
+              fontFamily="heading"
+            >
+              Cook
             </Button>
           </HStack>
         </Box>
@@ -499,6 +515,12 @@ const SavedRecipeCard = ({ savedRecipe }) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      <CookingMode
+        isOpen={isCookingModeOpen}
+        onClose={onCookingModeClose}
+        recipe={recipe}
+      />
     </>
   );
 };

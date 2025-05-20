@@ -1,7 +1,6 @@
 import {
   HStack, Flex, Icon, Text, Badge, Box,
   Wrap, WrapItem, Tag, TagLeftIcon, TagLabel,
-  useColorModeValue
 } from "@chakra-ui/react";
 import { FaClock, FaUsers, FaUtensils } from "react-icons/fa";
 

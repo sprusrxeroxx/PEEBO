@@ -1,4 +1,4 @@
-import { Box, Heading, HStack, Flex, Icon, Text } from "@chakra-ui/react";
+import { Heading, HStack, Flex, Icon, Text } from "@chakra-ui/react";
 import { FaClock, FaUtensils } from "react-icons/fa";
 import { useRecipeStyles } from "../styles";
 

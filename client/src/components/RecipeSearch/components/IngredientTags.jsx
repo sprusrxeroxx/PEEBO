@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, HStack, TagLabel, TagCloseButton } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { Tag } from "@chakra-ui/react";

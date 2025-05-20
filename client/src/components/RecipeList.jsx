@@ -1,17 +1,12 @@
-import React from "react";
 import { 
   SimpleGrid, 
-  Text, 
   VStack, 
   Heading, 
-  Box,
   Flex,
-  Icon,
   Divider
 } from "@chakra-ui/react";
 import { useRecipeStore } from "../store/recipe";
-import RecipeCard from "./RecipeCard";
-import { FaUtensils } from "react-icons/fa";
+import RecipeCard from "./RecipeCard/index.jsx";
 
 const RecipeList = () => {
   const recipes = useRecipeStore((state) => state.recipes);

@@ -152,7 +152,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Future Updates
 - Ai based ingredient detection
 - Shared user pantries/groceryLists/meals
-- Tinder like feel to instruction cards
+- Tinder like feel to cooking instruction cards
 - Weekly "use it up" snapshots for expirying ingredients
 
 Many more updates coming! Stay tuned.

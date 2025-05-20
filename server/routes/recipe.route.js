@@ -4,7 +4,8 @@ import {
   saveRecipe, 
   getSavedRecipes,
   deleteSavedRecipe,
-  updateRecipeNotes
+  updateRecipeNotes,
+  getRecipeSteps
 } from "../controllers/recipe.controller.js";
 
 const router = express.Router();
@@ -23,5 +24,8 @@ router.delete("/saved/:id", deleteSavedRecipe);
 
 // Update notes for a saved recipe
 router.patch("/saved/:id/notes", updateRecipeNotes);
+
+// Get recipe cooking steps
+router.get("/:id/steps", getRecipeSteps);
 
 export default router;

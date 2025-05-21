@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { debounce } from 'lodash';
 
 export function useIngredientTags() {
   const [currentInput, setCurrentInput] = useState("");
@@ -27,24 +28,19 @@ export function useIngredientTags() {
     return false;
   };
   
+  // Debounce the input handler
+  const debouncedInputChange = useCallback(
+    debounce((value) => {
+      // Your input change logic
+    }, 100),
+    []
+  );
+  
   // Handle input change and tag creation
   const handleInputChange = (e) => {
     const value = e.target.value;
-    
-    // If user types comma, try to create a new tag
-    if (value.endsWith(',')) {
-      if (createTag(value.slice(0, -1))) {
-        // Tag was created successfully, input is already cleared
-        return;
-      } else {
-        // Tag creation failed, keep current input but remove the comma
-        setCurrentInput(value.slice(0, -1));
-        return;
-      }
-    }
-    
-    // Otherwise just update the input value
-    setCurrentInput(value);
+    setCurrentInput(value); // Update right away
+    debouncedInputChange(value); // Debounce the expensive operations
   };
   
   // Handle key down events

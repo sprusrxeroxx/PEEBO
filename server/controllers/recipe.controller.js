@@ -241,7 +241,26 @@ export const getRecipeSteps = async (req, res) => {
       });
     }
 
-    // Fetch recipe information from Spoonacular API
+    // First, try to find the recipe in our database
+    const existingRecipe = await Recipe.findOne({ spoonacularId: Number(spoonacularId) });
+    
+    // If we have the recipe and it has steps, return them directly
+    if (existingRecipe && existingRecipe.steps && existingRecipe.steps.length > 0) {
+      return res.status(200).json({
+        success: true,
+        data: {
+          recipeId: spoonacularId,
+          title: existingRecipe.title,
+          image: existingRecipe.image,
+          servings: existingRecipe.servings,
+          readyInMinutes: existingRecipe.readyInMinutes,
+          steps: existingRecipe.steps,
+          source: "database" // For debugging purposes
+        }
+      });
+    }
+
+    // If the recipe isn't in our database or doesn't have steps, fetch from API
     const response = await axios.get(`https://api.spoonacular.com/recipes/${spoonacularId}/information`, {
       params: {
         apiKey: process.env.SPOONACULAR_API_KEY,
@@ -292,6 +311,26 @@ export const getRecipeSteps = async (req, res) => {
       }
     }
 
+    // If we found the recipe in our database but it didn't have steps,
+    // update it with the steps we just fetched
+    if (existingRecipe) {
+      existingRecipe.steps = steps;
+      await existingRecipe.save();
+    } 
+    // If the recipe doesn't exist in our database yet, create it with the steps
+    else {
+      await Recipe.create({
+        spoonacularId: Number(spoonacularId),
+        title: response.data.title,
+        image: response.data.image,
+        servings: response.data.servings || 4,
+        readyInMinutes: response.data.readyInMinutes || 30,
+        instructions: response.data.instructions || "",
+        steps: steps,
+      });
+    }
+
+    // Return the fetched steps to the client
     res.status(200).json({
       success: true,
       data: {
@@ -300,7 +339,8 @@ export const getRecipeSteps = async (req, res) => {
         image: response.data.image,
         servings: response.data.servings,
         readyInMinutes: response.data.readyInMinutes,
-        steps
+        steps,
+        source: "api" // For debugging purposes
       }
     });
   } catch (error) {

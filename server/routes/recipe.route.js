@@ -1,12 +1,12 @@
 import express from "express";
-import { 
-  searchRecipes, 
-  saveRecipe, 
+import {
+  searchRecipes,
+  saveRecipe,
   getSavedRecipes,
   deleteSavedRecipe,
   updateRecipeNotes,
   getRecipeSteps
-} from "../controllers/recipe.controller.js";
+} from "../controllers/recipe/index.js";
 
 const router = express.Router();
 

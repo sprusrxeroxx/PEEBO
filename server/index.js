@@ -6,6 +6,7 @@ import { connectDB } from "./config/db.js";
 import productRoutes from './routes/product.route.js';
 import recipeRoutes from "./routes/recipe.route.js";
 import userRoutes from "./routes/user.route.js";
+import compression from "compression";
 
 const app = express();
 

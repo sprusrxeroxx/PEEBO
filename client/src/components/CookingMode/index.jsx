@@ -40,7 +40,8 @@ const CookingMode = ({ isOpen, onClose, recipe }) => {
         <CookingHeader 
           title={recipeData?.title || recipe?.title || "Cooking Mode"} 
           progress={progress} 
-          onClose={handleClose} 
+          onClose={handleClose}
+          source={recipeData?.source} 
         />
         
         <ModalBody p={0}>

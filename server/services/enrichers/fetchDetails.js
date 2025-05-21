@@ -20,6 +20,50 @@ const fetchDetails = async (recipe) => {
       }
     });
 
+    // Extract recipe steps
+    let steps = [];
+    
+    // Check if analyzedInstructions is available (preferred format)
+    if (response.data.analyzedInstructions && 
+        response.data.analyzedInstructions.length > 0 && 
+        response.data.analyzedInstructions[0].steps) {
+      
+      steps = response.data.analyzedInstructions[0].steps.map(step => ({
+        number: step.number,
+        instruction: step.step,
+        ingredients: step.ingredients || [],
+        equipment: step.equipment || []
+      }));
+    } 
+    // Fall back to parsing the HTML instructions if analyzedInstructions is not available
+    else if (response.data.instructions) {
+      // Simple parsing for HTML instructions using regex
+      const instructionText = response.data.instructions
+        .replace(/<[^>]*>/g, '') // Remove HTML tags
+        .trim();
+      
+      // Split by numbered steps (1. Step one, 2. Step two) or by periods
+      const stepMatches = instructionText.match(/\d+\.\s+[^.!?]+[.!?]+/g);
+      
+      if (stepMatches && stepMatches.length > 0) {
+        steps = stepMatches.map((step, index) => ({
+          number: index + 1,
+          instruction: step.trim(),
+          ingredients: [],
+          equipment: []
+        }));
+      } else {
+        // Fall back to splitting by sentences if no numbered steps found
+        const sentences = instructionText.split(/[.!?]+/).filter(s => s.trim().length > 0);
+        steps = sentences.map((sentence, index) => ({
+          number: index + 1,
+          instruction: sentence.trim(),
+          ingredients: [],
+          equipment: []
+        }));
+      }
+    }
+
     // Map the response data to our application structure
     const enrichedData = {
       readyInMinutes: response.data.readyInMinutes || 30,
@@ -28,6 +72,7 @@ const fetchDetails = async (recipe) => {
       dishTypes: response.data.dishTypes || [],
       cuisines: response.data.cuisines || [],
       instructions: response.data.instructions || "",
+      steps: steps // Add the extracted steps to the enriched data
     };
 
     // Return the merged object

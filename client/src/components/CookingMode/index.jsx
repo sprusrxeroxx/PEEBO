@@ -35,11 +35,7 @@ const CookingMode = ({ isOpen, onClose, recipe }) => {
       motionPreset="slideInBottom"
     >
       <ModalOverlay />
-      <ModalContent 
-        bg={useColorModeValue("white", "gray.800")}
-        borderRadius={isMobile ? 0 : undefined}
-        margin={isMobile ? 0 : undefined}
-      >
+      <ModalContent bg={isMobile ? "transparent" : undefined}>
         {/* Header with progress indicator */}
         <CookingHeader 
           title={recipeData?.title || recipe?.title || "Cooking Mode"} 

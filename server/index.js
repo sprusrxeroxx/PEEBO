@@ -12,6 +12,9 @@ const app = express();
 // Security Middleware
 app.use(helmet());
 
+// Compression Middleware
+app.use(compression());
+
 // CORS Middleware
 app.use(cors({
   origin: function(origin, callback) {

@@ -1,3 +1,4 @@
+import React, { memo } from "react";
 import {
   Box,
   Flex,
@@ -92,4 +93,4 @@ function StepContent({ step, index, totalSteps, image, isFirstStep }) {
   );
 }
 
-export default StepContent;
+export default memo(StepContent);

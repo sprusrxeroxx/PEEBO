@@ -247,8 +247,7 @@ export const getRecipeSteps = async (req, res) => {
         apiKey: process.env.SPOONACULAR_API_KEY,
       }
     });
-    console.log(response.data.analyzedInstructions[0].steps[0].step)
-    // console.log(response.data.analyzedInstructions[0].steps)
+
     // Parse the HTML instructions into discrete steps
     let steps = [];
     

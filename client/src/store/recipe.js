@@ -139,6 +139,9 @@ export const useRecipeStore = create((set) => ({
       const data = await res.json();
       
       if (data.success) {
+        // Log the source of the data (helpful for debugging)
+        console.log(`Recipe steps loaded from: ${data.data.source || 'unknown'}`);
+        
         set({ 
           recipeSteps: data.data,
           currentStepIndex: 0,

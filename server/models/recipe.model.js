@@ -49,6 +49,35 @@ const recipeSchema = new Schema ({
         type: String,
         trim: true
       }],
+      instructions: {
+        type: String
+      },
+      steps: [
+        {
+          number: {
+            type: Number,
+            required: true
+          },
+          instruction: {
+            type: String,
+            required: true
+          },
+          ingredients: [
+            {
+              id: Number,
+              name: String,
+              image: String
+            }
+          ],
+          equipment: [
+            {
+              id: Number,
+              name: String,
+              image: String
+            }
+          ]
+        }
+      ]
 }, {
   timestamps: true
 });

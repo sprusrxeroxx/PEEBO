@@ -17,13 +17,13 @@ export function AuthProvider({ children }) {
     async function createOrUpdateUser(user) {
         if (!user) return null
         
-        // Skip the API call if we're on the Vercel production environment
-        // and haven't configured the API properly
-        const isVercelProduction = window.location.hostname === 'peebo.vercel.app';
-        if (isVercelProduction && !API_BASE_URL) {
-            console.warn('Skipping user sync on Vercel production without API_BASE_URL');
-            return user;
-        }
+        // // Skip the API call if we're on the Vercel production environment
+        // // and haven't configured the API properly
+        // const isVercelProduction = window.location.hostname === 'peebo.vercel.app';
+        // if (isVercelProduction && !API_BASE_URL) {
+        //     console.warn('Skipping user sync on Vercel production without API_BASE_URL');
+        //     return user;
+        // }
         
         try {
             // Create/update user in our MongoDB database

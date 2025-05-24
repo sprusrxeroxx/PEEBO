@@ -2,6 +2,7 @@
 PEEBO is a web application that helps users discover recipes based on ingredients they already have at home. It provides a simple and intuitive interface to search for recipes, save favorites, and keep track of cooking notes.
 
 ![PEEBO App](https://github.com/user-attachments/assets/220228a9-cdf6-4a38-a9eb-5fc96a77e265)
+![FlowDiagram](peebo.drawio.png)
 
 ## Features
 

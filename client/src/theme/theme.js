@@ -141,6 +141,15 @@ const styles = {
     // Make sure links are underlined for better visibility
     a: {
       color: props.colorMode === 'dark' ? 'brand.secondary' : 'brand.primary',
+    },
+    // Loader styles
+    '@keyframes loaderAnim': {
+      '0%': {
+        backgroundSize: '100% 100%',
+      },
+      '100%': {
+        backgroundSize: '100% 5%',
+      }
     }
   }),
 };
@@ -407,5 +416,6 @@ const theme = extendTheme({
   styles, 
   components 
 });
+
 
 export default theme;

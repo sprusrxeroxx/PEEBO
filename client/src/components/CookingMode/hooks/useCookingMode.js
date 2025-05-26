@@ -31,9 +31,11 @@ export function useCookingMode({ isOpen, onClose, recipe }) {
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => goToNextStep(),
     onSwipedRight: () => goToPrevStep(),
-    preventDefaultTouchmoveEvent: false, // Change this to false
+    preventDefaultTouchmoveEvent: false,
     trackMouse: false,
-    passive: true // Add this line
+    passive: true,
+    delta: 20, // Minimum swipe distance
+    touchEventOptions: { passive: true }
   });
 
   // Fetch recipe steps when opened

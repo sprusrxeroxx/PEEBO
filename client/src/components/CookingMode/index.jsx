@@ -70,7 +70,7 @@ const CookingMode = ({ isOpen, onClose, recipe }) => {
                     step={currentStep}
                     index={currentStepIndex}
                     totalSteps={totalSteps}
-                    image={recipeData.image || recipe.image}
+                    // image={recipeData.image || recipe.image}
                     isFirstStep={currentStepIndex === 0}
                   />
                 ) : (

@@ -18,9 +18,10 @@ import {
   InputRightElement,
   IconButton,
   Flex,
-  Icon
+  Icon,
+  Divider
 } from '@chakra-ui/react';
-import { FaEye, FaEyeSlash, FaUtensils } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaUtensils, FaGoogle, FaGithub } from 'react-icons/fa';
 import { useAuth } from '../contexts/AuthContext';
 
 function SignUp() {
@@ -29,7 +30,7 @@ function SignUp() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { signup } = useAuth();
+  const { signup, signInWithGoogle, signInWithGithub } = useAuth();
   const navigate = useNavigate();
 
   // Color mode values
@@ -66,6 +67,36 @@ function SignUp() {
       setError(
         error.message || 'Failed to create an account. Please try again.'
       );
+      setIsLoading(false);
+    }
+  }
+  
+  // Handle Google Sign In
+  async function handleGoogleSignIn() {
+    try {
+      setIsLoading(true);
+      setError("");
+      await signInWithGoogle();
+      navigate("/");
+    } catch (error) {
+      setError("Failed to sign in with Google");
+      console.error("Google sign-in error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  // Handle GitHub Sign In  
+  async function handleGithubSignIn() {
+    try {
+      setIsLoading(true);
+      setError("");
+      await signInWithGithub();
+      navigate("/");
+    } catch (error) {
+      setError("Failed to sign in with GitHub");
+      console.error("GitHub sign-in error:", error);
+    } finally {
       setIsLoading(false);
     }
   }
@@ -138,6 +169,44 @@ function SignUp() {
           bg={formBg}
           borderColor={borderColor}
         >
+          {/* Social Login Buttons */}
+          <VStack spacing={3} mb={6}>
+            <Button
+              w="full"
+              variant="outline"
+              leftIcon={<FaGoogle />}
+              onClick={handleGoogleSignIn}
+              isLoading={isLoading}
+              loadingText="Signing up..."
+              isDisabled={isLoading}
+            >
+              Continue with Google
+            </Button>
+            <Button
+              w="full"
+              variant="outline"
+              leftIcon={<FaGithub />}
+              onClick={handleGithubSignIn}
+              isLoading={isLoading}
+              loadingText="Signing up..."
+              isDisabled={isLoading}
+            >
+              Continue with GitHub
+            </Button>
+          </VStack>
+          
+          <Divider my={4} />
+          
+          {/* Or continue with email */}
+          <Text
+            fontSize="sm"
+            textAlign="center"
+            color={textColor}
+            mb={4}
+          >
+            Or continue with email
+          </Text>
+          
           <VStack spacing={6} align="stretch">
             {error && (
               <Alert status="error" borderRadius="md">

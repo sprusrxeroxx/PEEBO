@@ -1,67 +1,98 @@
-import { useState } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { 
-  Box, 
-  Button, 
-  FormControl, 
-  FormLabel, 
-  Input, 
-  VStack, 
-  Heading, 
-  Text, 
-  Alert, 
-  AlertIcon,
-  Link,
+import {
+  Box,
+  Button,
   Container,
-  useColorModeValue,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Text,
+  Link,
+  Icon,
   InputGroup,
   InputRightElement,
-  IconButton,
-  Flex,
-  Icon
-} from '@chakra-ui/react';
-import { FaEye, FaEyeSlash, FaUtensils } from 'react-icons/fa';
-import { useAuth } from '../contexts/AuthContext';
+  useDisclosure,
+  useColorModeValue,
+  Divider,
+  HStack,
+  VStack,
+  FormErrorMessage
+} from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useState } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { FaUtensils, FaGoogle, FaGithub } from "react-icons/fa";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const { login } = useAuth();
+  const { isOpen, onToggle } = useDisclosure();
+  const { login, signInWithGoogle, signInWithGithub } = useAuth();
   const navigate = useNavigate();
-  
-  // Color mode values
-  const bgColor = useColorModeValue("white", "gray.800");
-  const textColor = useColorModeValue("gray.800", "gray.100");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
+
   const formBg = useColorModeValue("white", "gray.800");
-  const boxShadow = useColorModeValue("lg", "dark-lg");
+  const textColor = useColorModeValue("gray.600", "gray.400");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const boxShadow = useColorModeValue("sm", "md-dark");
+  
+  // Background pattern styling
   const bgPattern = useColorModeValue(
-    "radial-gradient(circle at 25px 25px, rgba(0,0,0,0.02) 2px, transparent 0)",
+    "radial-gradient(circle at 25px 25px, rgba(0,0,0,0.1) 2px, transparent 0)",
     "radial-gradient(circle at 25px 25px, rgba(255,255,255,0.03) 2px, transparent 0)"
   );
   const accentColor = useColorModeValue("brand.primary", "brand.secondary");
   
   async function handleSubmit(e) {
     e.preventDefault();
-    setError(null);
+    setError("");
     
-    // Simple validation
     if (!email || !password) {
-      setError('Please fill in all fields');
+      setError("Please fill in all fields");
       return;
     }
     
     try {
       setIsLoading(true);
       await login(email, password);
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      setError(
-        error.message || 'Failed to log in. Please check your credentials and try again.'
-      );
+      setError("Invalid email or password");
+      console.error("Login error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  // Handle Google Sign In
+  async function handleGoogleSignIn() {
+    try {
+      setIsLoading(true);
+      setError("");
+      await signInWithGoogle();
+      navigate("/");
+    } catch (error) {
+      setError("Failed to sign in with Google");
+      console.error("Google sign-in error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  // Handle GitHub Sign In  
+  async function handleGithubSignIn() {
+    try {
+      setIsLoading(true);
+      setError("");
+      await signInWithGithub();
+      navigate("/");
+    } catch (error) {
+      setError("Failed to sign in with GitHub");
+      console.error("GitHub sign-in error:", error);
+    } finally {
       setIsLoading(false);
     }
   }
@@ -134,103 +165,122 @@ function Login() {
           bg={formBg}
           borderColor={borderColor}
         >
-          <VStack spacing={6} align="stretch">
-            {error && (
-              <Alert status="error" borderRadius="md">
-                <AlertIcon />
-                {error}
-              </Alert>
-            )}
-            
-            <form onSubmit={handleSubmit}>
-              <VStack spacing={4}>
-                <FormControl isRequired>
-                  <FormLabel fontFamily="heading" color={textColor}>Email</FormLabel>
-                  <Input 
-                    type="email" 
-                    placeholder="your@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    bg={useColorModeValue("gray.50", "gray.700")}
-                    borderColor={borderColor}
-                    color={textColor}
-                    _hover={{
-                      borderColor: useColorModeValue("gray.300", "gray.500")
-                    }}
-                    _focus={{
-                      borderColor: "brand.secondary",
-                      boxShadow: "0 0 0 1px var(--chakra-colors-brand-secondary)",
-                    }}
-                    fontFamily="body"
-                  />
-                </FormControl>
-                
-                <FormControl isRequired>
-                  <FormLabel fontFamily="heading" color={textColor}>Password</FormLabel>
-                  <InputGroup>
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      bg={useColorModeValue("gray.50", "gray.700")}
-                      borderColor={borderColor}
-                      color={textColor}
-                      _hover={{
-                        borderColor: useColorModeValue("gray.300", "gray.500")
-                      }}
-                      _focus={{
-                        borderColor: "brand.secondary",
-                        boxShadow: "0 0 0 1px var(--chakra-colors-brand-secondary)",
-                      }}
-                      fontFamily="body"
-                    />
-                    <InputRightElement>
-                      <IconButton
-                        aria-label={showPassword ? "Hide password" : "Show password"}
-                        icon={showPassword ? <FaEyeSlash /> : <FaEye />}
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setShowPassword(!showPassword)}
-                      />
-                    </InputRightElement>
-                  </InputGroup>
-                </FormControl>
-                
-                <Button
-                  type="submit"
-                  colorScheme="brand"
-                  variant="primary"
-                  width="full"
-                  mt={4}
-                  isLoading={isLoading}
-                  loadingText="Logging In"
-                  fontFamily="heading"
-                  fontWeight="medium"
-                  letterSpacing="wide"
-                >
-                  Log In
-                </Button>
-              </VStack>
-            </form>
-            
-            <Box textAlign="center" pt={2}>
-              <Text color={textColor} fontFamily="body">
-                Don't have an account?{" "}
-                <Link
-                  as={RouterLink}
-                  to="/signup"
-                  color="brand.primary"
-                  fontWeight="medium"
-                  _hover={{
-                    textDecoration: "underline",
-                  }}
-                >
-                  Sign Up
-                </Link>
-              </Text>
-            </Box>
+          {/* Social Login Buttons */}
+          <VStack spacing={3} mb={6}>
+            <Button
+              w="full"
+              variant="outline"
+              leftIcon={<FaGoogle />}
+              onClick={handleGoogleSignIn}
+              isLoading={isLoading}
+              loadingText="Signing in..."
+              isDisabled={isLoading}
+            >
+              Continue with Google
+            </Button>
+            <Button
+              w="full"
+              variant="outline"
+              leftIcon={<FaGithub />}
+              onClick={handleGithubSignIn}
+              isLoading={isLoading}
+              loadingText="Signing in..."
+              isDisabled={isLoading}
+            >
+              Continue with GitHub
+            </Button>
           </VStack>
+          
+          <Divider my={4} />
+          
+          {/* Or continue with email */}
+          <Text
+            fontSize="sm"
+            textAlign="center"
+            color={textColor}
+            mb={4}
+          >
+            Or continue with email
+          </Text>
+          
+          {/* Error message */}
+          {error && (
+            <Text 
+              color="red.500" 
+              fontSize="sm" 
+              textAlign="center" 
+              mb={4}
+            >
+              {error}
+            </Text>
+          )}
+          
+          {/* Login form */}
+          <form onSubmit={handleSubmit}>
+            <VStack spacing={4}>
+              <FormControl id="email" isRequired>
+                <FormLabel>Email</FormLabel>
+                <Input 
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </FormControl>
+              
+              <FormControl id="password" isRequired>
+                <FormLabel>Password</FormLabel>
+                <InputGroup>
+                  <Input 
+                    type={isOpen ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button 
+                      h="1.75rem" 
+                      size="sm" 
+                      bg="transparent"
+                      onClick={onToggle}
+                    >
+                      {isOpen ? <ViewOffIcon /> : <ViewIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+              
+              <Button
+                type="submit"
+                colorScheme="brand"
+                variant="primary"
+                width="full"
+                mt={4}
+                isLoading={isLoading && !error}
+                loadingText="Logging In"
+                fontFamily="heading"
+                fontWeight="medium"
+                letterSpacing="wide"
+              >
+                Log In
+              </Button>
+            </VStack>
+          </form>
+          
+          <Box textAlign="center" mt={4}>
+            <Text color={textColor} fontFamily="body">
+              Need an account?{" "}
+              <Link
+                as={RouterLink}
+                to="/signup"
+                color="brand.primary"
+                fontWeight="medium"
+                _hover={{
+                  textDecoration: "underline",
+                }}
+              >
+                Sign Up
+              </Link>
+            </Text>
+          </Box>
         </Box>
       </Container>
     </Box>

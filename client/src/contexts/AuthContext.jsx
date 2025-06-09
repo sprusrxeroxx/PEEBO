@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { auth } from '../firebase'
-
+import React, { useContext, useEffect, useState } from 'react'
+import { auth } from '../firebase.js'
+import firebase from 'firebase/compat/app'
 
 const AuthContext = React.createContext()
 
@@ -16,14 +16,6 @@ export function AuthProvider({ children }) {
     // Create or update user in our database
     async function createOrUpdateUser(user) {
         if (!user) return null
-        
-        // // Skip the API call if we're on the Vercel production environment
-        // // and haven't configured the API properly
-        // const isVercelProduction = window.location.hostname === 'peebo.vercel.app';
-        // if (isVercelProduction && !API_BASE_URL) {
-        //     console.warn('Skipping user sync on Vercel production without API_BASE_URL');
-        //     return user;
-        // }
         
         try {
             // Create/update user in our MongoDB database
@@ -76,6 +68,34 @@ export function AuthProvider({ children }) {
         }
     }
 
+    // New Google sign-in function
+    async function signInWithGoogle() {
+        try {
+            const provider = new firebase.auth.GoogleAuthProvider()
+            const result = await auth.signInWithPopup(provider)
+            
+            // Sync the user with our database
+            return await createOrUpdateUser(result.user)
+        } catch (error) {
+            console.error("Error during Google sign-in:", error)
+            throw error
+        }
+    }
+
+    // New GitHub sign-in function
+    async function signInWithGithub() {
+        try {
+            const provider = new firebase.auth.GithubAuthProvider()
+            const result = await auth.signInWithPopup(provider)
+            
+            // Sync the user with our database
+            return await createOrUpdateUser(result.user)
+        } catch (error) {
+            console.error("Error during GitHub sign-in:", error)
+            throw error
+        }
+    }
+
     function logout() {
         // Sign out only affects the current session
         return auth.signOut()
@@ -101,6 +121,8 @@ export function AuthProvider({ children }) {
         signup,
         login,
         logout,
+        signInWithGoogle,
+        signInWithGithub
     }
 
     return (

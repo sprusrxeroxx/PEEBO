@@ -3,8 +3,12 @@ import { useToast, Icon, useDisclosure } from "@chakra-ui/react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useRecipeStore } from "../../../store/recipe";
 import { FaBookmark, FaUserPlus } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"
+
+
 
 export function useRecipeCard(recipe) {
+  const navigate = useNavigate();
   const [isSaving, setIsSaving] = useState(false);
   const { currentUser } = useAuth();
   const saveRecipe = useRecipeStore((state) => state.saveRecipe);

@@ -90,7 +90,8 @@ function Login() {
       await signInWithGithub();
       navigate("/");
     } catch (error) {
-      setError("Failed to sign in with GitHub");
+      // Display the user-friendly error message
+      setError(error.message || "Failed to sign in with GitHub");
       console.error("GitHub sign-in error:", error);
     } finally {
       setIsLoading(false);

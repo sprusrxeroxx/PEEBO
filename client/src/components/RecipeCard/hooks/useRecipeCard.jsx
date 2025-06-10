@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useToast, Icon, useDisclosure } from "@chakra-ui/react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useRecipeStore } from "../../../store/recipe";
-import { FaBookmark } from "react-icons/fa";
+import { FaBookmark, FaUserPlus } from "react-icons/fa";
 
 export function useRecipeCard(recipe) {
   const [isSaving, setIsSaving] = useState(false);
@@ -27,6 +27,24 @@ export function useRecipeCard(recipe) {
         variant: "subtle",
         icon: <Icon as={FaBookmark} />
       });
+      return;
+    }
+    
+    // Check if user is anonymous
+    if (currentUser.isAnonymous) {
+      toast({
+        title: "Account required",
+        description: "Please create an account to save recipes",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+        position: "top",
+        variant: "subtle",
+        icon: <Icon as={FaUserPlus} />,
+      });
+      
+      // Navigate to sign up page or show sign up modal
+      navigate("/signup", { state: { upgradeAnonymous: true } });
       return;
     }
 

@@ -68,6 +68,34 @@ export function AuthProvider({ children }) {
         }
     }
 
+    // New Google sign-in function
+    async function signInWithGoogle() {
+        try {
+            const provider = new firebase.auth.GoogleAuthProvider()
+            const result = await auth.signInWithPopup(provider)
+            
+            // Sync the user with our database
+            return await createOrUpdateUser(result.user)
+        } catch (error) {
+            console.error("Error during Google sign-in:", error)
+            throw error
+        }
+    }
+
+    // New GitHub sign-in function
+    async function signInWithGithub() {
+        try {
+            const provider = new firebase.auth.GithubAuthProvider()
+            const result = await auth.signInWithPopup(provider)
+            
+            // Sync the user with our database
+            return await createOrUpdateUser(result.user)
+        } catch (error) {
+            console.error("Error during GitHub sign-in:", error)
+            throw error
+        }
+    }
+
     function logout() {
         // Sign out only affects the current session
         return auth.signOut()

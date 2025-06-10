@@ -26,9 +26,10 @@ export function AuthProvider({ children }) {
                 },
                 body: JSON.stringify({
                     firebaseId: user.uid,
-                    email: user.email,
+                    email: user.email || '',
                     displayName: user.displayName || '',
-                    profilePhoto: user.photoURL || ''
+                    profilePhoto: user.photoURL || '',
+                    isAnonymous: user.isAnonymous || false // Track if user is anonymous
                 })
             })
             
@@ -114,6 +115,20 @@ export function AuthProvider({ children }) {
         }
     }
 
+    // Add this new anonymous sign-in function
+    async function signInAnonymously() {
+        try {
+            // Firebase anonymous auth
+            const result = await auth.signInAnonymously();
+            
+            // Sync the anonymous user with our database
+            return await createOrUpdateUser(result.user);
+        } catch (error) {
+            console.error("Error during anonymous sign-in:", error);
+            throw error;
+        }
+    }
+
     function logout() {
         // Sign out only affects the current session
         return auth.signOut()
@@ -140,7 +155,9 @@ export function AuthProvider({ children }) {
         login,
         logout,
         signInWithGoogle,
-        signInWithGithub
+        signInWithGithub,
+        signInAnonymously,
+        isAnonymous: currentUser?.isAnonymous || false
     }
 
     return (

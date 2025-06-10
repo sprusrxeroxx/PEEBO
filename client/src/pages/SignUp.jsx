@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useNavigate, Link as RouterLink, useLocation } from 'react-router-dom';
 import { 
   Box, 
   Button, 
@@ -32,6 +32,8 @@ function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const { signup, signInWithGoogle, signInWithGithub, signInAnonymously } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isUpgradeFlow = location.state?.upgradeAnonymous;
 
   // Color mode values
   const textColor = useColorModeValue("gray.800", "gray.100");
@@ -157,23 +159,47 @@ function SignUp() {
           mb={6}
         >
           <Icon as={FaUtensils} color={accentColor} boxSize={10} mb={4} />
-          <Heading 
-            as="h1" 
-            size="xl" 
-            color={accentColor}
-            textAlign="center"
-          >
-            Create an Account
-          </Heading>
-          <Text 
-            color={textColor} 
-            fontSize="lg" 
-            mt={2} 
-            fontFamily="body"
-            textAlign="center"
-          >
-            Join PEEBO to discover delicious recipes
-          </Text>
+          {isUpgradeFlow ? (
+            <>
+              <Heading 
+                as="h1" 
+                size="xl" 
+                color={accentColor}
+                textAlign="center"
+              >
+                Create Your Account
+              </Heading>
+              <Text 
+                color={textColor} 
+                fontSize="lg" 
+                mt={2} 
+                fontFamily="body"
+                textAlign="center"
+              >
+                Create an account to save recipes and more
+              </Text>
+            </>
+          ) : (
+            <>
+              <Heading 
+                as="h1" 
+                size="xl" 
+                color={accentColor}
+                textAlign="center"
+              >
+                Create an Account
+              </Heading>
+              <Text 
+                color={textColor} 
+                fontSize="lg" 
+                mt={2} 
+                fontFamily="body"
+                textAlign="center"
+              >
+                Join PEEBO to discover delicious recipes
+              </Text>
+            </>
+          )}
         </Flex>
         
         <Box 

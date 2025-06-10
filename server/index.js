@@ -11,7 +11,9 @@ import compression from "compression";
 const app = express();
 
 // Security Middleware
-app.use(helmet());
+app.use(helmet({
+  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }
+}));
 
 // Compression Middleware
 app.use(compression());

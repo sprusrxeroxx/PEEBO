@@ -90,9 +90,9 @@ function Login() {
       await signInWithGithub();
       navigate("/");
     } catch (error) {
-      setError(
-        error.message || 'Failed to log in. Please check your credentials and try again.'
-      );
+      setError("Failed to sign in with GitHub");
+      console.error("GitHub sign-in error:", error);
+    } finally {
       setIsLoading(false);
     }
   }

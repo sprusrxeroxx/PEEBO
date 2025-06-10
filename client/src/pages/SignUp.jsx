@@ -30,7 +30,7 @@ function SignUp() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { signup, signInWithGoogle, signInWithGithub } = useAuth();
+  const { signup, signInWithGoogle, signInWithGithub, signInAnonymously } = useAuth();
   const navigate = useNavigate();
 
   // Color mode values
@@ -96,6 +96,21 @@ function SignUp() {
     } catch (error) {
       setError("Failed to sign in with GitHub");
       console.error("GitHub sign-in error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  // Add this new handler for anonymous sign-in
+  async function handleAnonymousSignIn() {
+    try {
+      setIsLoading(true);
+      setError("");
+      await signInAnonymously();
+      navigate("/");
+    } catch (error) {
+      setError("Failed to continue as guest");
+      console.error("Anonymous sign-in error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -192,6 +207,16 @@ function SignUp() {
               isDisabled={isLoading}
             >
               Continue with GitHub
+            </Button>
+            <Button
+              w="full"
+              variant="ghost"
+              onClick={handleAnonymousSignIn}
+              isLoading={isLoading}
+              loadingText="Signing in..."
+              isDisabled={isLoading}
+            >
+              Try Without Account
             </Button>
           </VStack>
           

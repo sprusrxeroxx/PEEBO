@@ -3,25 +3,17 @@ import { useNavigate, Link as RouterLink, useLocation } from 'react-router-dom';
 import { 
   Box, 
   Button, 
-  FormControl, 
-  FormLabel, 
-  Input, 
   VStack, 
   Heading, 
   Text, 
-  Alert, 
-  AlertIcon,
   Link,
   Container,
   useColorModeValue,
-  InputGroup,
-  InputRightElement,
-  IconButton,
   Flex,
   Icon,
   Divider
 } from '@chakra-ui/react';
-import { FaEye, FaEyeSlash, FaUtensils, FaGoogle, FaGithub } from 'react-icons/fa';
+import { FaUtensils, FaGoogle, FaGithub } from 'react-icons/fa';
 import { useAuth } from '../contexts/AuthContext';
 
 function SignUp() {
@@ -103,7 +95,7 @@ function SignUp() {
     }
   }
 
-  // Add this new handler for anonymous sign-in
+  // Handle anonymous sign-in
   async function handleAnonymousSignIn() {
     try {
       setIsLoading(true);
@@ -248,116 +240,23 @@ function SignUp() {
           
           <Divider my={4} />
           
-          {/* Or continue with email */}
-          <Text
-            fontSize="sm"
-            textAlign="center"
-            color={textColor}
-            mb={4}
-          >
-            Or continue with email
-          </Text>
-          
-          <VStack spacing={6} align="stretch">
-            {error && (
-              <Alert status="error" borderRadius="md">
-                <AlertIcon />
-                {error}
-              </Alert>
-            )}
             
-            <form onSubmit={handleSubmit}>
-              <VStack spacing={4}>
-                <FormControl isRequired>
-                  <FormLabel fontFamily="heading" color={textColor}>Email</FormLabel>
-                  <Input 
-                    type="email" 
-                    placeholder="your@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    bg={useColorModeValue("gray.50", "gray.700")}
-                    borderColor={borderColor}
-                    color={textColor}
-                    _hover={{
-                      borderColor: useColorModeValue("gray.300", "gray.500")
-                    }}
-                    _focus={{
-                      borderColor: "brand.secondary",
-                      boxShadow: "0 0 0 1px var(--chakra-colors-brand-secondary)",
-                    }}
-                    fontFamily="body"
-                  />
-                </FormControl>
-                
-                <FormControl isRequired>
-                  <FormLabel fontFamily="heading" color={textColor}>Password</FormLabel>
-                  <InputGroup>
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Create a password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      bg={useColorModeValue("gray.50", "gray.700")}
-                      borderColor={borderColor}
-                      color={textColor}
-                      _hover={{
-                        borderColor: useColorModeValue("gray.300", "gray.500")
-                      }}
-                      _focus={{
-                        borderColor: "brand.secondary",
-                        boxShadow: "0 0 0 1px var(--chakra-colors-brand-secondary)",
-                      }}
-                      fontFamily="body"
-                    />
-                    <InputRightElement>
-                      <IconButton
-                        aria-label={showPassword ? "Hide password" : "Show password"}
-                        icon={showPassword ? <FaEyeSlash /> : <FaEye />}
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setShowPassword(!showPassword)}
-                      />
-                    </InputRightElement>
-                  </InputGroup>
-                  <Text fontSize="xs" color={useColorModeValue("gray.500", "gray.400")} mt={1}>
-                    Password must be at least 6 characters long
-                  </Text>
-                </FormControl>
-                
-                <Button
-                  type="submit"
-                  colorScheme="brand"
-                  variant="primary"
-                  width="full"
-                  mt={4}
-                  isLoading={isLoading}
-                  loadingText="Creating Account"
-                  fontFamily="heading"
-                  fontWeight="medium"
-                  letterSpacing="wide"
-                >
-                  Sign Up
-                </Button>
-              </VStack>
-            </form>
-            
-            <Box textAlign="center" pt={2}>
-              <Text color={textColor} fontFamily="body">
-                Already have an account?{" "}
-                <Link
-                  as={RouterLink}
-                  to="/login"
-                  color="brand.primary"
-                  fontWeight="medium"
-                  _hover={{
-                    textDecoration: "underline",
-                  }}
-                >
-                  Log In
-                </Link>
-              </Text>
-            </Box>
-          </VStack>
+          <Box textAlign="center" pt={2}>
+            <Text color={textColor} fontFamily="body">
+              Already have an account?{" "}
+              <Link
+                as={RouterLink}
+                to="/login"
+                color="brand.primary"
+                fontWeight="medium"
+                _hover={{
+                  textDecoration: "underline",
+                }}
+              >
+                Log In
+              </Link>
+            </Text>
+          </Box>
         </Box>
       </Container>
     </Box>

@@ -110,7 +110,7 @@ const letterSpacings = {
 
 // Focus styles for better accessibility
 const shadows = {
-  outline: '0 0 0 3px var(--chakra-colors-brand-secondary)',
+  outline: '0 0 0 0 var(--chakra-colors-brand-secondary)',
 };
 
 // Color mode specific styles for better contrast

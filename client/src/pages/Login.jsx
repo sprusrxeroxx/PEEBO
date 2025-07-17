@@ -15,19 +15,18 @@ import {
   useDisclosure,
   useColorModeValue,
   Divider,
-  HStack,
-  VStack,
-  FormErrorMessage
+  IconButton,
+  VStack
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { FaUtensils, FaGoogle, FaGithub } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaUtensils, FaGoogle, FaGithub } from "react-icons/fa";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onToggle } = useDisclosure();
@@ -219,31 +218,52 @@ function Login() {
           <form onSubmit={handleSubmit}>
             <VStack spacing={4}>
               <FormControl id="email" isRequired>
-                <FormLabel>Email</FormLabel>
-                <Input 
-                  type="email" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                <FormLabel fontFamily="heading" color={textColor}>Email</FormLabel>
+                  <Input 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    bg={useColorModeValue("gray.50", "gray.700")}
+                    borderColor={borderColor}
+                    color={textColor}
+                    _hover={{
+                      borderColor: useColorModeValue("gray.300", "gray.500")
+                    }}
+                    _focus={{
+                      borderColor: "brand.secondary",
+                      boxShadow: "0 0 0 1px var(--chakra-colors-brand-secondary)",
+                    }}
+                    fontFamily="body"
+                  />
               </FormControl>
               
-              <FormControl id="password" isRequired>
-                <FormLabel>Password</FormLabel>
+              <FormControl isRequired>
+                <FormLabel fontFamily="heading" color={textColor}>Password</FormLabel>
                 <InputGroup>
                   <Input 
-                    type={isOpen ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      bg={useColorModeValue("gray.50", "gray.700")}
+                      borderColor={borderColor}
+                      color={textColor}
+                      _hover={{
+                        borderColor: useColorModeValue("gray.300", "gray.500")
+                      }}
+                      _focus={{
+                        borderColor: "brand.secondary",
+                        boxShadow: "0 0 0 1px var(--chakra-colors-brand-secondary)",
+                      }}
+                      fontFamily="body"
                   />
-                  <InputRightElement width="4.5rem">
-                    <Button 
-                      h="1.75rem" 
-                      size="sm" 
-                      bg="transparent"
-                      onClick={onToggle}
-                    >
-                      {isOpen ? <ViewOffIcon /> : <ViewIcon />}
-                    </Button>
+                  <InputRightElement>
+                    <IconButton
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      icon={showPassword ? <FaEyeSlash /> : <FaEye />}
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowPassword(!showPassword)}
+                    />
                   </InputRightElement>
                 </InputGroup>
               </FormControl>

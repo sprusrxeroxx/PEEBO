@@ -8,7 +8,7 @@ export function RecipeImage({ image, title, usedCount, totalCount }) {
         alt={title}
         objectFit="cover"
         w="full"
-        h={{ base: "180px", md: "220px" }}
+        h={{ base: "390px", md: "390px" }}
         transition="transform 0.3s ease"
       />
       <Badge 
